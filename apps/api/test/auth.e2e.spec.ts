@@ -19,6 +19,8 @@ fallback("ALLOWED_SIGN_IN", "example.com");
 fallback("GOOGLE_CLIENT_ID", "test-google-client-id");
 fallback("GOOGLE_CLIENT_SECRET", "test-google-client-secret");
 
+const BOOT_TIMEOUT_MS = 60_000;
+
 describe("Auth (e2e)", () => {
 	let app: INestApplication;
 
@@ -31,10 +33,10 @@ describe("Auth (e2e)", () => {
 
 		app = moduleFixture.createNestApplication({ bodyParser: false });
 		await app.init();
-	});
+	}, BOOT_TIMEOUT_MS);
 
 	afterAll(async () => {
-		await app.close();
+		await app?.close();
 	});
 
 	it("rejects an unauthenticated request to a guarded route", async () => {

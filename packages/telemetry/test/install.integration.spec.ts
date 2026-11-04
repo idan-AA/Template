@@ -25,15 +25,15 @@ const PRINT_UUID = [
 const SPAWN_TIMEOUT_MS = 20_000;
 
 async function uuidFromNewProcess(): Promise<string> {
-	const process = Bun.spawn(["bun", "-e", PRINT_UUID], {
+	const child = Bun.spawn([process.execPath, "-e", PRINT_UUID], {
 		cwd: PACKAGE,
 		stdout: "pipe",
 		stderr: "pipe",
 	});
 
 	const [output] = await Promise.all([
-		new Response(process.stdout).text(),
-		process.exited,
+		new Response(child.stdout).text(),
+		child.exited,
 	]);
 
 	return output.trim();
