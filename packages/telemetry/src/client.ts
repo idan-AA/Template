@@ -4,7 +4,7 @@ import { PostHog } from "posthog-node";
 import { type Properties, permitted } from "./allowlist";
 import { telemetryDisabled } from "./disabled";
 import { daysSince, readInstall } from "./install";
-import { POSTHOG_HOST, POSTHOG_KEY } from "./project";
+import { telemetryProject } from "./project";
 import { commitSha } from "./version";
 
 const FLUSH_TIMEOUT_MS = 3_000;
@@ -30,10 +30,16 @@ function posthog(): PostHog | null {
 	built = true;
 
 	const off = telemetryDisabled();
+	const project = telemetryProject();
+
+	if (!project) {
+		debug("Telemetry has no destination configured, so nothing is sent.");
+		return client;
+	}
 
 	try {
-		client = new PostHog(POSTHOG_KEY, {
-			host: POSTHOG_HOST,
+		client = new PostHog(project.key, {
+			host: project.host,
 			flushAt: 1,
 			flushInterval: 0,
 			disabled: off,

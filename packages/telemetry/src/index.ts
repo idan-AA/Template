@@ -65,5 +65,10 @@ export {
 	syncVersion,
 	utcDay,
 } from "./install";
-export { POSTHOG_HOST, POSTHOG_KEY, POSTHOG_UI_HOST } from "./project";
+export {
+	POSTHOG_HOST_VARIABLE,
+	POSTHOG_KEY_VARIABLE,
+	type TelemetryProject,
+	telemetryProject,
+} from "./project";
 export { commitSha, crmVersion } from "./version";

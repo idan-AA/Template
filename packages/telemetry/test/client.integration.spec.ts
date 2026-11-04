@@ -9,13 +9,20 @@ import {
 import { captureNow, resetTelemetryClient } from "../src/client";
 import { milestone } from "../src/events";
 import { forgetInstall, readInstall, stableUuid } from "../src/install";
-import { POSTHOG_HOST } from "../src/project";
+import {
+	POSTHOG_HOST_VARIABLE,
+	POSTHOG_KEY_VARIABLE,
+} from "../src/project";
+
+const TEST_HOST = "https://telemetry.example.test";
 
 const real = {
 	fetch: globalThis.fetch,
 	nodeEnv: process.env.NODE_ENV,
 	disabled: process.env.CRM_TELEMETRY_DISABLED,
 	doNotTrack: process.env.DO_NOT_TRACK,
+	key: process.env[POSTHOG_KEY_VARIABLE],
+	host: process.env[POSTHOG_HOST_VARIABLE],
 };
 
 let calls: { url: string; body: JsonValue }[] = [];
@@ -60,6 +67,8 @@ beforeEach(() => {
 	process.env.NODE_ENV = "development";
 	delete process.env.CRM_TELEMETRY_DISABLED;
 	delete process.env.DO_NOT_TRACK;
+	process.env[POSTHOG_KEY_VARIABLE] = "phc_test_key";
+	process.env[POSTHOG_HOST_VARIABLE] = TEST_HOST;
 });
 
 afterEach(() => {
@@ -70,6 +79,8 @@ afterEach(() => {
 	restore("NODE_ENV", real.nodeEnv);
 	restore("CRM_TELEMETRY_DISABLED", real.disabled);
 	restore("DO_NOT_TRACK", real.doNotTrack);
+	restore(POSTHOG_KEY_VARIABLE, real.key);
+	restore(POSTHOG_HOST_VARIABLE, real.host);
 });
 
 function restore(name: string, value: string | undefined): void {
@@ -89,7 +100,7 @@ describe("capture", () => {
 		await captureNow("install_daily", { crm_version: "1.0.0" });
 
 		expect(calls.length).toBe(1);
-		expect(calls[0]?.url.startsWith(POSTHOG_HOST)).toBe(true);
+		expect(calls[0]?.url.startsWith(TEST_HOST)).toBe(true);
 
 		const event = eventOf(calls[0]?.body);
 
@@ -140,6 +151,17 @@ describe("capture", () => {
 
 	it("makes no network call at all when DO_NOT_TRACK is set", async () => {
 		process.env.DO_NOT_TRACK = "1";
+		resetTelemetryClient();
+
+		expect(await captureNow("install_daily", { crm_version: "1.0.0" })).toBe(
+			false,
+		);
+		expect(calls.length).toBe(0);
+	});
+
+	it("makes no network call at all when no destination is configured", async () => {
+		delete process.env[POSTHOG_KEY_VARIABLE];
+		delete process.env[POSTHOG_HOST_VARIABLE];
 		resetTelemetryClient();
 
 		expect(await captureNow("install_daily", { crm_version: "1.0.0" })).toBe(
