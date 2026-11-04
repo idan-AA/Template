@@ -10,6 +10,6 @@ import { RatesService } from "./rates.service";
 	imports: [TrpcModule],
 	controllers: [RatesController],
 	providers: [ConversionService, RatesService, CurrencyService, CurrencyRouter],
-	exports: [ConversionService],
+	exports: [ConversionService, RatesService],
 })
 export class CurrencyModule {}

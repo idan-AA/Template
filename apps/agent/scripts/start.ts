@@ -11,10 +11,14 @@ if (!Number.isInteger(port) || port < 1 || port > 65_535) {
 }
 
 const cli = process.platform === "win32" ? "eve.cmd" : "eve";
-const child = spawn(cli, ["start", "--port", String(port)], {
-	stdio: "inherit",
-	env: process.env,
-});
+const child = spawn(
+	cli,
+	["start", "--host", "0.0.0.0", "--port", String(port)],
+	{
+		stdio: "inherit",
+		env: process.env,
+	},
+);
 
 let settled = false;
 

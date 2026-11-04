@@ -1719,3 +1719,15 @@ model Apikey {
   @@index([key])
   @@map("apikey")
 }
+
+model SchedulerRun {
+  job String @id
+
+  lastSuccessAt DateTime?
+  lastFailureAt DateTime?
+  lastError     String?
+
+  updatedAt DateTime @updatedAt
+
+  @@map("schedulerRun")
+}

@@ -1,0 +1,23 @@
+# Never copy local environment files into an image layer. Render supplies the
+# environment at build and run time. See docs/environment.md.
+.env
+.env.*
+!.env.example
+
+node_modules
+**/node_modules
+.next
+.turbo
+.output
+.eve
+dist
+coverage
+.git
+.vercel
+
+# Nothing here affects the build.
+docs
+adrs
+clients/*/render.yaml
+.claude
+.agents

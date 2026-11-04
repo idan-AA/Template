@@ -1,0 +1,116 @@
+# Render Blueprint template. Do not deploy this file.
+# `bun run new-client <id>` writes clients/<id>/render.yaml from it, with every
+# {{ID}} replaced by the client id. In Render: New > Blueprint > this repository >
+# Blueprint Path = clients/<id>/render.yaml. See docs/setup.md "Deploy a new client".
+#
+# One client = one database, an API, a web app and a private agent. Nothing else:
+# the scheduled jobs run inside the API process (apps/api/src/scheduler).
+#
+# Values typed at the prompts (sync: false): API_URL, APP_URL, ALLOWED_SIGN_IN,
+# AUTH_COOKIE_DOMAIN, the sign-in client pair and AI_GATEWAY_API_KEY. API_URL and
+# APP_URL must be right before the first build: the web app bakes API_URL into the
+# browser bundle.
+
+databases:
+  - name: {{ID}}-db
+    plan: basic-256mb
+    postgresMajorVersion: "17"
+    ipAllowList: []
+
+envVarGroups:
+  - name: {{ID}}-shared
+    envVars:
+      - key: CLIENT_ID
+        value: {{ID}}
+      - key: BETTER_AUTH_SECRET
+        generateValue: true
+      - key: AGENT_BRIDGE_SECRET
+        generateValue: true
+      - key: CRON_SECRET
+        generateValue: true
+      - key: MCP_ENCRYPTION_KEY
+        generateValue: true
+      - key: CHAT_EVENT_ENCRYPTION_KEY
+        generateValue: true
+      - key: AGENT_URL
+        value: http://{{ID}}-agent:10000
+
+services:
+  - type: web
+    name: {{ID}}-api
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeployTrigger: "off"
+    preDeployCommand: bun run db:deploy && bun apps/api/scripts/check-schema-drift.mjs
+    envVars:
+      - fromGroup: {{ID}}-shared
+      - key: DATABASE_URL
+        fromDatabase:
+          name: {{ID}}-db
+          property: connectionString
+      - key: API_URL
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: AUTH_COOKIE_DOMAIN
+        sync: false
+      - key: ALLOWED_SIGN_IN
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: AI_GATEWAY_API_KEY
+        sync: false
+
+  - type: web
+    name: {{ID}}-app
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./apps/app/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeployTrigger: "off"
+    envVars:
+      - fromGroup: {{ID}}-shared
+      - key: DATABASE_URL
+        fromDatabase:
+          name: {{ID}}-db
+          property: connectionString
+      - key: IS_MARKETING
+        value: "false"
+      - key: API_URL
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: ALLOWED_SIGN_IN
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+
+  - type: pserv
+    name: {{ID}}-agent
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./apps/agent/Dockerfile
+    dockerContext: .
+    autoDeployTrigger: "off"
+    disk:
+      name: eve-workflow
+      mountPath: /app/apps/agent/.eve/.workflow-data
+      sizeGB: 1
+    envVars:
+      - fromGroup: {{ID}}-shared
+      - key: DATABASE_URL
+        fromDatabase:
+          name: {{ID}}-db
+          property: connectionString
+      - key: PORT
+        value: "10000"
+      - key: AI_GATEWAY_API_KEY
+        sync: false

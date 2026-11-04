@@ -7,6 +7,6 @@ import { TelemetryService } from "./telemetry.service";
 @Module({
 	controllers: [TelemetryController],
 	providers: [FunnelService, RollupService, TelemetryService],
-	exports: [TelemetryService],
+	exports: [RollupService, TelemetryService],
 })
 export class TelemetryModule {}

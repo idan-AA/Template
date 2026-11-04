@@ -1,5 +1,3 @@
-import type { Db } from "@app/db";
-import { readArchiveRetentionDays } from "@app/db/settings";
 import {
 	Controller,
 	ForbiddenException,
@@ -20,13 +18,8 @@ import {
 	ApiTags,
 } from "@nestjs/swagger";
 import { AllowAnonymous } from "@thallesp/nestjs-better-auth";
-import { CompaniesService } from "../companies/companies.service";
 import type { EnvironmentVariables } from "../config/env.validation";
-import { ContactsService } from "../contacts/contacts.service";
-import { InjectDatabase } from "../database/database.constants";
-import { DealsService } from "../deals/deals.service";
-
-const DAY_MS = 24 * 60 * 60_000;
+import { ArchiveRetentionService } from "./archive-retention.service";
 
 @ApiTags("Internal — Cron")
 @ApiHeader({
@@ -42,10 +35,7 @@ export class ArchiveRetentionController {
 	private readonly secret: string | undefined;
 
 	constructor(
-		@InjectDatabase() private readonly db: Db,
-		private readonly companies: CompaniesService,
-		private readonly contacts: ContactsService,
-		private readonly deals: DealsService,
+		private readonly retention: ArchiveRetentionService,
 		config: ConfigService<EnvironmentVariables, true>,
 	) {
 		this.secret = config.get("CRON_SECRET", { infer: true });
@@ -80,27 +70,7 @@ export class ArchiveRetentionController {
 			throw new ForbiddenException();
 		}
 
-		const retentionDays = await readArchiveRetentionDays(this.db);
-		const before = new Date(Date.now() - retentionDays * DAY_MS);
-
-		const [companies, contacts, deals] = await Promise.all([
-			this.companies.purgeExpired(before),
-			this.contacts.purgeExpired(before),
-			this.deals.purgeExpired(before),
-		]);
-
-		this.logger.log({
-			message: "Archive retention swept",
-			retentionDays,
-			companies: companies.succeeded,
-			companiesSkipped: companies.skipped,
-			contacts: contacts.succeeded,
-			contactsSkipped: contacts.skipped,
-			deals: deals.succeeded,
-			dealsSkipped: deals.skipped,
-		});
-
-		return { retentionDays, companies, contacts, deals };
+		return this.retention.run();
 	}
 }
 

@@ -2,7 +2,6 @@ import {
 	type AuthFn,
 	extractBearerToken,
 	localDev,
-	vercelOidc,
 	verifyJwtHmac,
 	withAuthChallenges,
 } from "eve/channels/auth";
@@ -44,5 +43,5 @@ export function repFromCrm(secret: string): AuthFn<Request> {
 const secret = process.env.AGENT_BRIDGE_SECRET;
 
 export default eveChannel({
-	auth: [...(secret ? [repFromCrm(secret)] : []), vercelOidc(), localDev()],
+	auth: [...(secret ? [repFromCrm(secret)] : []), localDev()],
 });

@@ -142,6 +142,10 @@ export class EnvironmentVariables {
 	@IsOptional()
 	@IsString()
 	CRM_TELEMETRY_DISABLED?: string;
+
+	@IsOptional()
+	@IsString()
+	SCHEDULER_DISABLED?: string;
 }
 
 export type RawEnvironment = Record<string, string | undefined>;

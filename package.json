@@ -12,6 +12,7 @@
 		"lint:slop": "vp lint",
 		"lint:dead": "knip --no-progress",
 		"format": "biome format --write .",
+		"new-client": "bun scripts/new-client.mjs",
 		"check-types": "turbo run check-types",
 		"test": "turbo run test --concurrency=1",
 		"auth:generate": "turbo run auth:generate",

@@ -28,6 +28,7 @@ import { MailboxModule } from "./mailbox/mailbox.module";
 import { McpModule } from "./mcp/mcp.module";
 import { MicrosoftModule } from "./microsoft/microsoft.module";
 import { SavedViewsModule } from "./saved-views/saved-views.module";
+import { SchedulerModule } from "./scheduler/scheduler.module";
 import { SearchModule } from "./search/search.module";
 import { SettingsModule } from "./settings/settings.module";
 import { SlackModule } from "./slack/slack.module";
@@ -72,6 +73,7 @@ import { WorkspaceModule } from "./workspace/workspace.module";
 		MicrosoftModule,
 		McpModule,
 		SyncModule,
+		SchedulerModule,
 		SettingsModule,
 		WorkspaceModule,
 		SsoModule,
