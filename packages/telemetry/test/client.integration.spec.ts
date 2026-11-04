@@ -9,10 +9,7 @@ import {
 import { captureNow, resetTelemetryClient } from "../src/client";
 import { milestone } from "../src/events";
 import { forgetInstall, readInstall, stableUuid } from "../src/install";
-import {
-	POSTHOG_HOST_VARIABLE,
-	POSTHOG_KEY_VARIABLE,
-} from "../src/project";
+import { POSTHOG_HOST_VARIABLE, POSTHOG_KEY_VARIABLE } from "../src/project";
 
 const TEST_HOST = "https://telemetry.example.test";
 
