@@ -276,9 +276,9 @@ Gate between phases: manager review. No phase starts before the one above is DON
 | # | Item | Status |
 |---|---|---|
 | 0 | This plan reviewed by manager; owner answers Q1 | TODO |
-| 1 | **Spikes (no product code):** (a) Prisma multi-file schema works with current version; (b) eve tool discovery allows per-module exclusion; (c) lint rule for cross-module imports; (d) codemod dry run for `@crm/*` to `@app/*` on a scratch copy | TODO |
-| 2 | Quiet window: `@crm/*` to `@app/*` codemod + root rename, cold typecheck, tests green (needs S1 not mid-edit; coordinate) | TODO |
-| 3 | `packages/modules` registry, `client.config.ts` + zod, `requireModule`, nav and settings built from registry, overview widget host | TODO |
+| 1 | **Spikes (no product code):** (a) Prisma multi-file schema works with current version; (b) eve tool discovery allows per-module exclusion; (c) lint rule for cross-module imports; (d) codemod dry run for `@crm/*` to `@app/*` on a scratch copy | DONE, results in section 8 |
+| 2 | Quiet window: `@crm/*` to `@app/*` codemod + root rename, cold typecheck, tests green | DONE (e3dfbac). Also DONE: telemetry destination removed (70fac77), `.gitattributes` (2130175), real test baseline in `docs/testing.md` |
+| 3 | `packages/modules` registry, `clients/<id>/client.config.ts` + zod (including `modules.options`, per-module settings), `requireModule`, nav and settings built from registry, overview widget host, **`can(role, key)` with ONE data-driven role list** (core roles + enabled modules' roles, e.g. bookkeeper, accountant) replacing the 3 literals listed in section 9, **core `AuditEvent` table + append-only triggers + `writeAudit(tx, event)` helper**, **per-module `seed` hook** | BLOCKED: waits for the owner's go via the manager |
 | 4 | Move CRM code behind the `crm` module (API imports, routes, agent tools, seed); empty-config boot test; every-module boot test | TODO |
 | 5 | Brand pass: layout metadata, manifest, `BrandLogo`, colour variable, workspace default name, delete landing, telemetry off (D7) | TODO |
 | 6 | Reference imports from section 4 chosen by manager | TODO |
@@ -293,3 +293,30 @@ Gate between phases: manager review. No phase starts before the one above is DON
 - `FieldValue` FK-per-entity grows the core schema with each module (1.2). Accepted for v1.
 - crm docs (`docs/api.md`, `docs/agent.md`, others) describe CRM and Vercel; they stay accurate for the crm module but mislead for the template until Phase 8.
 - Single-entity bookkeeping (Q1) is an assumption until the owner answers.
+
+---
+
+## 8. Spike results (2026-11-04)
+
+| Spike | Result | What it means for the build |
+|---|---|---|
+| (a) Prisma multi-file schema | **PASS.** Prisma 7.10.1. A scratch copy of the real schema split into `base.prisma` (datasource, generator, core models) and `mod.prisma` validated and generated; a moved model's generated code was byte identical to the single-file output. | Module models go in `packages/db/prisma/schema/<module>.prisma`. `prisma.config.ts` points `schema` at the directory. The datasource and generator blocks stay in exactly one file. Migrations stay one linear folder. Agents cannot run `migrate dev`/`reset` non-interactively: write the migration with `prisma migrate diff --from-config-datasource --to-schema <dir> --script`, save it as the migration folder, then `migrate deploy`. Knip's `.prisma` handling needs a glance when the split happens. |
+| (b) eve per-module tool exclusion | **PASS on the docs, compile trial still owed.** `apps/agent/node_modules/eve/docs/guides/dynamic-capabilities.md`: a tool file may `export default defineDynamic({ events: { "session.started": ... } })` and return a `defineTool(...)` or `null` to omit it; instructions, skills, connections and subagents resolve the same way. Static `disableTool()` also exists but is not config driven. | Each module's tool files become `defineDynamic` wrappers that return the tool only when `isModuleEnabled(id)`. Rules from the docs: tool callbacks and schemas inline inside `defineTool`, closure values JSON serializable, imported helpers stay live code. Existing tools call into `lib/*`, so the wrap is mechanical. Trial first: wrap one CRM tool, run `bun run build` in `apps/agent`. Fallback: the tool's `execute` refuses when the module is off. Instructions per module use dynamic instructions. |
+| (c) cross-module import rule | **PASS.** Biome 2.5.15 `style/noRestrictedImports` with `patterns`, set per folder through `overrides[].includes`. In a scratch project `crm/bad.ts` importing bookkeeping and `bookkeeping/bad.ts` importing crm were both reported with the custom message; `crm/ok.ts` (same module) was not. | Add overrides to `biome.jsonc`: one block per module forbidding the other modules' paths and package names. A module's `requires` is the only exception, so the override list is generated from the registry or reviewed when a module is added. |
+| (d) codemod dry run | **PASS, then run for real.** Only the plain `@crm/` form existed (518 files, no `@crm` variant, no `@app/` collision). | Done in e3dfbac. |
+
+## 9. Role literals to replace in Phase 3 (from Session 3's spike)
+
+`Member.role` is a free String (`packages/db/prisma/schema.prisma`). Three places restrict it, and two quietly turn an unknown role into `member`:
+- `WORKSPACE_ROLES` and `toWorkspaceRole` in `packages/auth/src/organization.ts`
+- the duplicate `toRole` in `apps/api/src/workspace/workspace.service.ts`
+- `z.enum(WORKSPACE_ROLES)` in `apps/api/src/workspace/workspace.contracts.ts`
+
+Plan: one role list = core roles plus enabled modules' roles, read by all of them; unknown stored roles are kept, not demoted; a test proves a stored `bookkeeper` survives a read.
+
+## 10. Standing facts for the next agent
+
+- Real tests need a throwaway Postgres: `docs/testing.md`. Baseline there: 4 known failures.
+- Plain `bun run lint` works (LF enforced by `.gitattributes`).
+- Telemetry sends nothing unless `TELEMETRY_POSTHOG_KEY` and `TELEMETRY_POSTHOG_HOST` are set.
+- No phase starts without the owner's go, relayed by the manager.
