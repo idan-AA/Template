@@ -4,6 +4,24 @@ Newest first. Owner's words where possible.
 
 ## 2026-11-04
 
+- **Owner confirmed one repo** after weighing repo-per-client: "have one repo so
+  features can continue to be updated and grow." Every client is a separate
+  Render deployment with its own URL, database and logins. No shared hub.
+- **Each client folder holds two files:** `clients/<id>/render.yaml` (which
+  Render services and database to create, and `CLIENT_ID`) and
+  `clients/<id>/client.config.ts` (brand, modules, currency, timezone).
+
+- **Render account: the owner's own.** "It'll be my Render account that we'll
+  practice on." Practice and first client deploys go there.
+
+- **Bookkeeping = the business keeps its OWN books** (single entity), not a firm
+  keeping many clients' books. From the owner: "It's their bookkeeping."
+- **One repo for every client.** Each client is a folder `clients/<id>/`
+  (config + brand assets), and each Render deploy picks its client with
+  `CLIENT_ID`. No forks per client, so a core fix reaches every client.
+- **Telemetry off by default.** The crm copy hard-coded Comp AI's PostHog key;
+  it is removed. Telemetry runs only with the owner's own key in env vars.
+
 - **This is the owner's template.** "I can basically copy and paste this and use
   this for any business... bookkeeping, boom deploy bookkeeping... a hair salon,
   boom, hair salon." One codebase, one deploy and one database per client,

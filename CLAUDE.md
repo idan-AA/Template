@@ -75,8 +75,9 @@ Bun only (bun@1.4.0). Never npm, pnpm or yarn.
 |---|---|---|
 | main | not decided yet | Render (one service set per client) |
 
-No git remote yet. The owner sets up git. Nothing deploys until the Render
-conversion is done and the owner says so.
+Remote: `origin` = github.com/idan-AA/Template, branch `main`. Nothing deploys
+until the Render conversion is done and the owner says so. Commits use
+`git commit -m "msg" -- <paths>` (the commit-review hook requires named paths).
 
 ## Where the truth lives
 
