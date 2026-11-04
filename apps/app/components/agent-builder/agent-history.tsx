@@ -1,10 +1,5 @@
 "use client";
 
-import ChevronDown from "@carbon/icons-react/es/ChevronDown";
-import ChevronUp from "@carbon/icons-react/es/ChevronUp";
-import Download from "@carbon/icons-react/es/Download";
-import Renew from "@carbon/icons-react/es/Renew";
-import WarningAlt from "@carbon/icons-react/es/WarningAlt";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -14,10 +9,15 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-} from "@crm/ui/components/alert-dialog";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/alert-dialog";
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
+import { cn } from "@app/ui/lib/utils";
+import ChevronDown from "@carbon/icons-react/es/ChevronDown";
+import ChevronUp from "@carbon/icons-react/es/ChevronUp";
+import Download from "@carbon/icons-react/es/Download";
+import Renew from "@carbon/icons-react/es/Renew";
+import WarningAlt from "@carbon/icons-react/es/WarningAlt";
 import { useState } from "react";
 import { z } from "zod";
 import { runFailureReason } from "@/lib/agent-run-failure";

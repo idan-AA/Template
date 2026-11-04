@@ -1,5 +1,5 @@
-import { db } from "@crm/db";
-import { websiteUrl } from "@crm/db/workspace";
+import { db } from "@app/db";
+import { websiteUrl } from "@app/db/workspace";
 import { capabilitiesMarkdown } from "./capabilities";
 import { identity, usMarkdown, type WorkspaceIdentity } from "./workspace";
 

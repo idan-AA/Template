@@ -1,4 +1,4 @@
-import type { Db, Prisma } from "@crm/db";
+import type { Db, Prisma } from "@app/db";
 import { Injectable } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 

@@ -1,17 +1,17 @@
 "use client";
 
-import Add from "@carbon/icons-react/es/Add";
-import ChevronDown from "@carbon/icons-react/es/ChevronDown";
-import TrashCan from "@carbon/icons-react/es/TrashCan";
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { Icon } from "@crm/ui/components/icon";
+} from "@app/ui/components/dropdown-menu";
+import { Icon } from "@app/ui/components/icon";
+import Add from "@carbon/icons-react/es/Add";
+import ChevronDown from "@carbon/icons-react/es/ChevronDown";
+import TrashCan from "@carbon/icons-react/es/TrashCan";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { LocalDateTime } from "@/components/local-date-time";

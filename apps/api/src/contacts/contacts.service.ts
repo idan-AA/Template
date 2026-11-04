@@ -6,8 +6,8 @@ import {
 	type Prisma,
 	Prisma as PrismaNamespace,
 	type RecordSource,
-} from "@crm/db";
-import type { FieldDefinitionWithOptions } from "@crm/db/fields";
+} from "@app/db";
+import type { FieldDefinitionWithOptions } from "@app/db/fields";
 import {
 	ConflictException,
 	Injectable,

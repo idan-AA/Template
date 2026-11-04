@@ -1,5 +1,5 @@
-import type { Prisma } from "@crm/db";
-import { Prisma as PrismaNamespace } from "@crm/db";
+import type { Prisma } from "@app/db";
+import { Prisma as PrismaNamespace } from "@app/db";
 
 export function toCents(amount: Prisma.Decimal | null): number | null {
 	return amount === null ? null : amount.times(100).toNumber();

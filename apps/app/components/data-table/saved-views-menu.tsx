@@ -1,15 +1,13 @@
 "use client";
 
-import Bookmark from "@carbon/icons-react/es/Bookmark";
-import Close from "@carbon/icons-react/es/Close";
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	Dialog,
 	DialogContent,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@crm/ui/components/dialog";
+} from "@app/ui/components/dialog";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -17,10 +15,12 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { Field, FieldLabel } from "@crm/ui/components/field";
-import { Input } from "@crm/ui/components/input";
-import { Switch } from "@crm/ui/components/switch";
+} from "@app/ui/components/dropdown-menu";
+import { Field, FieldLabel } from "@app/ui/components/field";
+import { Input } from "@app/ui/components/input";
+import { Switch } from "@app/ui/components/switch";
+import Bookmark from "@carbon/icons-react/es/Bookmark";
+import Close from "@carbon/icons-react/es/Close";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";

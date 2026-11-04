@@ -1,15 +1,15 @@
 "use client";
 
-import Settings from "@carbon/icons-react/es/Settings";
-import type { FieldValueJson } from "@crm/db/fields";
-import { Button } from "@crm/ui/components/button";
-import { Checkbox } from "@crm/ui/components/checkbox";
-import { Icon } from "@crm/ui/components/icon";
+import type { FieldValueJson } from "@app/db/fields";
+import { Button } from "@app/ui/components/button";
+import { Checkbox } from "@app/ui/components/checkbox";
+import { Icon } from "@app/ui/components/icon";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
-} from "@crm/ui/components/tooltip";
+} from "@app/ui/components/tooltip";
+import Settings from "@carbon/icons-react/es/Settings";
 import { useQuery } from "@tanstack/react-query";
 import {
 	InlineDateField,

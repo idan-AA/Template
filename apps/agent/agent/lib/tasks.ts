@@ -1,5 +1,5 @@
-import { db, type Prisma } from "@crm/db";
-import { MAX_ATTEMPTS, RETIRED_OUTCOME } from "@crm/db/agent-tasks";
+import { db, type Prisma } from "@app/db";
+import { MAX_ATTEMPTS, RETIRED_OUTCOME } from "@app/db/agent-tasks";
 import { DISPATCH } from "./dispatch-config";
 
 export type LeasedTask = {

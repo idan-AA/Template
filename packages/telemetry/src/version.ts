@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { findWorkspaceRoot } from "@crm/env";
+import { findWorkspaceRoot } from "@app/env";
 
 export function crmVersion(from = process.cwd()): string | null {
 	const root = findWorkspaceRoot(from);

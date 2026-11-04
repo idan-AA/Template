@@ -1,12 +1,10 @@
 "use client";
 
-import Add from "@carbon/icons-react/es/Add";
-import Close from "@carbon/icons-react/es/Close";
 import {
 	FIELD_TYPES,
 	fieldKeyFromLabel,
 	typeLabel,
-} from "@crm/db/fields-shape";
+} from "@app/db/fields-shape";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -16,28 +14,30 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-} from "@crm/ui/components/alert-dialog";
-import { Button } from "@crm/ui/components/button";
-import { Checkbox } from "@crm/ui/components/checkbox";
+} from "@app/ui/components/alert-dialog";
+import { Button } from "@app/ui/components/button";
+import { Checkbox } from "@app/ui/components/checkbox";
 import {
 	Field,
 	FieldDescription,
 	FieldLabel,
 	FieldTitle,
-} from "@crm/ui/components/field";
-import { Icon } from "@crm/ui/components/icon";
-import { Input } from "@crm/ui/components/input";
+} from "@app/ui/components/field";
+import { Icon } from "@app/ui/components/icon";
+import { Input } from "@app/ui/components/input";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@crm/ui/components/select";
-import { SortableItem, SortableList } from "@crm/ui/components/sortable-list";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
-import { Switch } from "@crm/ui/components/switch";
-import { Textarea } from "@crm/ui/components/textarea";
+} from "@app/ui/components/select";
+import { SortableItem, SortableList } from "@app/ui/components/sortable-list";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
+import { Switch } from "@app/ui/components/switch";
+import { Textarea } from "@app/ui/components/textarea";
+import Add from "@carbon/icons-react/es/Add";
+import Close from "@carbon/icons-react/es/Close";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useId, useState } from "react";
 import { toast } from "sonner";

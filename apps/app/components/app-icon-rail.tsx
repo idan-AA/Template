@@ -1,27 +1,27 @@
 "use client";
 
+import { Button } from "@app/ui/components/button";
+import type { CarbonIcon } from "@app/ui/components/icon";
+import { Icon } from "@app/ui/components/icon";
+import Bot from "@app/ui/components/icons/bot";
+import {
+	Sheet,
+	SheetContent,
+	SheetHeader,
+	SheetTitle,
+} from "@app/ui/components/sheet";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@app/ui/components/tooltip";
+import { cn } from "@app/ui/lib/utils";
 import Building from "@carbon/icons-react/es/Building";
 import Close from "@carbon/icons-react/es/Close";
 import Dashboard from "@carbon/icons-react/es/Dashboard";
 import Partnership from "@carbon/icons-react/es/Partnership";
 import Settings from "@carbon/icons-react/es/Settings";
 import UserMultiple from "@carbon/icons-react/es/UserMultiple";
-import { Button } from "@crm/ui/components/button";
-import type { CarbonIcon } from "@crm/ui/components/icon";
-import { Icon } from "@crm/ui/components/icon";
-import Bot from "@crm/ui/components/icons/bot";
-import {
-	Sheet,
-	SheetContent,
-	SheetHeader,
-	SheetTitle,
-} from "@crm/ui/components/sheet";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipTrigger,
-} from "@crm/ui/components/tooltip";
-import { cn } from "@crm/ui/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";

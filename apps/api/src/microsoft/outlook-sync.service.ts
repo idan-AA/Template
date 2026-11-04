@@ -1,7 +1,7 @@
 import {
 	GoogleSyncStatus,
 	type MailboxSyncModel as MailboxSync,
-} from "@crm/db";
+} from "@app/db";
 import { Injectable, Logger } from "@nestjs/common";
 import type { MailboxResult } from "../mailbox/mailbox-api.client";
 import type { MatchContext } from "../mailbox/mailbox-match.service";

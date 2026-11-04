@@ -1,9 +1,9 @@
 "use client";
 
-import { DealStage } from "@crm/db/enums";
-import { Checkbox } from "@crm/ui/components/checkbox";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
-import { cn } from "@crm/ui/lib/utils";
+import { DealStage } from "@app/db/enums";
+import { Checkbox } from "@app/ui/components/checkbox";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
+import { cn } from "@app/ui/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";

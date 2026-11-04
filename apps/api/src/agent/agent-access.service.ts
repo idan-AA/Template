@@ -4,8 +4,8 @@ import {
 	WORKSPACE_ID,
 	type WorkspaceRole,
 	workspaceRoleOf,
-} from "@crm/auth/organization";
-import type { Db, Prisma } from "@crm/db";
+} from "@app/auth/organization";
+import type { Db, Prisma } from "@app/db";
 import {
 	ForbiddenException,
 	Injectable,

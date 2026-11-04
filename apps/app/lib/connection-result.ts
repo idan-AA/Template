@@ -1,5 +1,5 @@
-import type { ProviderBrand } from "@crm/ui/lib/provider-brand";
-import type { EveToolOutput } from "@crm/validation/eve-tool";
+import type { ProviderBrand } from "@app/ui/lib/provider-brand";
+import type { EveToolOutput } from "@app/validation/eve-tool";
 import { z } from "zod";
 import { CONNECTION_RESULT } from "./connection-result-config";
 

@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
-import { db } from "@crm/db";
-import { WORKSPACE_ID } from "@crm/db/workspace";
+import { db } from "@app/db";
+import { WORKSPACE_ID } from "@app/db/workspace";
 import type { ApprovalContext } from "eve/tools";
 import {
 	authorizeMcpTool,

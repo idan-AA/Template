@@ -1,4 +1,4 @@
-import "@crm/env/load";
+import "@app/env/load";
 
 type AllowList = {
 	domains: readonly string[];

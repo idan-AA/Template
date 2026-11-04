@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@crm/ui/lib/utils";
+import { cn } from "@app/ui/lib/utils";
 import { useState } from "react";
 import { BentoCard, CardHeading } from "./bento-card";
 import { SendArrow } from "./send-arrow";

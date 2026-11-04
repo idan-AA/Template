@@ -1,9 +1,9 @@
+import Logo from "@app/ui/components/logo";
 import Building from "@carbon/icons-react/es/Building";
 import Dashboard from "@carbon/icons-react/es/Dashboard";
 import Group from "@carbon/icons-react/es/Group";
 import Partnership from "@carbon/icons-react/es/Partnership";
 import Settings from "@carbon/icons-react/es/Settings";
-import Logo from "@crm/ui/components/logo";
 import Image from "next/image";
 import { BuiltWith } from "../built-with";
 import { CompaniesList, CompaniesPage } from "./companies-page";

@@ -1,12 +1,12 @@
 import {
 	chatEventPurpose,
 	createChatEventSecretBox,
-} from "@crm/auth/chat-event-crypto";
-import type { Prisma } from "@crm/db";
+} from "@app/auth/chat-event-crypto";
+import type { Prisma } from "@app/db";
 import {
 	publicEveEventData,
 	publicEveEventInput,
-} from "@crm/validation/eve-public-event";
+} from "@app/validation/eve-public-event";
 
 export type IndexedConversationEvent = {
 	id: string;

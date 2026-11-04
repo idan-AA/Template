@@ -1,11 +1,11 @@
 "use client";
 
-import { signIn } from "@crm/auth/client";
-import type { MailboxProviderId } from "@crm/auth/scopes";
-import GoogleLogo from "@crm/ui/components/brand-logos/google";
-import MicrosoftLogo from "@crm/ui/components/brand-logos/microsoft";
-import { Button } from "@crm/ui/components/button";
-import { Spinner } from "@crm/ui/components/spinner";
+import { signIn } from "@app/auth/client";
+import type { MailboxProviderId } from "@app/auth/scopes";
+import GoogleLogo from "@app/ui/components/brand-logos/google";
+import MicrosoftLogo from "@app/ui/components/brand-logos/microsoft";
+import { Button } from "@app/ui/components/button";
+import { Spinner } from "@app/ui/components/spinner";
 import type { FC, SVGProps } from "react";
 import { useState } from "react";
 import { toast } from "sonner";

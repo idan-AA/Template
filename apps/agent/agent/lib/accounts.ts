@@ -1,4 +1,4 @@
-import { ActivityType, db, EmailDirection } from "@crm/db";
+import { ActivityType, db, EmailDirection } from "@app/db";
 import { z } from "zod";
 import { isDerivedName } from "./names";
 

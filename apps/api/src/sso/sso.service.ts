@@ -1,13 +1,13 @@
-import { auth } from "@crm/auth/auth";
-import { isGoogleConfigured, isMicrosoftConfigured } from "@crm/auth/env";
-import { WORKSPACE_ID, workspaceRoleOf } from "@crm/auth/organization";
+import { auth } from "@app/auth/auth";
+import { isGoogleConfigured, isMicrosoftConfigured } from "@app/auth/env";
+import { WORKSPACE_ID, workspaceRoleOf } from "@app/auth/organization";
 import {
 	canConfigureSso,
 	ssoCallbackBase,
 	ssoCallbackURL,
 	ssoProviderName,
-} from "@crm/auth/sso";
-import type { Db, Prisma } from "@crm/db";
+} from "@app/auth/sso";
+import type { Db, Prisma } from "@app/db";
 import {
 	BadRequestException,
 	ForbiddenException,

@@ -1,7 +1,7 @@
 "use client";
 
-import { AsyncButtonContent } from "@crm/ui/components/async-action";
-import { CHAT_COMPOSER_SURFACE_CLASS_NAME } from "@crm/ui/components/chat-composer";
+import { AsyncButtonContent } from "@app/ui/components/async-action";
+import { CHAT_COMPOSER_SURFACE_CLASS_NAME } from "@app/ui/components/chat-composer";
 import {
 	Questionnaire,
 	QuestionnaireActions,
@@ -13,7 +13,7 @@ import {
 	QuestionnaireItem,
 	QuestionnaireSubmit,
 	QuestionnaireTitle,
-} from "@crm/ui/components/questionnaire";
+} from "@app/ui/components/questionnaire";
 import type { EveMessageInputRequest } from "eve/react";
 import { type FormEvent, useState } from "react";
 

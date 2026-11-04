@@ -1,12 +1,11 @@
 "use client";
 
-import Copy from "@carbon/icons-react/es/Copy";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@crm/ui/components/accordion";
+} from "@app/ui/components/accordion";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -17,8 +16,8 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-} from "@crm/ui/components/alert-dialog";
-import { Button } from "@crm/ui/components/button";
+} from "@app/ui/components/alert-dialog";
+import { Button } from "@app/ui/components/button";
 import {
 	Card,
 	CardAction,
@@ -27,11 +26,12 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
-import { Icon } from "@crm/ui/components/icon";
-import { Label } from "@crm/ui/components/label";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
-import { Switch } from "@crm/ui/components/switch";
+} from "@app/ui/components/card";
+import { Icon } from "@app/ui/components/icon";
+import { Label } from "@app/ui/components/label";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
+import { Switch } from "@app/ui/components/switch";
+import Copy from "@carbon/icons-react/es/Copy";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";

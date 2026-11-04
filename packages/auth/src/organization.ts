@@ -1,5 +1,5 @@
-import { type Db, db } from "@crm/db";
-import { WORKSPACE_ID, workspaceSlug } from "@crm/db/workspace";
+import { type Db, db } from "@app/db";
+import { WORKSPACE_ID, workspaceSlug } from "@app/db/workspace";
 
 export { WORKSPACE_ID };
 

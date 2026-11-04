@@ -1,9 +1,7 @@
 "use client";
 
-import Archive from "@carbon/icons-react/es/Archive";
-import Undo from "@carbon/icons-react/es/Undo";
-import type { DealStage } from "@crm/db/enums";
-import { Button } from "@crm/ui/components/button";
+import type { DealStage } from "@app/db/enums";
+import { Button } from "@app/ui/components/button";
 import {
 	Dialog,
 	DialogContent,
@@ -11,7 +9,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@crm/ui/components/dialog";
+} from "@app/ui/components/dialog";
 import {
 	DropdownMenuGroup,
 	DropdownMenuItem,
@@ -19,11 +17,13 @@ import {
 	DropdownMenuSub,
 	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { Field, FieldLabel } from "@crm/ui/components/field";
-import { Spinner } from "@crm/ui/components/spinner";
-import { Textarea } from "@crm/ui/components/textarea";
-import { formatCount } from "@crm/ui/lib/format";
+} from "@app/ui/components/dropdown-menu";
+import { Field, FieldLabel } from "@app/ui/components/field";
+import { Spinner } from "@app/ui/components/spinner";
+import { Textarea } from "@app/ui/components/textarea";
+import { formatCount } from "@app/ui/lib/format";
+import Archive from "@carbon/icons-react/es/Archive";
+import Undo from "@carbon/icons-react/es/Undo";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useId, useState } from "react";
 import { toast } from "sonner";

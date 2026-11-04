@@ -1,5 +1,5 @@
-import { Spinner } from "@crm/ui/components/spinner";
-import { cn } from "@crm/ui/lib/utils";
+import { Spinner } from "@app/ui/components/spinner";
+import { cn } from "@app/ui/lib/utils";
 
 export function ConnectionPage({
 	centered = false,

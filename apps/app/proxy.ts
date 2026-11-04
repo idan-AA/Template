@@ -1,4 +1,4 @@
-import { AUTH_COOKIE_PREFIX } from "@crm/auth/cookies";
+import { AUTH_COOKIE_PREFIX } from "@app/auth/cookies";
 import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 import { isMarketing } from "@/lib/env";

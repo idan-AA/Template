@@ -1,4 +1,4 @@
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import { reasonOf, removeAgent } from "./e2e-agents";
 import { E2E } from "./e2e-config";
 

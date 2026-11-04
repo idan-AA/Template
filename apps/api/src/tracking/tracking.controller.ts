@@ -1,10 +1,10 @@
 import type { IncomingMessage } from "node:http";
-import type { Db } from "@crm/db";
+import type { Db } from "@app/db";
 import {
 	EVENT_RETENTION_DAYS,
 	isSiteId,
 	MAX_BODY_BYTES,
-} from "@crm/db/tracking";
+} from "@app/db/tracking";
 import {
 	Controller,
 	ForbiddenException,

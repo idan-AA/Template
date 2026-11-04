@@ -1,6 +1,5 @@
 "use client";
 
-import TrashCan from "@carbon/icons-react/es/TrashCan";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -11,10 +10,11 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-} from "@crm/ui/components/alert-dialog";
-import { Button } from "@crm/ui/components/button";
-import { DataTable, type DataTableColumn } from "@crm/ui/components/data-table";
-import { Icon } from "@crm/ui/components/icon";
+} from "@app/ui/components/alert-dialog";
+import { Button } from "@app/ui/components/button";
+import { DataTable, type DataTableColumn } from "@app/ui/components/data-table";
+import { Icon } from "@app/ui/components/icon";
+import TrashCan from "@carbon/icons-react/es/TrashCan";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { ListSearch } from "@/components/data-table/list-search";

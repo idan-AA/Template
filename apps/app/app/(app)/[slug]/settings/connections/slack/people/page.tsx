@@ -1,5 +1,5 @@
-import SlackLogo from "@crm/ui/components/brand-logos/slack";
-import { Spinner } from "@crm/ui/components/spinner";
+import SlackLogo from "@app/ui/components/brand-logos/slack";
+import { Spinner } from "@app/ui/components/spinner";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { requireSession } from "@/lib/session";

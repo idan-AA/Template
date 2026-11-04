@@ -1,5 +1,5 @@
-import { db } from "@crm/db";
-import { MAX_ATTEMPTS, RETIRED_OUTCOME } from "@crm/db/agent-tasks";
+import { db } from "@app/db";
+import { MAX_ATTEMPTS, RETIRED_OUTCOME } from "@app/db/agent-tasks";
 import { retireAbandoned } from "../../agent/lib/stale-tasks";
 import { claimDue } from "../../agent/lib/tasks";
 import { reasonOf } from "./e2e-agents";

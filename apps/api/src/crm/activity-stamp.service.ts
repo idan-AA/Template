@@ -1,4 +1,4 @@
-import { type Db, type Prisma, Prisma as PrismaNamespace } from "@crm/db";
+import { type Db, type Prisma, Prisma as PrismaNamespace } from "@app/db";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 

@@ -1,13 +1,13 @@
 "use client";
 
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
 import {
 	SimpleTable,
 	type SimpleTableColumn,
 	SimpleTableRow,
-} from "@crm/ui/components/simple-table";
-import { TableCell } from "@crm/ui/components/table";
-import { formatMoney } from "@crm/ui/lib/format";
+} from "@app/ui/components/simple-table";
+import { TableCell } from "@app/ui/components/table";
+import { formatMoney } from "@app/ui/lib/format";
 import { CompanyCell } from "@/components/crm/company-cell";
 import { DealStageIndicator } from "@/components/crm/deal-stage";
 import { OwnerCell } from "@/components/crm/owner-cell";

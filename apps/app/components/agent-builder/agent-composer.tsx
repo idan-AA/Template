@@ -1,5 +1,26 @@
 "use client";
 
+import {
+	AsyncButtonContent,
+	useAsyncAction,
+} from "@app/ui/components/async-action";
+import { Button } from "@app/ui/components/button";
+import { CHAT_COMPOSER_SURFACE_CLASS_NAME } from "@app/ui/components/chat-composer";
+import { type CarbonIcon, Icon } from "@app/ui/components/icon";
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupInput,
+} from "@app/ui/components/input-group";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@app/ui/components/popover";
+import { Skeleton } from "@app/ui/components/skeleton";
+import { SkeletonSwap } from "@app/ui/components/skeleton-swap";
+import { TokenField } from "@app/ui/components/token-field";
+import { cn } from "@app/ui/lib/utils";
 import Add from "@carbon/icons-react/es/Add";
 import Application from "@carbon/icons-react/es/Application";
 import ArrowUp from "@carbon/icons-react/es/ArrowUp";
@@ -11,27 +32,6 @@ import Partnership from "@carbon/icons-react/es/Partnership";
 import Search from "@carbon/icons-react/es/Search";
 import StopFilled from "@carbon/icons-react/es/StopFilled";
 import User from "@carbon/icons-react/es/User";
-import {
-	AsyncButtonContent,
-	useAsyncAction,
-} from "@crm/ui/components/async-action";
-import { Button } from "@crm/ui/components/button";
-import { CHAT_COMPOSER_SURFACE_CLASS_NAME } from "@crm/ui/components/chat-composer";
-import { type CarbonIcon, Icon } from "@crm/ui/components/icon";
-import {
-	InputGroup,
-	InputGroupAddon,
-	InputGroupInput,
-} from "@crm/ui/components/input-group";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@crm/ui/components/popover";
-import { Skeleton } from "@crm/ui/components/skeleton";
-import { SkeletonSwap } from "@crm/ui/components/skeleton-swap";
-import { TokenField } from "@crm/ui/components/token-field";
-import { cn } from "@crm/ui/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { type ReactNode, useReducer, useRef } from "react";
 import { flushSync } from "react-dom";

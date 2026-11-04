@@ -23,9 +23,9 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { ReactNode } from "react";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
-import { cn } from "@crm/ui/lib/utils";
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
+import { cn } from "@app/ui/lib/utils";
 
 export function SortableList({
 	ids,

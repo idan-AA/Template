@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { parseEnv } from "@crm/env";
+import { parseEnv } from "@app/env";
 
 const LOCAL_HOSTS = new Set([
 	"localhost",

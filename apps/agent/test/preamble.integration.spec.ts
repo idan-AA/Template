@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
-import { DealStage, db } from "@crm/db";
+import { DealStage, db } from "@app/db";
 import {
 	companyPreamble,
 	composeClosing,

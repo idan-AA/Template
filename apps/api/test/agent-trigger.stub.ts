@@ -1,4 +1,4 @@
-import { db, type Prisma } from "@crm/db";
+import { db, type Prisma } from "@app/db";
 import type { CrmEventInput } from "../src/agent/agent-trigger.service";
 
 export function withDiscardedCrmEvents<Result>(

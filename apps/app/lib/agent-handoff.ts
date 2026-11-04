@@ -1,4 +1,4 @@
-import { type Handoff, schemas } from "@crm/validation";
+import { type Handoff, schemas } from "@app/validation";
 
 export function handoffResources(handoff: Handoff) {
 	return [

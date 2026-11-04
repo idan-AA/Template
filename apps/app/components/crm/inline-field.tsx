@@ -1,20 +1,20 @@
 "use client";
 
-import { Button } from "@crm/ui/components/button";
-import { DatePicker } from "@crm/ui/components/date-picker";
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
-import { Input } from "@crm/ui/components/input";
+import { Button } from "@app/ui/components/button";
+import { DatePicker } from "@app/ui/components/date-picker";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
+import { Input } from "@app/ui/components/input";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@crm/ui/components/select";
-import { SOURCED_VALUE, SourcedValue } from "@crm/ui/components/sourced-value";
-import { Spinner } from "@crm/ui/components/spinner";
-import { Textarea } from "@crm/ui/components/textarea";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/select";
+import { SOURCED_VALUE, SourcedValue } from "@app/ui/components/sourced-value";
+import { Spinner } from "@app/ui/components/spinner";
+import { Textarea } from "@app/ui/components/textarea";
+import { cn } from "@app/ui/lib/utils";
 import { useId, useState } from "react";
 import { PROPERTY_LABEL, PROPERTY_ROW } from "@/components/detail-sheet";
 

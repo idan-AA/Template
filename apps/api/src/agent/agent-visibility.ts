@@ -1,4 +1,4 @@
-import type { AgentDefinitionStatus } from "@crm/db/enums";
+import type { AgentDefinitionStatus } from "@app/db/enums";
 
 export const TEAM_AGENT_STATUSES = ["LIVE", "PAUSED", "ARCHIVED"] as const;
 

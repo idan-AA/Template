@@ -1,9 +1,8 @@
 "use client";
 
-import Warning from "@carbon/icons-react/es/Warning";
-import { authClient } from "@crm/auth/client";
-import { MICROSOFT_SYNC_SCOPES } from "@crm/auth/scopes";
-import { Alert, AlertDescription, AlertTitle } from "@crm/ui/components/alert";
+import { authClient } from "@app/auth/client";
+import { MICROSOFT_SYNC_SCOPES } from "@app/auth/scopes";
+import { Alert, AlertDescription, AlertTitle } from "@app/ui/components/alert";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -14,9 +13,9 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-} from "@crm/ui/components/alert-dialog";
-import MicrosoftLogo from "@crm/ui/components/brand-logos/microsoft";
-import { Button } from "@crm/ui/components/button";
+} from "@app/ui/components/alert-dialog";
+import MicrosoftLogo from "@app/ui/components/brand-logos/microsoft";
+import { Button } from "@app/ui/components/button";
 import {
 	Card,
 	CardAction,
@@ -25,12 +24,13 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
-import { Icon } from "@crm/ui/components/icon";
-import { Label } from "@crm/ui/components/label";
-import { Spinner } from "@crm/ui/components/spinner";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
-import { Switch } from "@crm/ui/components/switch";
+} from "@app/ui/components/card";
+import { Icon } from "@app/ui/components/icon";
+import { Label } from "@app/ui/components/label";
+import { Spinner } from "@app/ui/components/spinner";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
+import { Switch } from "@app/ui/components/switch";
+import Warning from "@carbon/icons-react/es/Warning";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";

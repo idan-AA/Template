@@ -1,4 +1,4 @@
-import { FactBand } from "@crm/db";
+import { FactBand } from "@app/db";
 
 export type EvidenceKind =
 	| "profile.email-match"

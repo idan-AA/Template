@@ -11,11 +11,11 @@
 	},
 	"iconLibrary": "lucide",
 	"aliases": {
-		"components": "@crm/ui/components",
-		"utils": "@crm/ui/lib/utils",
-		"hooks": "@crm/ui/hooks",
-		"lib": "@crm/ui/lib",
-		"ui": "@crm/ui/components"
+		"components": "@app/ui/components",
+		"utils": "@app/ui/lib/utils",
+		"hooks": "@app/ui/hooks",
+		"lib": "@app/ui/lib",
+		"ui": "@app/ui/components"
 	},
 	"rtl": false,
 	"menuColor": "default",

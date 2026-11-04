@@ -1,4 +1,4 @@
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import { sweepBlankFacts } from "../agent/lib/blank-facts";
 
 const dry = process.argv.includes("--dry");

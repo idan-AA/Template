@@ -1,4 +1,4 @@
-import { ENRICHMENT_PAGE_MAX } from "@crm/validation/enrichment-queue";
+import { ENRICHMENT_PAGE_MAX } from "@app/validation/enrichment-queue";
 
 const SECOND_MS = 1_000;
 const MINUTE_S = 60;

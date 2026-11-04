@@ -11,7 +11,7 @@ are in `docs/setup.md`.
 
 ## Model
 
-Default `zai/glm-5.2-fast`; `DEFAULT_AGENT_MODEL` in `@crm/db/settings` because the
+Default `zai/glm-5.2-fast`; `DEFAULT_AGENT_MODEL` in `@app/db/settings` because the
 agent and the API both need it.
 
 - **A row (`AppSetting`), not an env var**, via `defineDynamic` on `session.started`.
@@ -25,14 +25,14 @@ agent and the API both need it.
 ## Pictures are copied, never linked
 
 `mirror()` copies bytes to Vercel Blob; the record points at our copy. Lives in
-**`@crm/db/blob`** — writers are `lib/brand-images.ts`, `lib/portrait.ts`,
+**`@app/db/blob`** — writers are `lib/brand-images.ts`, `lib/portrait.ts`,
 `FaviconService`, `ImageMirrorService`, `prisma/seed.ts`.
 
 - **The key hashes the bytes** — idempotent, and a redesigned mark gets a new URL.
-- **`COMPANY_IMAGE_FIELDS` (`@crm/db/images`) is the one list of picture columns.**
-- **Fetch through `@crm/db/safe-fetch`** — vendor URLs are SSRF vectors.
+- **`COMPANY_IMAGE_FIELDS` (`@app/db/images`) is the one list of picture columns.**
+- **Fetch through `@app/db/safe-fetch`** — vendor URLs are SSRF vectors.
 - **No `BLOB_READ_WRITE_TOKEN` means no photographs**; logos keep the origin URL.
-- **`isOptimizable` (`@crm/db/images`) is the whole rule**: `next.config.ts`
+- **`isOptimizable` (`@app/db/images`) is the whole rule**: `next.config.ts`
   allow-lists only our Blob host (a wildcard makes us an open image proxy), and a
   mirrored **SVG is still refused**.
 - **Faces are not optimized** — `AvatarImage` skips `<Image>` because Radix probes the
@@ -45,7 +45,7 @@ agent and the API both need it.
 
 ## Two lanes
 
-`schedules/dispatch.ts`, split by `DIRECT_KINDS` in `@crm/db/agent-tasks`.
+`schedules/dispatch.ts`, split by `DIRECT_KINDS` in `@app/db/agent-tasks`.
 
 | | Kinds | How | Per tick |
 | --- | --- | --- | --- |
@@ -167,7 +167,7 @@ first — the cron covers it, so this is for a machine pointed at another databa
 - **No button, deliberately** — a rep cannot know which records predate a resolver.
 - **The trigger is signing in**, via `databaseHooks.session.create.after` in
   `packages/auth`; `BackfillService` subscribes with `onSignedIn` and has no router
-  (`@crm/auth` must not import a Nest provider). Five-minute stand-down, and `auto()`
+  (`@app/auth` must not import a Nest provider). Five-minute stand-down, and `auto()`
   returns before work starts.
 - **The 500-row cap is on the pass, not each query in it.** Deduplicate the union, cut
   to 500, count `remaining` against the union.
@@ -267,7 +267,7 @@ which the audit hook files events against nothing.
 preamble; `lib/workspace.ts` is the only renderer.
 
 - **Tiny, enforced by the write path** — `MAX_NARRATIVE` (320) and `MAX_LINE` in
-  `@crm/db/workspace`. It is prompt-cached and precedes every question.
+  `@app/db/workspace`. It is prompt-cached and precedes every question.
 - **It says what the context is for** — fit, competitor, partner, or nothing — and
   **never a pitch**, or the model sells our own product back to us.
 - **No profile still gets the name line**, plus *do not guess at what we sell*.
@@ -326,7 +326,7 @@ delegation paths for custom agents.
   `NOTE`, `TASK`, or both. Runtime enforcement never infers a grant from the action's
   prose summary. Every action is ledgered before execution and keyed by eve's call id
   for replay safety.
-- **CRM events are shared domain contracts.** `@crm/db/crm-events` owns the event
+- **CRM events are shared domain contracts.** `@app/db/crm-events` owns the event
   vocabulary, record kind, and builder-facing description used by the API, builder,
   and worker. API writes enqueue a durable `agent-event` task; the agent worker alone
   matches live triggers and creates runs. Do not duplicate event lists in prompts or

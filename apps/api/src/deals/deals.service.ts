@@ -4,15 +4,15 @@ import {
 	type DealStage,
 	type Prisma,
 	Prisma as PrismaNamespace,
-} from "@crm/db";
-import { normalizeCurrency } from "@crm/db/currency";
+} from "@app/db";
+import { normalizeCurrency } from "@app/db/currency";
 import {
 	CLOSED_DEAL_STAGES,
 	isClosedStage,
 	LOSING_DEAL_STAGES,
 	OPEN_DEAL_STAGES,
-} from "@crm/db/deal-stage";
-import type { FieldDefinitionWithOptions } from "@crm/db/fields";
+} from "@app/db/deal-stage";
+import type { FieldDefinitionWithOptions } from "@app/db/fields";
 import {
 	BadRequestException,
 	Injectable,

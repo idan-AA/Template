@@ -1,4 +1,4 @@
-import { CONFIG_MAX_AGE_SECONDS, isSiteId } from "@crm/db/tracking";
+import { CONFIG_MAX_AGE_SECONDS, isSiteId } from "@app/db/tracking";
 import { API_URL } from "@/lib/env";
 import { trackerSource } from "@/lib/tracking/tracker";
 

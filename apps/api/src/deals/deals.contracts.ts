@@ -1,5 +1,5 @@
-import { DealStage } from "@crm/db";
-import { FIELD_ENTITIES, FIELD_TYPES } from "@crm/db/fields";
+import { DealStage } from "@app/db";
+import { FIELD_ENTITIES, FIELD_TYPES } from "@app/db/fields";
 import { z } from "zod";
 import { bulkIdsInput } from "../crm/bulk";
 import { currencyCode } from "../currency/currency.contracts";

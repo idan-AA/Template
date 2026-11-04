@@ -1,6 +1,6 @@
-import { db } from "@crm/db";
-import { readAgentModel } from "@crm/db/settings";
-import { agentError, modelError } from "@crm/telemetry";
+import { db } from "@app/db";
+import { readAgentModel } from "@app/db/settings";
+import { agentError, modelError } from "@app/telemetry";
 import { defineHook } from "eve/hooks";
 import { z } from "zod";
 

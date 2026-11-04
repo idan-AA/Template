@@ -1,5 +1,5 @@
-import { Link } from "@crm/ui/components/link";
-import Logo from "@crm/ui/components/logo";
+import { Link } from "@app/ui/components/link";
+import Logo from "@app/ui/components/logo";
 import { REPO_LINKS } from "./links";
 import { Wordmark } from "./wordmark";
 

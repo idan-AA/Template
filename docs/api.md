@@ -37,7 +37,7 @@ Single tenant. No org header, no org interceptor, no org-scoped cache keys, **no
 `organizationId` on any CRM record.**
 
 A **singleton workspace** exists — Better Auth's `organization` plugin, one row with
-id `WORKSPACE_ID` (the literal `workspace`, in `@crm/db`, re-exported by `@crm/auth`
+id `WORKSPACE_ID` (the literal `workspace`, in `@app/db`, re-exported by `@app/auth`
 so the agent needn't depend on it). It answers only: what are we called, who works
 here, what do we sell.
 
@@ -47,7 +47,7 @@ here, what do we sell.
   `databaseHooks.session.create.before` and **degrades, never throws** — a throw fails
   the session create and locks everyone out. The plugin's `invitation` table is unused.
 - **First account is owner**, and the hook enrols pre-existing users, oldest first.
-- **Permissions come from `@crm/auth`** — `canRenameWorkspace`, `canChangeRole`,
+- **Permissions come from `@app/auth`** — `canRenameWorkspace`, `canChangeRole`,
   `canConfigureSso`, `canManageCurrency` — enforced by the service *and* used to
   disable the UI control, so the button and the 403 cannot disagree.
   `WorkspaceService` adds one invariant: **the last owner cannot be demoted**, with
@@ -56,7 +56,7 @@ here, what do we sell.
 - **Name and website are required at onboarding and cannot be skipped**, in the form
   *and* in `updateWorkspaceInput`, posting the same `workspace.update` as settings.
 - **Onboarded state is `onboardedAt` inside the plugin's `metadata` blob**, not a
-  column; `isOnboarded`/`markOnboarded` (`@crm/db/workspace`) are the only accessors,
+  column; `isOnboarded`/`markOnboarded` (`@app/db/workspace`) are the only accessors,
   and `markOnboarded` preserves every other key.
 - **The name starts as `DEFAULT_WORKSPACE_NAME` (`CRM`), a placeholder not an
   answer.** The header renders `<name> CRM`, so `workspaceLabel` tests the name rather
@@ -88,7 +88,7 @@ Served under the workspace slug (`/comp-ai/companies`). **Cosmetic, not tenancy*
 every query still resolves through `WORKSPACE_ID`.
 
 - **The slug is the plugin's column**, written by `workspaceSlug(name)`
-  (`@crm/db/workspace`) on rename and create. **Never derive it on read.**
+  (`@app/db/workspace`) on rename and create. **Never derive it on read.**
 - `ensureWorkspaceMembership` reconciles it; `RESERVED_SLUGS` prevents collision with
   a real route (a collision gets `-crm`).
 - **The proxy is the only thing that puts the slug on.** Missing or stale slugs are
@@ -117,7 +117,7 @@ self-hoster's admin cannot redeploy.
 - **A provider hides the social buttons, it does not disable them** —
   `/sign-in?method=google` and `?method=microsoft` still work, so a mistyped issuer
   cannot lock an admin out.
-- **Signing in with an IdP does not cost you Gmail.** `needsMailboxGrant` (`@crm/auth`)
+- **Signing in with an IdP does not cost you Gmail.** `needsMailboxGrant` (`@app/auth`)
   walls only an account whose sign-in rows are *all* mailbox providers — Google,
   Microsoft, or both — and none of them granted. `mailboxGrantsNeeded` returns which,
   so `/grant-access` offers the button they can actually use.
@@ -251,7 +251,7 @@ row is still there, just filtered out of every list.
 
 **Pruning**: `ArchiveRetentionController` (`internal/archive/prune`, `CRON_SECRET`-gated,
 `apps/api/vercel.json`) reads `AppSetting.archiveRetentionDays`
-(`readArchiveRetentionDays`, `@crm/db/settings`, default 180) and calls each service's
+(`readArchiveRetentionDays`, `@app/db/settings`, default 180) and calls each service's
 `purgeExpired(before)` — `findMany({ archivedAt: { lte: before } })` capped at
 `ARCHIVE.prune.maxBatch` (`archive/archive-config.ts`), then `purge` per row through
 the ordinary `runBulk`. Settings → General has the day count

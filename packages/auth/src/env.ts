@@ -1,4 +1,4 @@
-import "@crm/env/load";
+import "@app/env/load";
 
 const DEFAULT_API_URL = "http://localhost:3001";
 const DEFAULT_APP_URL = "http://localhost:3000";

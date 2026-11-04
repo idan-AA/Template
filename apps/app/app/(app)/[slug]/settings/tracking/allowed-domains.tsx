@@ -1,37 +1,37 @@
 "use client";
 
-import Add from "@carbon/icons-react/es/Add";
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	Card,
 	CardAction,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
-import { CardTableEmpty } from "@crm/ui/components/card-table";
-import { Field, FieldLabel } from "@crm/ui/components/field";
-import { Icon } from "@crm/ui/components/icon";
-import { Input } from "@crm/ui/components/input";
+} from "@app/ui/components/card";
+import { CardTableEmpty } from "@app/ui/components/card-table";
+import { Field, FieldLabel } from "@app/ui/components/field";
+import { Icon } from "@app/ui/components/icon";
+import { Input } from "@app/ui/components/input";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-} from "@crm/ui/components/popover";
+} from "@app/ui/components/popover";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@crm/ui/components/select";
+} from "@app/ui/components/select";
 import {
 	SimpleTable,
 	type SimpleTableColumn,
 	SimpleTableRow,
-} from "@crm/ui/components/simple-table";
-import { Spinner } from "@crm/ui/components/spinner";
-import { TableCell } from "@crm/ui/components/table";
+} from "@app/ui/components/simple-table";
+import { Spinner } from "@app/ui/components/spinner";
+import { TableCell } from "@app/ui/components/table";
+import Add from "@carbon/icons-react/es/Add";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useId, useState } from "react";
 import { toast } from "sonner";

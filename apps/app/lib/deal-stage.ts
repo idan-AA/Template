@@ -1,5 +1,5 @@
-import { DealStage } from "@crm/db/enums";
-import type { StatusTone } from "@crm/ui/components/status-indicator";
+import { DealStage } from "@app/db/enums";
+import type { StatusTone } from "@app/ui/components/status-indicator";
 
 const ORDER = [
 	DealStage.DEMO_BOOKED,

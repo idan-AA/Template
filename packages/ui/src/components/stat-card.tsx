@@ -1,4 +1,4 @@
-import { cn } from "@crm/ui/lib/utils";
+import { cn } from "@app/ui/lib/utils";
 import type * as React from "react";
 
 type TrendDirection = "up" | "down" | "neutral";

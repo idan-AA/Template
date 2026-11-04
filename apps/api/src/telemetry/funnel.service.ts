@@ -1,13 +1,13 @@
-import { GOOGLE_PROVIDER_ID } from "@crm/auth/scopes";
-import type { Db } from "@crm/db";
-import { FactStatus } from "@crm/db";
+import { GOOGLE_PROVIDER_ID } from "@app/auth/scopes";
+import type { Db } from "@app/db";
+import { FactStatus } from "@app/db";
 import {
 	MILESTONES,
 	type Milestone,
 	milestone,
 	reachedMilestones,
 	readInstall,
-} from "@crm/telemetry";
+} from "@app/telemetry";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 import { SEED_OWNER_PREFIX } from "./seed";

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "bun:test";
-import { AUTH_COOKIE_PREFIX } from "@crm/auth/cookies";
+import { AUTH_COOKIE_PREFIX } from "@app/auth/cookies";
 import { NextRequest } from "next/server";
 import { readResearchGate, readWorkspaceGate } from "../lib/onboarding";
 import { proxy } from "../proxy";

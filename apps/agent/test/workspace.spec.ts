@@ -6,7 +6,7 @@ import {
 	trimSections,
 	type WorkspaceProfile,
 	websiteUrl,
-} from "@crm/db/workspace";
+} from "@app/db/workspace";
 import { composeClosing } from "../agent/lib/preamble";
 import { usMarkdown, type WorkspaceIdentity } from "../agent/lib/workspace";
 

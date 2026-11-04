@@ -1,4 +1,4 @@
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import { connection } from "next/server";
 import { z } from "zod";
 import {

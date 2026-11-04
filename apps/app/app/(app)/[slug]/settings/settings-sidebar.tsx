@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@crm/ui/components/button";
-import { cn } from "@crm/ui/lib/utils";
+import { Button } from "@app/ui/components/button";
+import { cn } from "@app/ui/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";

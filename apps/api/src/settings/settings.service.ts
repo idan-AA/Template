@@ -1,4 +1,4 @@
-import type { Db } from "@crm/db";
+import type { Db } from "@app/db";
 import {
 	DEFAULT_AGENT_MODEL,
 	maskKey,
@@ -8,7 +8,7 @@ import {
 	writeAgentModel,
 	writeArchiveRetentionDays,
 	writeContextDevKey,
-} from "@crm/db/settings";
+} from "@app/db/settings";
 import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import { ResearchKeyService } from "../agent/research-key.service";
 import { BackfillService } from "../backfill/backfill.service";

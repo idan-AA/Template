@@ -1,4 +1,4 @@
-import "@crm/env/load";
+import "@app/env/load";
 
 import { PrismaPg } from "@prisma/adapter-pg";
 import { type Prisma, PrismaClient } from "./generated/prisma/client";

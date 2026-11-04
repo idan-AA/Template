@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
-import { db, EnrichmentStatus } from "@crm/db";
-import { MAX_ATTEMPTS, RETIRED_OUTCOME } from "@crm/db/agent-tasks";
+import { db, EnrichmentStatus } from "@app/db";
+import { MAX_ATTEMPTS, RETIRED_OUTCOME } from "@app/db/agent-tasks";
 import { reconcileStaleTasks } from "../agent/lib/stale-tasks";
 
 const kind = "recheck";

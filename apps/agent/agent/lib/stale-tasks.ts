@@ -1,9 +1,9 @@
-import { db, EnrichmentStatus, type Prisma } from "@crm/db";
+import { db, EnrichmentStatus, type Prisma } from "@app/db";
 import {
 	MAX_ATTEMPTS,
 	ownsCompanyStatus,
 	ownsContactStatus,
-} from "@crm/db/agent-tasks";
+} from "@app/db/agent-tasks";
 import { DISPATCH } from "./dispatch-config";
 import { settle } from "./enrichment";
 import { retireExhausted, type TaskSubject } from "./tasks";

@@ -1,6 +1,6 @@
-import { ActivityType, type Db, DealStage } from "@crm/db";
-import { OPEN_DEAL_STAGES } from "@crm/db/deal-stage";
-import { activityMeta } from "@crm/validation/activity-meta";
+import { ActivityType, type Db, DealStage } from "@app/db";
+import { OPEN_DEAL_STAGES } from "@app/db/deal-stage";
+import { activityMeta } from "@app/validation/activity-meta";
 import { Injectable } from "@nestjs/common";
 import { toCents } from "../crm/values";
 import { ConversionService } from "../currency/conversion.service";

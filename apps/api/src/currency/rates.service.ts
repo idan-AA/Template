@@ -1,15 +1,15 @@
-import type { Db } from "@crm/db";
-import { Prisma, RateSource } from "@crm/db";
+import type { Db } from "@app/db";
+import { Prisma, RateSource } from "@app/db";
 import {
 	CURRENCY_CODES,
 	isCurrencyCode,
 	normalizeCurrency,
-} from "@crm/db/currency";
+} from "@app/db/currency";
 import {
 	readRatesRefreshedAt,
 	readReportingCurrency,
 	writeRatesRefreshedAt,
-} from "@crm/db/settings";
+} from "@app/db/settings";
 import { Injectable, Logger } from "@nestjs/common";
 import { z } from "zod";
 import { InjectDatabase } from "../database/database.constants";

@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@crm/ui/components/button";
-import { Spinner } from "@crm/ui/components/spinner";
+import { Button } from "@app/ui/components/button";
+import { Spinner } from "@app/ui/components/spinner";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { toast } from "sonner";

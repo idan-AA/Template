@@ -1,12 +1,5 @@
 "use client";
 
-import Checkmark from "@carbon/icons-react/es/Checkmark";
-import CircleDash from "@carbon/icons-react/es/CircleDash";
-import Document from "@carbon/icons-react/es/Document";
-import LogoGithub from "@carbon/icons-react/es/LogoGithub";
-import LogoLinkedin from "@carbon/icons-react/es/LogoLinkedin";
-import Send from "@carbon/icons-react/es/Send";
-import Warning from "@carbon/icons-react/es/Warning";
 import {
 	Attachment,
 	AttachmentContent,
@@ -14,9 +7,9 @@ import {
 	AttachmentMedia,
 	AttachmentTitle,
 	AttachmentTrigger,
-} from "@crm/ui/components/attachment";
-import { Bubble, BubbleContent } from "@crm/ui/components/bubble";
-import { Button } from "@crm/ui/components/button";
+} from "@app/ui/components/attachment";
+import { Bubble, BubbleContent } from "@app/ui/components/bubble";
+import { Button } from "@app/ui/components/button";
 import {
 	Empty,
 	EmptyContent,
@@ -24,17 +17,17 @@ import {
 	EmptyHeader,
 	EmptyMedia,
 	EmptyTitle,
-} from "@crm/ui/components/empty";
-import { type CarbonIcon, Icon } from "@crm/ui/components/icon";
-import { Input } from "@crm/ui/components/input";
-import Logo from "@crm/ui/components/logo";
-import { Markdown } from "@crm/ui/components/markdown";
-import { Marker, MarkerContent, MarkerIcon } from "@crm/ui/components/marker";
+} from "@app/ui/components/empty";
+import { type CarbonIcon, Icon } from "@app/ui/components/icon";
+import { Input } from "@app/ui/components/input";
+import Logo from "@app/ui/components/logo";
+import { Markdown } from "@app/ui/components/markdown";
+import { Marker, MarkerContent, MarkerIcon } from "@app/ui/components/marker";
 import {
 	Message,
 	MessageAvatar,
 	MessageContent,
-} from "@crm/ui/components/message";
+} from "@app/ui/components/message";
 import {
 	MessageScroller,
 	MessageScrollerButton,
@@ -42,8 +35,15 @@ import {
 	MessageScrollerItem,
 	MessageScrollerProvider,
 	MessageScrollerViewport,
-} from "@crm/ui/components/message-scroller";
-import { Spinner } from "@crm/ui/components/spinner";
+} from "@app/ui/components/message-scroller";
+import { Spinner } from "@app/ui/components/spinner";
+import Checkmark from "@carbon/icons-react/es/Checkmark";
+import CircleDash from "@carbon/icons-react/es/CircleDash";
+import Document from "@carbon/icons-react/es/Document";
+import LogoGithub from "@carbon/icons-react/es/LogoGithub";
+import LogoLinkedin from "@carbon/icons-react/es/LogoLinkedin";
+import Send from "@carbon/icons-react/es/Send";
+import Warning from "@carbon/icons-react/es/Warning";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEveAgent } from "eve/react";
 import { useEffect, useEffectEvent, useRef, useState } from "react";

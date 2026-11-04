@@ -6,7 +6,7 @@ import {
 	type Prisma,
 	Prisma as PrismaNamespace,
 	RecordSource,
-} from "@crm/db";
+} from "@app/db";
 import { Injectable, Logger } from "@nestjs/common";
 import { ActivityStampService } from "../crm/activity-stamp.service";
 import { InjectDatabase } from "../database/database.constants";

@@ -1,7 +1,7 @@
 "use client";
 
 import ArrowRight from "@carbon/icons-react/es/ArrowRight";
-import { Icon } from "@crm/ui/components/icon";
+import { Icon } from "@app/ui/components/icon";
 import {
 	MessageScroller,
 	MessageScrollerButton,
@@ -9,8 +9,8 @@ import {
 	MessageScrollerItem,
 	MessageScrollerProvider,
 	MessageScrollerViewport,
-} from "@crm/ui/components/message-scroller";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/message-scroller";
+import { cn } from "@app/ui/lib/utils";
 import { createContext, type ReactNode, useContext } from "react";
 
 export type ChatThreadSize = "page" | "panel";

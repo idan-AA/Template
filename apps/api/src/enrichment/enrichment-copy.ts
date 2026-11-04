@@ -1,4 +1,4 @@
-import { MAX_ATTEMPTS, type TaskKind } from "@crm/db/agent-tasks";
+import { MAX_ATTEMPTS, type TaskKind } from "@app/db/agent-tasks";
 
 export type EnrichmentQueueState = "running" | "queued" | "failed";
 

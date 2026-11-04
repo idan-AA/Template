@@ -1,5 +1,4 @@
 "use client";
-import Search from "@carbon/icons-react/es/Search";
 import {
 	AlertDialog,
 	AlertDialogCancel,
@@ -8,18 +7,19 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-} from "@crm/ui/components/alert-dialog";
+} from "@app/ui/components/alert-dialog";
 import {
 	AsyncButtonContent,
 	useAsyncAction,
-} from "@crm/ui/components/async-action";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
+} from "@app/ui/components/async-action";
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupInput,
-} from "@crm/ui/components/input-group";
+} from "@app/ui/components/input-group";
+import Search from "@carbon/icons-react/es/Search";
 import { useMutation } from "@tanstack/react-query";
 import { useDeferredValue, useState } from "react";
 import { toast } from "sonner";

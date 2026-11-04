@@ -1,4 +1,4 @@
-import { db } from "@crm/db";
+import { db } from "@app/db";
 
 export async function slackAccessToken(): Promise<string | null> {
 	const account = await db.account.findFirst({

@@ -1,7 +1,7 @@
-import "@crm/env/load";
+import "@app/env/load";
 
 import { createHash } from "node:crypto";
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import { crmVersion } from "./version";
 
 export const INSTALL_ID = "install";

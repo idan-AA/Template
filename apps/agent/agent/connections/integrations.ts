@@ -1,4 +1,4 @@
-import { vendors } from "@crm/mcp-integrations/catalog";
+import { vendors } from "@app/mcp-integrations/catalog";
 import { defineDynamic } from "eve/connections";
 import {
 	buildChatMcpConnections,

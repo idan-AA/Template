@@ -1,4 +1,4 @@
-import "@crm/env/load";
+import "@app/env/load";
 
 import path from "node:path";
 import { defineConfig, env } from "prisma/config";

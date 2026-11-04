@@ -1,4 +1,4 @@
-import type { Db } from "@crm/db";
+import type { Db } from "@app/db";
 import { BadRequestException } from "@nestjs/common";
 import { z } from "zod";
 

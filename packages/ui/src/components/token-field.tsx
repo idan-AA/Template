@@ -1,5 +1,5 @@
-import { Button } from "@crm/ui/components/button";
-import { cn } from "@crm/ui/lib/utils";
+import { Button } from "@app/ui/components/button";
+import { cn } from "@app/ui/lib/utils";
 import type * as React from "react";
 
 function TokenField({ className, ...props }: React.ComponentProps<"div">) {

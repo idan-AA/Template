@@ -1,6 +1,6 @@
-import { DotMatrix } from "@crm/ui/components/dot-matrix";
-import { Shimmer } from "@crm/ui/components/shimmer";
-import { cn } from "@crm/ui/lib/utils";
+import { DotMatrix } from "@app/ui/components/dot-matrix";
+import { Shimmer } from "@app/ui/components/shimmer";
+import { cn } from "@app/ui/lib/utils";
 
 export function ThinkingIndicator({
 	label = "Thinking",

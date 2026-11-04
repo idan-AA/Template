@@ -1,6 +1,6 @@
-import { workspaceDomains } from "@crm/auth/workspace";
-import { type Db, RecordSource } from "@crm/db";
-import { lockIdempotencyKey } from "@crm/db/idempotency";
+import { workspaceDomains } from "@app/auth/workspace";
+import { type Db, RecordSource } from "@app/db";
+import { lockIdempotencyKey } from "@app/db/idempotency";
 import { Injectable, Logger } from "@nestjs/common";
 import { AgentTriggerService } from "../agent/agent-trigger.service";
 import { CompanyDirectoryService } from "../companies/company-directory.service";

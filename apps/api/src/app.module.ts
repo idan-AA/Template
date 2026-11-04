@@ -1,4 +1,4 @@
-import { auth } from "@crm/auth/auth";
+import { auth } from "@app/auth/auth";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AuthModule as BetterAuthModule } from "@thallesp/nestjs-better-auth";

@@ -1,4 +1,4 @@
-import { db } from "@crm/db";
+import { db } from "@app/db";
 
 export async function removeAgent(agentId: string): Promise<void> {
 	await db.agentRunEvent.deleteMany({ where: { run: { agentId } } });

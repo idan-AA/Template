@@ -1,8 +1,8 @@
 "use client";
 
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
 import Copy from "@carbon/icons-react/es/Copy";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
 import { toast } from "sonner";
 
 export function CopyValue({ value, label }: { value: string; label: string }) {

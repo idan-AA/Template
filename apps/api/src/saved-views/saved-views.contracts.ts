@@ -1,5 +1,5 @@
-import { FIELD_ENTITIES } from "@crm/db/fields";
-import { savedViewFilters } from "@crm/validation/saved-view";
+import { FIELD_ENTITIES } from "@app/db/fields";
+import { savedViewFilters } from "@app/validation/saved-view";
 import { z } from "zod";
 
 export const savedViewEntity = z.enum(FIELD_ENTITIES);

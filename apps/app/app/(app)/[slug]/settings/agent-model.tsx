@@ -1,14 +1,13 @@
 "use client";
 
-import ChevronDown from "@carbon/icons-react/es/ChevronDown";
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
+} from "@app/ui/components/card";
 import {
 	Command,
 	CommandEmpty,
@@ -16,13 +15,14 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "@crm/ui/components/command";
-import { Icon } from "@crm/ui/components/icon";
+} from "@app/ui/components/command";
+import { Icon } from "@app/ui/components/icon";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-} from "@crm/ui/components/popover";
+} from "@app/ui/components/popover";
+import ChevronDown from "@carbon/icons-react/es/ChevronDown";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";

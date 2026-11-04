@@ -1,4 +1,4 @@
-import { blobEnabled } from "@crm/db/blob";
+import { blobEnabled } from "@app/db/blob";
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { spend } from "../lib/focus";

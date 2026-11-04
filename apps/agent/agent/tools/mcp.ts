@@ -1,6 +1,6 @@
-import { db } from "@crm/db";
-import { WORKSPACE_ID } from "@crm/db/workspace";
-import { parseAgentManifest } from "@crm/validation/agent-manifest";
+import { db } from "@app/db";
+import { WORKSPACE_ID } from "@app/db/workspace";
+import { parseAgentManifest } from "@app/validation/agent-manifest";
 import { defineDynamic, defineTool } from "eve/tools";
 import { z } from "zod";
 import {

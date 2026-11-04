@@ -422,7 +422,7 @@ package isn't installed in this checkout yet, so the names are unverified.
 ### The data table
 
 Port these from `/Users/lewiscarhart/mvp/apps/app/components/data-table/`,
-rewriting `@trycompai/ui` → `@crm/ui`:
+rewriting `@trycompai/ui` → `@app/ui`:
 
 | Source | Destination |
 | --- | --- |
@@ -430,7 +430,7 @@ rewriting `@trycompai/ui` → `@crm/ui`:
 | `table-pagination.tsx`, `numbered-pagination.tsx` | `packages/ui/src/components/` |
 | `use-table-query.ts`, `build-search.ts` | `apps/app/components/data-table/` |
 
-Everything it depends on already exists in `@crm/ui`: `table`, `dropdown-menu`,
+Everything it depends on already exists in `@app/ui`: `table`, `dropdown-menu`,
 `input-group`, `button`, `spinner`, and `lib/row-accent`. The hook stays in the
 app because it's routing state, not UI. `nuqs` becomes a dependency of
 `packages/ui` (the table owns the `expand` and `hide` params).

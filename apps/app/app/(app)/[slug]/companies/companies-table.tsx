@@ -1,18 +1,18 @@
 "use client";
 
-import Archive from "@carbon/icons-react/es/Archive";
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	DataTable,
 	type DataTableColumn,
 	type DataTableFacet,
-} from "@crm/ui/components/data-table";
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
+} from "@app/ui/components/data-table";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
 import {
 	EntityLogo,
 	type EntityLogoTone,
-} from "@crm/ui/components/entity-logo";
-import { useTableSelection } from "@crm/ui/hooks/use-table-selection";
+} from "@app/ui/components/entity-logo";
+import { useTableSelection } from "@app/ui/hooks/use-table-selection";
+import Archive from "@carbon/icons-react/es/Archive";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { EnrichmentIndicator } from "@/components/crm/enrichment-status";

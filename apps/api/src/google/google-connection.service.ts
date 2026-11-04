@@ -1,6 +1,6 @@
-import { isGoogleConfigured } from "@crm/auth/env";
-import { GOOGLE_PROVIDER_ID, signsInWithGoogle } from "@crm/auth/scopes";
-import type { Db, Prisma } from "@crm/db";
+import { isGoogleConfigured } from "@app/auth/env";
+import { GOOGLE_PROVIDER_ID, signsInWithGoogle } from "@app/auth/scopes";
+import type { Db, Prisma } from "@app/db";
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { normalizeDomain } from "../companies/domain";
 import { ActivityStampService } from "../crm/activity-stamp.service";

@@ -6,11 +6,11 @@ import {
 	AgentResponseRating,
 	AgentTriggerType,
 	AgentVersionStatus,
-} from "@crm/db";
+} from "@app/db";
 import {
 	agentPermissionMode,
 	builderToolApproval,
-} from "@crm/validation/agent-permission";
+} from "@app/validation/agent-permission";
 import { z } from "zod";
 
 const agentManifestSummaryOutput = z.object({

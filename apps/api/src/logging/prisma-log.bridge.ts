@@ -1,4 +1,4 @@
-import { setPrismaLogSink } from "@crm/db";
+import { setPrismaLogSink } from "@app/db";
 import {
 	Injectable,
 	Logger,

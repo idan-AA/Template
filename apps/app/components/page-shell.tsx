@@ -1,6 +1,6 @@
-import { Skeleton } from "@crm/ui/components/skeleton";
-import { Spinner } from "@crm/ui/components/spinner";
-import { cn } from "@crm/ui/lib/utils";
+import { Skeleton } from "@app/ui/components/skeleton";
+import { Spinner } from "@app/ui/components/spinner";
+import { cn } from "@app/ui/lib/utils";
 import type * as React from "react";
 import { PageTransition } from "./page-transition";
 

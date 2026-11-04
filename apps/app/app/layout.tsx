@@ -1,7 +1,7 @@
-import "@crm/ui/globals.css";
-import { Toaster } from "@crm/ui/components/sonner";
-import { TooltipProvider } from "@crm/ui/components/tooltip";
-import { cn } from "@crm/ui/lib/utils";
+import "@app/ui/globals.css";
+import { Toaster } from "@app/ui/components/sonner";
+import { TooltipProvider } from "@app/ui/components/tooltip";
+import { cn } from "@app/ui/lib/utils";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";

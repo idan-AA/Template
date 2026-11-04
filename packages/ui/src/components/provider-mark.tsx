@@ -1,8 +1,8 @@
-import LinearLogo from "@crm/ui/components/brand-logos/linear";
-import SupabaseLogo from "@crm/ui/components/brand-logos/supabase";
-import VercelLogo from "@crm/ui/components/brand-logos/vercel";
-import { cn } from "@crm/ui/lib/utils";
-import type { ProviderBrand } from "@crm/ui/lib/provider-brand";
+import LinearLogo from "@app/ui/components/brand-logos/linear";
+import SupabaseLogo from "@app/ui/components/brand-logos/supabase";
+import VercelLogo from "@app/ui/components/brand-logos/vercel";
+import { cn } from "@app/ui/lib/utils";
+import type { ProviderBrand } from "@app/ui/lib/provider-brand";
 import type { ComponentType, SVGProps } from "react";
 import {
 	siClerk,

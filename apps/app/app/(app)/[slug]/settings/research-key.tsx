@@ -1,7 +1,7 @@
 "use client";
 
-import { CONTEXT_DEV_SIGNUP_URL } from "@crm/db/settings";
-import { Button } from "@crm/ui/components/button";
+import { CONTEXT_DEV_SIGNUP_URL } from "@app/db/settings";
+import { Button } from "@app/ui/components/button";
 import {
 	Card,
 	CardAction,
@@ -9,16 +9,16 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
+} from "@app/ui/components/card";
 import {
 	Field,
 	FieldDescription,
 	FieldGroup,
 	FieldLabel,
-} from "@crm/ui/components/field";
-import { Input } from "@crm/ui/components/input";
-import { Spinner } from "@crm/ui/components/spinner";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
+} from "@app/ui/components/field";
+import { Input } from "@app/ui/components/input";
+import { Spinner } from "@app/ui/components/spinner";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useId, useState } from "react";
 import { toast } from "sonner";

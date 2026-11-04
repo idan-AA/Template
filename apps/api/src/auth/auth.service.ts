@@ -1,4 +1,4 @@
-import type { Db } from "@crm/db";
+import type { Db } from "@app/db";
 import { CACHE_MANAGER } from "@nestjs/cache-manager";
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import type { Cache } from "cache-manager";

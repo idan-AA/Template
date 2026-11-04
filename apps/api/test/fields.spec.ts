@@ -6,7 +6,7 @@ import {
 	expect,
 	it,
 } from "bun:test";
-import { db, type FieldEntity } from "@crm/db";
+import { db, type FieldEntity } from "@app/db";
 import { AgentQueueService } from "../src/agent/agent-queue.service";
 import { AgentTriggerService } from "../src/agent/agent-trigger.service";
 import { CompaniesService } from "../src/companies/companies.service";

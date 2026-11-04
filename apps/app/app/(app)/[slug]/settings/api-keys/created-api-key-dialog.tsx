@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	Dialog,
 	DialogContent,
@@ -8,12 +8,12 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@crm/ui/components/dialog";
+} from "@app/ui/components/dialog";
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupInput,
-} from "@crm/ui/components/input-group";
+} from "@app/ui/components/input-group";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { CopyValue } from "../copy-value";
 

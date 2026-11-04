@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@crm/ui/lib/utils";
+import { cn } from "@app/ui/lib/utils";
 import { Streamdown } from "streamdown";
 
 export function Markdown({

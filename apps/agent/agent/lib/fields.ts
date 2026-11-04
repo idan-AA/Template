@@ -1,5 +1,5 @@
-import { db } from "@crm/db";
-import type { FieldEntity, FieldType } from "@crm/db/enums";
+import { db } from "@app/db";
+import type { FieldEntity, FieldType } from "@app/db/enums";
 import {
 	attachValues,
 	type FieldDefinitionWithOptions,
@@ -12,8 +12,8 @@ import {
 	serializeField,
 	usesOptions,
 	writeValues,
-} from "@crm/db/fields";
-import { lockIdempotencyKey } from "@crm/db/idempotency";
+} from "@app/db/fields";
+import { lockIdempotencyKey } from "@app/db/idempotency";
 import { currentFocus } from "./focus";
 
 const WITH_OPTIONS = { options: { orderBy: { position: "asc" } } } as const;

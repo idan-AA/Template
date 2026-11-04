@@ -1,4 +1,4 @@
-import { enrichmentQueueInput } from "@crm/validation/enrichment-queue";
+import { enrichmentQueueInput } from "@app/validation/enrichment-queue";
 import { Inject } from "@nestjs/common";
 import { Input, Query, Router, UseMiddlewares } from "nestjs-trpc";
 import { z } from "zod";

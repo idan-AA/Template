@@ -1,11 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import {
 	type JsonObject,
 	type JsonValue,
 	jsonObject,
 	jsonText,
-} from "@crm/db/json";
+} from "@app/db/json";
 import { captureNow, resetTelemetryClient } from "../src/client";
 import { milestone } from "../src/events";
 import { forgetInstall, readInstall, stableUuid } from "../src/install";

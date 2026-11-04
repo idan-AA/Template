@@ -1,8 +1,8 @@
-import { db, Prisma } from "@crm/db";
-import { CRM_EVENT_CATALOG } from "@crm/db/crm-events";
-import { lockIdempotencyKey } from "@crm/db/idempotency";
-import { crmEventTask } from "@crm/validation/agent-events";
-import { readAgentTriggerConfig } from "@crm/validation/agent-manifest";
+import { db, Prisma } from "@app/db";
+import { CRM_EVENT_CATALOG } from "@app/db/crm-events";
+import { lockIdempotencyKey } from "@app/db/idempotency";
+import { crmEventTask } from "@app/validation/agent-events";
+import { readAgentTriggerConfig } from "@app/validation/agent-manifest";
 import type { ChannelSendOptions, ChannelSource, Session } from "eve/channels";
 import { z } from "zod";
 import { DISPATCH } from "./dispatch-config";

@@ -1,6 +1,6 @@
 # `api`
 
-NestJS API for the CRM. Runs on Bun, backed by `@crm/db` and `@crm/auth`.
+NestJS API for the CRM. Runs on Bun, backed by `@app/db` and `@app/auth`.
 
 ## Running it
 
@@ -25,7 +25,7 @@ needs neither. With them, register
 [`docs/environment.md`](../../docs/environment.md) explains where the file is
 found.
 
-Bun is the runtime, not just the package manager: `@crm/db` and `@crm/auth`
+Bun is the runtime, not just the package manager: `@app/db` and `@app/auth`
 ship TypeScript sources, so `tsc`/`node` cannot run this app directly. `tsc` is
 used for type checking only (`bun run check-types`).
 
@@ -43,7 +43,7 @@ used for type checking only (`bun run check-types`).
 
 This process owns authentication. It mounts `/api/auth/*` and is the only one
 that writes session cookies; the Next.js app in `apps/app` reads those sessions
-straight from Postgres via `@crm/auth` and calls the routes above with
+straight from Postgres via `@app/auth` and calls the routes above with
 `credentials: "include"`.
 
 `AuthModule.forRoot({ auth })` mounts the Better Auth handler and registers a
@@ -65,7 +65,7 @@ request body, and the library installs its own parsers around the auth routes.
 
 `AuthHooksService` uses `@AfterUpdate("user")` to drop a cached profile the
 moment its row changes. Database hooks require `databaseHooks: {}` in the Better
-Auth options and endpoint hooks require `hooks: {}` (both set in `@crm/auth`);
+Auth options and endpoint hooks require `hooks: {}` (both set in `@app/auth`);
 the library throws at startup without them.
 
 ## Caching

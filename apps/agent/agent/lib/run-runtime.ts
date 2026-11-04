@@ -1,12 +1,12 @@
 import { createHash, randomUUID } from "node:crypto";
-import { ActivityType, db, type Prisma } from "@crm/db";
-import type { AgentActionStatus, AgentTriggerType } from "@crm/db/enums";
-import { lockIdempotencyKey } from "@crm/db/idempotency";
+import { ActivityType, db, type Prisma } from "@app/db";
+import type { AgentActionStatus, AgentTriggerType } from "@app/db/enums";
+import { lockIdempotencyKey } from "@app/db/idempotency";
 import {
 	AGENT_ACTION_TYPES,
 	type AgentManifestResource,
 	parseAgentManifest,
-} from "@crm/validation/agent-manifest";
+} from "@app/validation/agent-manifest";
 import { z } from "zod";
 import { readCompanyHistory, readDealHistory } from "./accounts";
 import { AGENT_ACTION_EXECUTORS, isAgentActionType } from "./agent-actions";

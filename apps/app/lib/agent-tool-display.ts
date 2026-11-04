@@ -1,5 +1,5 @@
-import { vendorBySlug } from "@crm/mcp-integrations/catalog";
-import type { EveToolInput } from "@crm/validation/eve-tool";
+import { vendorBySlug } from "@app/mcp-integrations/catalog";
+import type { EveToolInput } from "@app/validation/eve-tool";
 import { z } from "zod";
 
 type ArtifactNames = Record<string, string>;

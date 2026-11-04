@@ -1,7 +1,7 @@
 import {
 	publicEveEventData,
 	publicEveEventInput,
-} from "@crm/validation/eve-public-event";
+} from "@app/validation/eve-public-event";
 import { z } from "zod";
 import { EVE_SESSION_PROXY } from "./eve-session-proxy-config";
 

@@ -1,6 +1,6 @@
-import type { Db } from "@crm/db";
-import { mirror } from "@crm/db/blob";
-import { resolveFavicon } from "@crm/db/favicon";
+import type { Db } from "@app/db";
+import { mirror } from "@app/db/blob";
+import { resolveFavicon } from "@app/db/favicon";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 

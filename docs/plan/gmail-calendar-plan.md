@@ -454,7 +454,7 @@ model User {
 ingested the item — but the UI renders synced entries as "via Gmail" rather than
 as something that person wrote, because they didn't.
 
-Migration: `bun run --filter=@crm/db db:migrate`, named
+Migration: `bun run --filter=@app/db db:migrate`, named
 `add_google_sync`. Nothing backfills; existing rows default to `MANUAL`.
 
 ### 4.4 Why project into `Activity` rather than union three tables
@@ -654,7 +654,7 @@ change, per `api.md`.
 
 Nothing bespoke in `apps/app`, no `className` overrides, no new radii:
 
-- `accordion.tsx` — via `bun run --filter=@crm/ui ui:add accordion`. The thread
+- `accordion.tsx` — via `bun run --filter=@app/ui ui:add accordion`. The thread
   disclosure. Not currently in the package.
 - `thread-message.tsx` — one message: sender, time, direction, body. Composes
   `avatar`, `separator`.
@@ -672,7 +672,7 @@ Nothing bespoke in `apps/app`, no `className` overrides, no new radii:
   first open. Deep-links to Gmail via the stored `gmailMessageId`.
 - **MEETING** — title, time range, `AttendeeList`, conference link. An upcoming
   meeting sorts by `startsAt` and reads "in 2 days"; `relativeTimeFromIso()`
-  already exists in `@crm/ui/lib/format`.
+  already exists in `@app/ui/lib/format`.
 
 `activity-icon.tsx` already maps both types. Filter tabs gain **Email** and
 **Meetings** (`timeline-search-params.ts`, nuqs, per the existing pattern).

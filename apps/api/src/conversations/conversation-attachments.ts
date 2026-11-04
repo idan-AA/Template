@@ -1,4 +1,4 @@
-import type { Prisma } from "@crm/db";
+import type { Prisma } from "@app/db";
 import { z } from "zod";
 
 const builderMessageFields = z.record(z.string(), z.json()).catch({});

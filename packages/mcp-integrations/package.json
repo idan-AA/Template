@@ -1,5 +1,5 @@
 {
-	"name": "@crm/mcp-integrations",
+	"name": "@app/mcp-integrations",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -18,7 +18,7 @@
 		"zod": "^4.4.3"
 	},
 	"devDependencies": {
-		"@crm/typescript-config": "workspace:*",
+		"@app/typescript-config": "workspace:*",
 		"@types/bun": "^1.3.10",
 		"@types/node": "^24.10.1",
 		"typescript": "5.9.2"

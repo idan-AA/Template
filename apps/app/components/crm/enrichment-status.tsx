@@ -1,5 +1,5 @@
-import type { EnrichmentStatus } from "@crm/db/enums";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
+import type { EnrichmentStatus } from "@app/db/enums";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
 import { enrichmentPresentation } from "@/lib/enrichment-status";
 
 export function EnrichmentIndicator({

@@ -1,7 +1,7 @@
 import {
 	MAX_ARCHIVE_RETENTION_DAYS,
 	MIN_ARCHIVE_RETENTION_DAYS,
-} from "@crm/db/settings";
+} from "@app/db/settings";
 import { z } from "zod";
 
 export const catalogModelOutput = z.object({

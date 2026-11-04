@@ -9,7 +9,7 @@ import {
 	useRef,
 	useState,
 } from "react";
-import { Spinner } from "@crm/ui/components/spinner";
+import { Spinner } from "@app/ui/components/spinner";
 
 const TRANSITION = {
 	type: "spring",

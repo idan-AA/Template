@@ -1,7 +1,7 @@
-import { Badge } from "@crm/ui/components/badge";
-import GoogleLogo from "@crm/ui/components/brand-logos/google";
-import SlackLogo from "@crm/ui/components/brand-logos/slack";
-import CompLogo from "@crm/ui/components/logo";
+import { Badge } from "@app/ui/components/badge";
+import GoogleLogo from "@app/ui/components/brand-logos/google";
+import SlackLogo from "@app/ui/components/brand-logos/slack";
+import CompLogo from "@app/ui/components/logo";
 import type { ComponentType, SVGProps } from "react";
 
 const BRANDS: Array<{

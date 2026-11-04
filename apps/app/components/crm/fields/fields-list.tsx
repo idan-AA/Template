@@ -1,25 +1,20 @@
 "use client";
 
-import Add from "@carbon/icons-react/es/Add";
-import ChevronRight from "@carbon/icons-react/es/ChevronRight";
-import OverflowMenuVertical from "@carbon/icons-react/es/OverflowMenuVertical";
-import Renew from "@carbon/icons-react/es/Renew";
-import Warning from "@carbon/icons-react/es/Warning";
-import { fieldKeyFromLabel, typeLabel } from "@crm/db/fields-shape";
-import { Badge } from "@crm/ui/components/badge";
-import { Button } from "@crm/ui/components/button";
+import { fieldKeyFromLabel, typeLabel } from "@app/db/fields-shape";
+import { Badge } from "@app/ui/components/badge";
+import { Button } from "@app/ui/components/button";
 import {
 	Collapsible,
 	CollapsibleContent,
 	CollapsibleTrigger,
-} from "@crm/ui/components/collapsible";
+} from "@app/ui/components/collapsible";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
+} from "@app/ui/components/dropdown-menu";
 import {
 	Empty,
 	EmptyContent,
@@ -27,11 +22,16 @@ import {
 	EmptyHeader,
 	EmptyMedia,
 	EmptyTitle,
-} from "@crm/ui/components/empty";
-import { Icon } from "@crm/ui/components/icon";
-import { SortableItem, SortableList } from "@crm/ui/components/sortable-list";
-import { Spinner } from "@crm/ui/components/spinner";
-import { FIELD_TEMPLATES } from "@crm/validation/field-templates";
+} from "@app/ui/components/empty";
+import { Icon } from "@app/ui/components/icon";
+import { SortableItem, SortableList } from "@app/ui/components/sortable-list";
+import { Spinner } from "@app/ui/components/spinner";
+import { FIELD_TEMPLATES } from "@app/validation/field-templates";
+import Add from "@carbon/icons-react/es/Add";
+import ChevronRight from "@carbon/icons-react/es/ChevronRight";
+import OverflowMenuVertical from "@carbon/icons-react/es/OverflowMenuVertical";
+import Renew from "@carbon/icons-react/es/Renew";
+import Warning from "@carbon/icons-react/es/Warning";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useCrmCache } from "@/lib/trpc/cache";

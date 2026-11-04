@@ -1,4 +1,4 @@
-import { apiError } from "@crm/telemetry";
+import { apiError } from "@app/telemetry";
 import {
 	type ArgumentsHost,
 	Catch,

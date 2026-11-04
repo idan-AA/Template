@@ -1,4 +1,4 @@
-import { CRM_EVENT_CATALOG, CRM_EVENT_TYPES } from "@crm/db/crm-events";
+import { CRM_EVENT_CATALOG, CRM_EVENT_TYPES } from "@app/db/crm-events";
 import { z } from "zod";
 
 export const crmEventTask = z

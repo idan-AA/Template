@@ -1,7 +1,7 @@
 import {
 	AGENT_ACTION_TYPES,
 	type AgentActionType,
-} from "@crm/validation/agent-manifest";
+} from "@app/validation/agent-manifest";
 
 export const AGENT_ACTION_EXECUTORS = {
 	[AGENT_ACTION_TYPES.CRM_ACTIVITY_CREATE]: "create_crm_activity",

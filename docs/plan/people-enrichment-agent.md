@@ -148,7 +148,7 @@ markets, and anyone who does not keep a profile. §5.
 3. **Identity matching is the hard part, not data fetching.** `pmarchetti@fernhill.com`
    → which of the four Marchettis at a 8,000-person company? This gets a skill, a
    confidence rubric and evals. §5.
-4. **A separate Vercel app, sharing `@crm/db`.** eve is its own runtime with its
+4. **A separate Vercel app, sharing `@app/db`.** eve is its own runtime with its
    own build; it does not embed in NestJS. It reads and writes the CRM through
    the workspace database package, not through a new internal HTTP API. §3.
 5. **Rate limits are a correctness concern, not a billing one.** A 429 mid-run
@@ -167,7 +167,7 @@ markets, and anyone who does not keep a profile. §5.
 | LinkedIn access | LinkDAPI, **profile + company endpoints only** | Its people *search* is broken — §0. Profile-by-slug and company-by-name are excellent. Superseded: Context's people enrich reads the same profile under the key we already hold. |
 | Finding the person | Context.dev web search resolves the LinkedIn slug | §0. The one thing LinkDAPI cannot do, and the thing a real search engine is good at. |
 | Tool surface | Curated tools, not an OpenAPI connection | Not cost — *predictability*. Half the advertised endpoints do not exist under the documented names (§0), so the surface has to be pinned to what is verified. |
-| CRM access | `@crm/db` directly | Already a workspace package. A second internal API would be plumbing with no reader. |
+| CRM access | `@app/db` directly | Already a workspace package. A second internal API would be plumbing with no reader. |
 | Trigger | eve schedule (Vercel Cron) over a bounded queue | Same shape as the Google sync — cursor in Postgres, work bounded per tick. |
 | Write path | One `update_contact` tool, provenance stamped | §6. |
 | Low confidence | eve `approval: always()` on merges below the bar | §6. Cheap to add now, impossible to retrofit trust later. |
@@ -208,7 +208,7 @@ apps/agent/
 │   ├── instructions.md   # what the agent is for and what it must not do
 │   ├── lib/              # shared helpers — import-only, never reaches the sandbox
 │   │   ├── linkdapi.ts   # typed client: auth, retry, rate limit, credit accounting
-│   │   └── crm.ts        # @crm/db queries the tools call
+│   │   └── crm.ts        # @app/db queries the tools call
 │   ├── tools/            # one file per tool; filename IS the model-facing name
 │   │   ├── find_person.ts
 │   │   ├── get_profile.ts
@@ -249,7 +249,7 @@ hope the model paces itself.
 | `get_profile` | LinkDAPI `profile/overview` (+ `contact-info`) | One slug, in full. The deep data nothing else can reach. |
 | `get_company` | LinkDAPI `companies/company/info?name=` | Tagline, description, LinkedIn URL — company context for a brief. |
 | `research_web` | Context.dev `web.extract` | The fallback when no slug resolves, and the source of non-LinkedIn context (funding, launches) for briefs. |
-| `update_contact` | `@crm/db` | The only write. §6. |
+| `update_contact` | `@app/db` | The only write. §6. |
 
 Two things go in `lib/linkdapi.ts` rather than in each tool:
 
@@ -422,7 +422,7 @@ it is the thing that makes the rest defensible.
 | Phase | Scope | Done when |
 | --- | --- | --- |
 | **0 — Spike** | ~~Prove the API resolves real CRM addresses~~ | **Done — §0.** Search is unusable; profile and company are excellent; the hybrid resolver works end to end on a real contact; hit rate is partial. |
-| **1 — Skeleton** | `apps/agent`, `eve link`, `update_contact` writing to `@crm/db`, schedule claiming a batch, no LinkedIn | A contact's title changes because the agent changed it, on a cron, in a deployed environment. The loop is proven before the vendor is in it. |
+| **1 — Skeleton** | `apps/agent`, `eve link`, `update_contact` writing to `@app/db`, schedule claiming a batch, no LinkedIn | A contact's title changes because the agent changed it, on a cron, in a deployed environment. The loop is proven before the vendor is in it. |
 | **2 — Enrichment** | Five tools, `identity-matching` skill, confidence bands, `ContactEnrichment` | `Tokonkwo` becomes Tomi Okonkwo, VP Fund Finance at Northwind Bank, with a `sourceUrl` against it — and an ambiguous address becomes a suggestion rather than a wrong answer. |
 | **3 — Trust** | Approval on `medium`, evals with a labelled fixture set, provenance in the contact sheet | Precision measured, not asserted. A rep can see where a field came from. |
 | **4 — Meeting prep briefs** | On a calendar event with external attendees, research everyone and write a brief to the timeline before the call | Opening a company the morning of a call shows who is attending, what they do, how long they have been there, what the company just announced, and where the deal stands. **This is the feature people will describe to other people.** It is only possible because the Calendar sync already knows the meeting is coming. |

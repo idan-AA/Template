@@ -7,7 +7,7 @@ import {
 	OUTLOOK_MAIL_SCOPE,
 	parseScopes,
 	SYNC_SCOPES,
-} from "@crm/auth/scopes";
+} from "@app/auth/scopes";
 
 const BOTH = `openid,email,profile,${GMAIL_SCOPE},${CALENDAR_SCOPE}`;
 

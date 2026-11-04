@@ -1,8 +1,8 @@
 "use client";
 
-import { signIn } from "@crm/auth/client";
-import { Button } from "@crm/ui/components/button";
-import { Spinner } from "@crm/ui/components/spinner";
+import { signIn } from "@app/auth/client";
+import { Button } from "@app/ui/components/button";
+import { Spinner } from "@app/ui/components/spinner";
 import { useState } from "react";
 import { toast } from "sonner";
 

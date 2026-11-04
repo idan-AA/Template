@@ -1,9 +1,5 @@
 "use client";
 
-import OverflowMenuVertical from "@carbon/icons-react/es/OverflowMenuVertical";
-import Pause from "@carbon/icons-react/es/Pause";
-import Play from "@carbon/icons-react/es/Play";
-import TrashCan from "@carbon/icons-react/es/TrashCan";
 import {
 	AlertDialog,
 	AlertDialogCancel,
@@ -12,20 +8,24 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-} from "@crm/ui/components/alert-dialog";
+} from "@app/ui/components/alert-dialog";
 import {
 	AsyncButtonContent,
 	useAsyncAction,
-} from "@crm/ui/components/async-action";
-import { Button } from "@crm/ui/components/button";
+} from "@app/ui/components/async-action";
+import { Button } from "@app/ui/components/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { Icon } from "@crm/ui/components/icon";
-import { SaveBarViewport } from "@crm/ui/components/save-bar";
+} from "@app/ui/components/dropdown-menu";
+import { Icon } from "@app/ui/components/icon";
+import { SaveBarViewport } from "@app/ui/components/save-bar";
+import OverflowMenuVertical from "@carbon/icons-react/es/OverflowMenuVertical";
+import Pause from "@carbon/icons-react/es/Pause";
+import Play from "@carbon/icons-react/es/Play";
+import TrashCan from "@carbon/icons-react/es/TrashCan";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

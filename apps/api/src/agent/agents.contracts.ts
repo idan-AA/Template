@@ -1,4 +1,4 @@
-import { schemas } from "@crm/validation";
+import { schemas } from "@app/validation";
 import { z } from "zod";
 
 export const agentManifest = schemas.agents.capabilities.loose();

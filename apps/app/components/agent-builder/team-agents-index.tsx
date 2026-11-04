@@ -1,8 +1,8 @@
 "use client";
 
+import { Icon } from "@app/ui/components/icon";
 import ArrowRight from "@carbon/icons-react/es/ArrowRight";
 import Bot from "@carbon/icons-react/es/Bot";
-import { Icon } from "@crm/ui/components/icon";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useTRPC } from "@/lib/trpc/client";

@@ -1,6 +1,6 @@
-import { auth, type Session } from "@crm/auth/auth";
-import { needsMailboxGrant } from "@crm/auth/scopes";
-import { db } from "@crm/db";
+import { auth, type Session } from "@app/auth/auth";
+import { needsMailboxGrant } from "@app/auth/scopes";
+import { db } from "@app/db";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";

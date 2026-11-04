@@ -1,5 +1,5 @@
-import { EnrichmentStatus } from "@crm/db";
-import { lockIdempotencyKey } from "@crm/db/idempotency";
+import { EnrichmentStatus } from "@app/db";
+import { lockIdempotencyKey } from "@app/db/idempotency";
 import { Injectable, Logger } from "@nestjs/common";
 import { AgentTriggerService } from "../agent/agent-trigger.service";
 import { domainFromEmail } from "./domain";

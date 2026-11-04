@@ -1,21 +1,21 @@
 "use client";
 
-import Calendar from "@carbon/icons-react/es/Calendar";
-import { Calendar as DayPicker } from "@crm/ui/components/calendar";
-import { Icon } from "@crm/ui/components/icon";
+import { Calendar as DayPicker } from "@app/ui/components/calendar";
+import { Icon } from "@app/ui/components/icon";
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupButton,
 	InputGroupTextarea,
-} from "@crm/ui/components/input-group";
+} from "@app/ui/components/input-group";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-} from "@crm/ui/components/popover";
-import { Spinner } from "@crm/ui/components/spinner";
-import { ToggleGroup, ToggleGroupItem } from "@crm/ui/components/toggle-group";
+} from "@app/ui/components/popover";
+import { Spinner } from "@app/ui/components/spinner";
+import { ToggleGroup, ToggleGroupItem } from "@app/ui/components/toggle-group";
+import Calendar from "@carbon/icons-react/es/Calendar";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";

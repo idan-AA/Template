@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@crm/ui/components/button";
-import { cn } from "@crm/ui/lib/utils";
+import { Button } from "@app/ui/components/button";
+import { cn } from "@app/ui/lib/utils";
 import { XIcon } from "lucide-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import type * as React from "react";

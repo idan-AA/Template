@@ -1,7 +1,7 @@
 "use client";
 
-import { Spinner } from "@crm/ui/components/spinner";
-import { Tabs, TabsList, TabsTrigger } from "@crm/ui/components/tabs";
+import { Spinner } from "@app/ui/components/spinner";
+import { Tabs, TabsList, TabsTrigger } from "@app/ui/components/tabs";
 import { useQuery } from "@tanstack/react-query";
 import {
 	type RecordKind,

@@ -1,26 +1,26 @@
 "use client";
 
-import Email from "@carbon/icons-react/es/Email";
-import Partnership from "@carbon/icons-react/es/Partnership";
-import Star from "@carbon/icons-react/es/Star";
-import type { FieldValueJson } from "@crm/db/fields";
+import type { FieldValueJson } from "@app/db/fields";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@crm/ui/components/accordion";
-import { Button } from "@crm/ui/components/button";
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
+} from "@app/ui/components/accordion";
+import { Button } from "@app/ui/components/button";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
 import {
 	EntityLogo,
 	type EntityLogoTone,
-} from "@crm/ui/components/entity-logo";
-import { Icon } from "@crm/ui/components/icon";
-import { PersonAvatar } from "@crm/ui/components/person-avatar";
-import { SimpleTable, SimpleTableRow } from "@crm/ui/components/simple-table";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
-import { TableCell } from "@crm/ui/components/table";
+} from "@app/ui/components/entity-logo";
+import { Icon } from "@app/ui/components/icon";
+import { PersonAvatar } from "@app/ui/components/person-avatar";
+import { SimpleTable, SimpleTableRow } from "@app/ui/components/simple-table";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
+import { TableCell } from "@app/ui/components/table";
+import Email from "@carbon/icons-react/es/Email";
+import Partnership from "@carbon/icons-react/es/Partnership";
+import Star from "@carbon/icons-react/es/Star";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AgentPanel } from "@/components/crm/agent-panel";

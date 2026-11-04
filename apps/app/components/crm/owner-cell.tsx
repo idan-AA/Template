@@ -1,11 +1,11 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@crm/ui/components/avatar";
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
+import { Avatar, AvatarFallback, AvatarImage } from "@app/ui/components/avatar";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
-} from "@crm/ui/components/tooltip";
-import { initialsFromName } from "@crm/ui/lib/format";
+} from "@app/ui/components/tooltip";
+import { initialsFromName } from "@app/ui/lib/format";
 
 export type Owner = {
 	id: string;

@@ -1,26 +1,26 @@
 import { createHash, randomBytes, randomUUID } from "node:crypto";
-import { apiUrl, appUrl } from "@crm/auth/env";
-import { MCP_AUTH } from "@crm/auth/mcp-config";
-import { createMcpSecretBox, type McpSecretBox } from "@crm/auth/mcp-crypto";
+import { apiUrl, appUrl } from "@app/auth/env";
+import { MCP_AUTH } from "@app/auth/mcp-config";
+import { createMcpSecretBox, type McpSecretBox } from "@app/auth/mcp-crypto";
 import {
 	type AuthorizationServer,
 	createPkce,
 	McpOAuthClient,
 	McpOAuthError,
-} from "@crm/auth/mcp-oauth";
+} from "@app/auth/mcp-oauth";
 import {
 	canManageConnections,
 	WORKSPACE_ID,
 	workspaceRoleOf,
-} from "@crm/auth/organization";
-import type { Db } from "@crm/db";
-import { PRIORITY } from "@crm/db/agent-tasks";
+} from "@app/auth/organization";
+import type { Db } from "@app/db";
+import { PRIORITY } from "@app/db/agent-tasks";
 import {
 	vendorAccess,
 	vendorBySlug,
 	vendors,
-} from "@crm/mcp-integrations/catalog";
-import type { AccessMode, Vendor } from "@crm/mcp-integrations/vendor";
+} from "@app/mcp-integrations/catalog";
+import type { AccessMode, Vendor } from "@app/mcp-integrations/vendor";
 import {
 	BadRequestException,
 	ForbiddenException,

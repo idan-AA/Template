@@ -1,4 +1,4 @@
-import { API_KEY_HEADER } from "@crm/auth/api-keys";
+import { API_KEY_HEADER } from "@app/auth/api-keys";
 import { Injectable } from "@nestjs/common";
 import { TRPCError } from "@trpc/server";
 import type {

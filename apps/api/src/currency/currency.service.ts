@@ -1,8 +1,8 @@
-import { canManageCurrency, workspaceRoleOf } from "@crm/auth/organization";
-import type { Db } from "@crm/db";
-import { Prisma, RateSource } from "@crm/db";
-import { CURRENCIES, currencyName, normalizeCurrency } from "@crm/db/currency";
-import { writeReportingCurrency } from "@crm/db/settings";
+import { canManageCurrency, workspaceRoleOf } from "@app/auth/organization";
+import type { Db } from "@app/db";
+import { Prisma, RateSource } from "@app/db";
+import { CURRENCIES, currencyName, normalizeCurrency } from "@app/db/currency";
+import { writeReportingCurrency } from "@app/db/settings";
 import {
 	BadRequestException,
 	ForbiddenException,

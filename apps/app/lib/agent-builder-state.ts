@@ -2,7 +2,7 @@ import {
 	type EveStreamEvent,
 	eveRequestedActions,
 	eveSettledAction,
-} from "@crm/validation/eve-stream";
+} from "@app/validation/eve-stream";
 
 export type BuilderArtifactState = {
 	id: string;

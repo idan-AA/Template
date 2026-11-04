@@ -1,7 +1,7 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@crm/ui/components/avatar";
-import { initialsFromName } from "@crm/ui/lib/format";
+import { Avatar, AvatarFallback, AvatarImage } from "@app/ui/components/avatar";
+import { initialsFromName } from "@app/ui/lib/format";
 import type * as React from "react";
 
 export type PersonAvatarSize = "sm" | "default" | "lg";

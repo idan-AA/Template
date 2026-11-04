@@ -1,4 +1,4 @@
-import { PRIORITY } from "@crm/db/agent-tasks";
+import { PRIORITY } from "@app/db/agent-tasks";
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { changeWrite } from "../lib/approval";

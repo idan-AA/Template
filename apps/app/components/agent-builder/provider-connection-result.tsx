@@ -1,7 +1,7 @@
 import {
 	ProviderResultCard,
 	ProviderResultItem,
-} from "@crm/ui/components/provider-result-card";
+} from "@app/ui/components/provider-result-card";
 import type { ProviderCardModel } from "@/lib/connection-result";
 
 export function ProviderConnectionResult({

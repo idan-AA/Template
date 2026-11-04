@@ -3,7 +3,7 @@
 import {
 	SimpleTable,
 	type SimpleTableColumn,
-} from "@crm/ui/components/simple-table";
+} from "@app/ui/components/simple-table";
 import type { ReactNode } from "react";
 
 export type CardTableColumn = SimpleTableColumn;

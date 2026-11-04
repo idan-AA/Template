@@ -1,5 +1,5 @@
-import { ActivityType, type Db, type Prisma } from "@crm/db";
-import { activityMeta } from "@crm/validation/activity-meta";
+import { ActivityType, type Db, type Prisma } from "@app/db";
+import { activityMeta } from "@app/validation/activity-meta";
 import {
 	BadRequestException,
 	Injectable,

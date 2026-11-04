@@ -1,10 +1,10 @@
-import { db } from "@crm/db";
-import { WORKSPACE_ID } from "@crm/db/workspace";
+import { db } from "@app/db";
+import { WORKSPACE_ID } from "@app/db/workspace";
 import {
 	type AgentManifest,
 	InvalidAgentManifest,
 	parseAgentManifest,
-} from "@crm/validation/agent-manifest";
+} from "@app/validation/agent-manifest";
 import {
 	type AgentActionDependencyId,
 	actionDependency,

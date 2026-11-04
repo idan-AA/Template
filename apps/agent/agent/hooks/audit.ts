@@ -1,6 +1,6 @@
-import { db, Prisma } from "@crm/db";
-import { WORKSPACE_ID } from "@crm/db/workspace";
-import { publicEveEventData } from "@crm/validation/eve-public-event";
+import { db, Prisma } from "@app/db";
+import { WORKSPACE_ID } from "@app/db/workspace";
+import { publicEveEventData } from "@app/validation/eve-public-event";
 import { defineHook } from "eve/hooks";
 import { z } from "zod";
 import { prepareBuilderEventForStorage } from "../lib/builder-event-storage";

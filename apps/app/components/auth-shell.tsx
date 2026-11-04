@@ -1,4 +1,4 @@
-import Logo from "@crm/ui/components/logo";
+import Logo from "@app/ui/components/logo";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { AuthShader } from "@/components/auth-shader";

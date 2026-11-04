@@ -1,4 +1,4 @@
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import { sendSlackMessage } from "../../agent/lib/run-runtime";
 import { slackAccessToken } from "../../agent/lib/slack-connection";
 

@@ -1,15 +1,13 @@
 "use client";
 
-import Launch from "@carbon/icons-react/es/Launch";
-import Warning from "@carbon/icons-react/es/Warning";
-import { authClient } from "@crm/auth/client";
-import { SYNC_SCOPES } from "@crm/auth/scopes";
+import { authClient } from "@app/auth/client";
+import { SYNC_SCOPES } from "@app/auth/scopes";
 import {
 	Alert,
 	AlertAction,
 	AlertDescription,
 	AlertTitle,
-} from "@crm/ui/components/alert";
+} from "@app/ui/components/alert";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -20,9 +18,9 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger,
-} from "@crm/ui/components/alert-dialog";
-import GoogleLogo from "@crm/ui/components/brand-logos/google";
-import { Button } from "@crm/ui/components/button";
+} from "@app/ui/components/alert-dialog";
+import GoogleLogo from "@app/ui/components/brand-logos/google";
+import { Button } from "@app/ui/components/button";
 import {
 	Card,
 	CardAction,
@@ -31,12 +29,14 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
-import { Icon } from "@crm/ui/components/icon";
-import { Label } from "@crm/ui/components/label";
-import { Spinner } from "@crm/ui/components/spinner";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
-import { Switch } from "@crm/ui/components/switch";
+} from "@app/ui/components/card";
+import { Icon } from "@app/ui/components/icon";
+import { Label } from "@app/ui/components/label";
+import { Spinner } from "@app/ui/components/spinner";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
+import { Switch } from "@app/ui/components/switch";
+import Launch from "@carbon/icons-react/es/Launch";
+import Warning from "@carbon/icons-react/es/Warning";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";

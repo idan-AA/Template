@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@crm/ui/lib/utils";
+import { cn } from "@app/ui/lib/utils";
 import { motion, useReducedMotion } from "motion/react";
 import type { CSSProperties } from "react";
 

@@ -1,10 +1,10 @@
 "use client";
 
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
+import { Spinner } from "@app/ui/components/spinner";
 import MagicWand from "@carbon/icons-react/es/MagicWand";
 import Renew from "@carbon/icons-react/es/Renew";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
-import { Spinner } from "@crm/ui/components/spinner";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useCrmCache } from "@/lib/trpc/cache";

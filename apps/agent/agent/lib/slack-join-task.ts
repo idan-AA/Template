@@ -1,5 +1,5 @@
-import type { Prisma } from "@crm/db";
-import { parse, schemas } from "@crm/validation";
+import type { Prisma } from "@app/db";
+import { parse, schemas } from "@app/validation";
 import { joinSlackChannel } from "./slack-membership";
 
 export async function runSlackChannelJoin(

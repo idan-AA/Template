@@ -1,7 +1,7 @@
-import { db } from "@crm/db";
-import { queueSlackInventorySync } from "@crm/db/slack-inventory";
-import { WORKSPACE_ID } from "@crm/db/workspace";
-import { parse, schemas } from "@crm/validation";
+import { db } from "@app/db";
+import { queueSlackInventorySync } from "@app/db/slack-inventory";
+import { WORKSPACE_ID } from "@app/db/workspace";
+import { parse, schemas } from "@app/validation";
 import { z } from "zod";
 import { SLACK } from "./slack-config";
 import { slackAccessToken, slackUserToken } from "./slack-connection";

@@ -1,8 +1,6 @@
 "use client";
 
-import ArrowLeft from "@carbon/icons-react/es/ArrowLeft";
-import Close from "@carbon/icons-react/es/Close";
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	Empty,
 	EmptyContent,
@@ -10,23 +8,25 @@ import {
 	EmptyHeader,
 	EmptyMedia,
 	EmptyTitle,
-} from "@crm/ui/components/empty";
-import type { CarbonIcon } from "@crm/ui/components/icon";
-import { Icon } from "@crm/ui/components/icon";
-import { Separator } from "@crm/ui/components/separator";
-import type { SheetSize } from "@crm/ui/components/sheet";
+} from "@app/ui/components/empty";
+import type { CarbonIcon } from "@app/ui/components/icon";
+import { Icon } from "@app/ui/components/icon";
+import { Separator } from "@app/ui/components/separator";
+import type { SheetSize } from "@app/ui/components/sheet";
 import {
 	Tabs,
 	TabsContent,
 	TabsList,
 	TabsTrigger,
-} from "@crm/ui/components/tabs";
+} from "@app/ui/components/tabs";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
-} from "@crm/ui/components/tooltip";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/tooltip";
+import { cn } from "@app/ui/lib/utils";
+import ArrowLeft from "@carbon/icons-react/es/ArrowLeft";
+import Close from "@carbon/icons-react/es/Close";
 import { type ReactNode, useRef, useState } from "react";
 import {
 	Sheet,

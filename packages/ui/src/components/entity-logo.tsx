@@ -1,8 +1,8 @@
 "use client";
 
-import { isOptimizable } from "@crm/db/images";
-import { initialsFromName } from "@crm/ui/lib/format";
-import { cn } from "@crm/ui/lib/utils";
+import { isOptimizable } from "@app/db/images";
+import { initialsFromName } from "@app/ui/lib/format";
+import { cn } from "@app/ui/lib/utils";
 import Image from "next/image";
 import { useState } from "react";
 

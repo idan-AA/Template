@@ -1,7 +1,7 @@
 "use client";
 
-import { DealStage } from "@crm/db/enums";
-import { cn } from "@crm/ui/lib/utils";
+import { DealStage } from "@app/db/enums";
+import { cn } from "@app/ui/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { DealStageIndicator } from "@/components/crm/deal-stage";

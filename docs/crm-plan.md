@@ -47,7 +47,7 @@ Five choices carry the whole design. Everything else follows from them.
 | RBAC | Better Auth `admin` plugin + `createAccessControl` | §6. No orgs, so the org plugin's role model doesn't apply. |
 | Attachments | Vercel Blob, client uploads, presigned reads | §7. |
 | Speed | Redis for sessions, property defs and aggregates + RSC prefetch | §8. |
-| Forms | `react-hook-form` + `zodResolver` + `@crm/ui` Field primitives | §11 — matches mvp exactly. |
+| Forms | `react-hook-form` + `zodResolver` + `@app/ui` Field primitives | §11 — matches mvp exactly. |
 | Effects | Banned, lint-enforced, `useMountEffect` escape hatch | §12. |
 | Comments | None in new code | §12. |
 
@@ -888,7 +888,7 @@ fetchable URL.
 **Deletes are two-phase.** Delete the row, then delete the blob in `waitUntil`.
 A dangling blob costs pennies; a dangling row is a broken download.
 
-The `@crm/ui` `attachment.tsx` component already models the
+The `@app/ui` `attachment.tsx` component already models the
 idle/uploading/processing/error/done states the upload flow needs.
 
 ---
@@ -1127,7 +1127,7 @@ schema, two entry points.
 ### The data table, and its rules
 
 Ported from `/Users/lewiscarhart/mvp/apps/app/components/data-table/`, rewriting
-`@trycompai/ui` → `@crm/ui`:
+`@trycompai/ui` → `@app/ui`:
 
 | Source | Destination |
 | --- | --- |
@@ -1135,7 +1135,7 @@ Ported from `/Users/lewiscarhart/mvp/apps/app/components/data-table/`, rewriting
 | `table-pagination.tsx`, `numbered-pagination.tsx` | `packages/ui/src/components/` |
 | `use-table-query.ts`, `build-search.ts` | `apps/app/components/data-table/` |
 
-Everything it needs already exists in `@crm/ui`: `table`, `dropdown-menu`,
+Everything it needs already exists in `@app/ui`: `table`, `dropdown-menu`,
 `input-group`, `button`, `spinner`, `lib/row-accent`. The hook stays app-side
 because it is routing state, not UI. `nuqs` becomes a `packages/ui` dependency
 since the table owns the `expand` and `hide` params.
@@ -1165,7 +1165,7 @@ Five CRM-specific additions, four of them driven by the HubSpot screenshots:
    facets, but every HubSpot list filters on *Create date*, *Last activity
    date* and *Close date*. Add a `type` discriminator to `DataTableFacet`:
    `select` keeps today's behaviour, `dateRange` renders a preset list (Today,
-   Last 7 days, This month, Last quarter, Custom) over `@crm/ui`'s existing
+   Last 7 days, This month, Last quarter, Custom) over `@app/ui`'s existing
    `calendar` and `popover`. This is the one real extension to the ported
    component; everything else is reuse.
 4. **Saved views as tabs above the table.** HubSpot's "Active Customers",
@@ -1178,7 +1178,7 @@ Five CRM-specific additions, four of them driven by the HubSpot screenshots:
    `OwnerCell` (avatar + name, `No owner` when null), `RelativeDateCell`
    ("Today at 10:07", "Yesterday at 3:20 PM", then absolute), `CurrencyCell`
    (right-aligned, tabular numerals), `StageBadge`, `LifecycleBadge`, and
-   `@crm/ui`'s existing `empty-cell` rendering `--` for every null — matching
+   `@app/ui`'s existing `empty-cell` rendering `--` for every null — matching
    HubSpot exactly.
 
 ### Default columns
@@ -1201,7 +1201,7 @@ away in the sheet. `AssociationCell` owns this so all three lists agree.
 
 ### Forms
 
-`react-hook-form` + `zodResolver` + `@crm/ui` `Field` primitives
+`react-hook-form` + `zodResolver` + `@app/ui` `Field` primitives
 (`Field`, `FieldGroup`, `FieldLabel`, `FieldContent`, `FieldDescription`,
 `FieldError`), matching mvp's `person-sheet.tsx`.
 

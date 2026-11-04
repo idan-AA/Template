@@ -1,4 +1,4 @@
-import { providerBrand } from "@crm/ui/lib/provider-brand";
+import { providerBrand } from "@app/ui/lib/provider-brand";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { requireSession } from "@/lib/session";

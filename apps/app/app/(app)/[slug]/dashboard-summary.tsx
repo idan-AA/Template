@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	Card,
 	CardAction,
@@ -9,23 +9,23 @@ import {
 	CardPanel,
 	CardPanelEmpty,
 	CardTitle,
-} from "@crm/ui/components/card";
-import { CardTableEmpty } from "@crm/ui/components/card-table";
-import { Checkbox } from "@crm/ui/components/checkbox";
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
+} from "@app/ui/components/card";
+import { CardTableEmpty } from "@app/ui/components/card-table";
+import { Checkbox } from "@app/ui/components/checkbox";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
 import {
 	EntityLogo,
 	type EntityLogoTone,
-} from "@crm/ui/components/entity-logo";
+} from "@app/ui/components/entity-logo";
 import {
 	SimpleTable,
 	type SimpleTableColumn,
 	SimpleTableRow,
-} from "@crm/ui/components/simple-table";
-import { Spinner } from "@crm/ui/components/spinner";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
-import { TableCell } from "@crm/ui/components/table";
-import { formatCount, formatMoneyCompact } from "@crm/ui/lib/format";
+} from "@app/ui/components/simple-table";
+import { Spinner } from "@app/ui/components/spinner";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
+import { TableCell } from "@app/ui/components/table";
+import { formatCount, formatMoneyCompact } from "@app/ui/lib/format";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useQueryState } from "nuqs";

@@ -1,15 +1,15 @@
 "use client";
 
-import Checkmark from "@carbon/icons-react/es/Checkmark";
-import Close from "@carbon/icons-react/es/Close";
-import Warning from "@carbon/icons-react/es/Warning";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@crm/ui/components/accordion";
-import { Icon } from "@crm/ui/components/icon";
+} from "@app/ui/components/accordion";
+import { Icon } from "@app/ui/components/icon";
+import Checkmark from "@carbon/icons-react/es/Checkmark";
+import Close from "@carbon/icons-react/es/Close";
+import Warning from "@carbon/icons-react/es/Warning";
 
 export type ScopeLine = {
 	scope: string;

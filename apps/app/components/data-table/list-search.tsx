@@ -1,12 +1,12 @@
 "use client";
 
-import Search from "@carbon/icons-react/es/Search";
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupInput,
-} from "@crm/ui/components/input-group";
-import { useSearchInput } from "@crm/ui/hooks/use-search-input";
+} from "@app/ui/components/input-group";
+import { useSearchInput } from "@app/ui/hooks/use-search-input";
+import Search from "@carbon/icons-react/es/Search";
 import { useQueryStates } from "nuqs";
 import { searchParsers } from "./list-search-params";
 

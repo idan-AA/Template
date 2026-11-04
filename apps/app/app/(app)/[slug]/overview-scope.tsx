@@ -1,6 +1,6 @@
 "use client";
 
-import { ToggleGroup, ToggleGroupItem } from "@crm/ui/components/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@app/ui/components/toggle-group";
 import { useQueryState } from "nuqs";
 import { SEARCH_PARAM } from "@/lib/search-param-keys";
 import {

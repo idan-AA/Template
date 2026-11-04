@@ -1,4 +1,4 @@
-import { apiError } from "@crm/telemetry";
+import { apiError } from "@app/telemetry";
 import { Injectable, Logger } from "@nestjs/common";
 import type { OnErrorOptions, TRPCErrorHandler } from "nestjs-trpc";
 

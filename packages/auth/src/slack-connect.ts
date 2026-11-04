@@ -1,5 +1,5 @@
-import { db } from "@crm/db";
-import type { JsonValue } from "@crm/db/json";
+import { db } from "@app/db";
+import type { JsonValue } from "@app/db/json";
 import {
 	APIError,
 	createAuthMiddleware,

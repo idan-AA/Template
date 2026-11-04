@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
-import { db, type Prisma } from "@crm/db";
-import { WORKSPACE_ID } from "@crm/db/workspace";
-import { vendorAccess, vendorBySlug } from "@crm/mcp-integrations/catalog";
-import { parseAgentManifest } from "@crm/validation/agent-manifest";
+import { db, type Prisma } from "@app/db";
+import { WORKSPACE_ID } from "@app/db/workspace";
+import { vendorAccess, vendorBySlug } from "@app/mcp-integrations/catalog";
+import { parseAgentManifest } from "@app/validation/agent-manifest";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import type { ApprovalContext, ApprovalStatus } from "eve/tools/approval";

@@ -1,4 +1,4 @@
-import type { SortDirection } from "@crm/ui/lib/table-query";
+import type { SortDirection } from "@app/ui/lib/table-query";
 import {
 	createLoader,
 	type GenericParserBuilder,

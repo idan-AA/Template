@@ -1,13 +1,13 @@
-import type { Db, Prisma as PrismaTypes } from "@crm/db";
-import { Prisma } from "@crm/db";
-import { minorUnitsOf, normalizeCurrency } from "@crm/db/currency";
+import type { Db, Prisma as PrismaTypes } from "@app/db";
+import { Prisma } from "@app/db";
+import { minorUnitsOf, normalizeCurrency } from "@app/db/currency";
 import {
 	type Conversion,
 	convertToBase,
 	type ResolvedRate,
 	resolveRate,
-} from "@crm/db/fx";
-import { readReportingCurrency } from "@crm/db/settings";
+} from "@app/db/fx";
+import { readReportingCurrency } from "@app/db/settings";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 

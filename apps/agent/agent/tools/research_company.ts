@@ -1,4 +1,4 @@
-import { ActivityType, db } from "@crm/db";
+import { ActivityType, db } from "@app/db";
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { extract, type JsonSchema } from "../lib/context-dev";

@@ -1,17 +1,16 @@
 "use client";
 
-import Add from "@carbon/icons-react/es/Add";
-import { Button } from "@crm/ui/components/button";
-import { Field, FieldGroup, FieldLabel } from "@crm/ui/components/field";
-import { Icon } from "@crm/ui/components/icon";
-import { Input } from "@crm/ui/components/input";
+import { Button } from "@app/ui/components/button";
+import { Field, FieldGroup, FieldLabel } from "@app/ui/components/field";
+import { Icon } from "@app/ui/components/icon";
+import { Input } from "@app/ui/components/input";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@crm/ui/components/select";
+} from "@app/ui/components/select";
 import {
 	Sheet,
 	SheetClose,
@@ -21,8 +20,9 @@ import {
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
-} from "@crm/ui/components/sheet";
-import { Spinner } from "@crm/ui/components/spinner";
+} from "@app/ui/components/sheet";
+import { Spinner } from "@app/ui/components/spinner";
+import Add from "@carbon/icons-react/es/Add";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { parseAsBoolean, useQueryState } from "nuqs";
 import { type ComponentProps, Suspense, useId, useState } from "react";

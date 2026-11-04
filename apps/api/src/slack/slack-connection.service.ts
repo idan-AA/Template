@@ -1,7 +1,7 @@
-import { isSlackConfigured } from "@crm/auth/env";
-import { canManageConnections, WORKSPACE_ID } from "@crm/auth/organization";
-import type { Db, Prisma } from "@crm/db";
-import { schemas } from "@crm/validation";
+import { isSlackConfigured } from "@app/auth/env";
+import { canManageConnections, WORKSPACE_ID } from "@app/auth/organization";
+import type { Db, Prisma } from "@app/db";
+import { schemas } from "@app/validation";
 import {
 	BadRequestException,
 	ForbiddenException,

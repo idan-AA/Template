@@ -1,4 +1,4 @@
-import type { Db } from "@crm/db";
+import type { Db } from "@app/db";
 import { Injectable } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 

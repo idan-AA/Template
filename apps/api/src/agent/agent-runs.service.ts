@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
-import { type Db, Prisma } from "@crm/db";
-import type { AgentRunStatus } from "@crm/db/enums";
-import { lockIdempotencyKey } from "@crm/db/idempotency";
+import { type Db, Prisma } from "@app/db";
+import type { AgentRunStatus } from "@app/db/enums";
+import { lockIdempotencyKey } from "@app/db/idempotency";
 import {
 	BadRequestException,
 	ConflictException,

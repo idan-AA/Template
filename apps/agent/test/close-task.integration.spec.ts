@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
-import { db, EnrichmentStatus } from "@crm/db";
+import { db, EnrichmentStatus } from "@app/db";
 import { closeTask, taskToken } from "../agent/channels/crm";
 
 const kind = "identify";

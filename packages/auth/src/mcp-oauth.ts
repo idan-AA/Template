@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from "node:crypto";
-import { safeFetch } from "@crm/db/safe-fetch";
-import type { Vendor } from "@crm/mcp-integrations/vendor";
+import { safeFetch } from "@app/db/safe-fetch";
+import type { Vendor } from "@app/mcp-integrations/vendor";
 import { z } from "zod";
 import { MCP_AUTH } from "./mcp-config";
 

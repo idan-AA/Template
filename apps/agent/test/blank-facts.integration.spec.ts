@@ -1,5 +1,5 @@
 import { afterAll, beforeEach, describe, expect, it } from "bun:test";
-import { db, FactBand, FactStatus } from "@crm/db";
+import { db, FactBand, FactStatus } from "@app/db";
 import { sweepBlankFacts } from "../agent/lib/blank-facts";
 
 const suffix = process.env.TEST_RUN_ID ?? "blank-facts-spec";

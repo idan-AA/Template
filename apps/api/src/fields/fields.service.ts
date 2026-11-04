@@ -3,7 +3,7 @@ import {
 	type FieldEntity,
 	type Prisma,
 	Prisma as PrismaNamespace,
-} from "@crm/db";
+} from "@app/db";
 import {
 	attachValues,
 	type FieldDefinitionWithOptions,
@@ -17,7 +17,7 @@ import {
 	serializeField,
 	usesOptions,
 	writeValues,
-} from "@crm/db/fields";
+} from "@app/db/fields";
 import {
 	BadRequestException,
 	ConflictException,

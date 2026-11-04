@@ -1,4 +1,4 @@
-import { queueSlackInventorySync as queue } from "@crm/db/slack-inventory";
+import { queueSlackInventorySync as queue } from "@app/db/slack-inventory";
 import { SLACK_CONNECTION } from "./slack-config";
 
 export async function queueSlackInventorySync(): Promise<void> {

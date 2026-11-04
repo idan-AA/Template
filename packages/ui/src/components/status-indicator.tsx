@@ -1,6 +1,6 @@
-import { Spinner } from "@crm/ui/components/spinner";
-import { type Bloom, bloomClass } from "@crm/ui/lib/dither";
-import { cn } from "@crm/ui/lib/utils";
+import { Spinner } from "@app/ui/components/spinner";
+import { type Bloom, bloomClass } from "@app/ui/lib/dither";
+import { cn } from "@app/ui/lib/utils";
 import type * as React from "react";
 
 export type StatusTone =

@@ -1,11 +1,11 @@
-import { workspaceDomains } from "@crm/auth/workspace";
-import { ActivityType, type Db, Prisma, RecordSource } from "@crm/db";
-import type { Touch } from "@crm/db/attribution";
+import { workspaceDomains } from "@app/auth/workspace";
+import { ActivityType, type Db, Prisma, RecordSource } from "@app/db";
+import type { Touch } from "@app/db/attribution";
 import {
 	CONTACT_CAP_REASON,
 	CONTACTS_PER_HOUR,
 	contactWindowKey,
-} from "@crm/db/tracking";
+} from "@app/db/tracking";
 import { Injectable, Logger } from "@nestjs/common";
 import { AgentTriggerService } from "../agent/agent-trigger.service";
 import { CompanyDirectoryService } from "../companies/company-directory.service";

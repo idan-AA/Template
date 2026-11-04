@@ -1,7 +1,7 @@
-import "@crm/env/load";
+import "@app/env/load";
 
-import { db } from "@crm/db";
-import { readContextDevKey } from "@crm/db/settings";
+import { db } from "@app/db";
+import { readContextDevKey } from "@app/db/settings";
 
 export const CONTEXT_DEV = "CONTEXT_DEV";
 

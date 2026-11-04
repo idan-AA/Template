@@ -4,7 +4,7 @@ import {
 	shutdownTelemetry,
 	syncVersion,
 	telemetryDisabled,
-} from "@crm/telemetry";
+} from "@app/telemetry";
 import {
 	Injectable,
 	Logger,

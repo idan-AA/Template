@@ -1,5 +1,5 @@
-import { db } from "@crm/db";
-import { DEFAULT_AGENT_MODEL, readAgentModel } from "@crm/db/settings";
+import { db } from "@app/db";
+import { DEFAULT_AGENT_MODEL, readAgentModel } from "@app/db/settings";
 
 export interface ModelSelection {
 	model: string;

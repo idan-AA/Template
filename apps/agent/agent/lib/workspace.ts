@@ -1,8 +1,8 @@
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import {
 	readWorkspaceIdentity,
 	type WorkspaceIdentity,
-} from "@crm/db/workspace";
+} from "@app/db/workspace";
 
 export type { WorkspaceIdentity };
 

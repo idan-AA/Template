@@ -1,4 +1,4 @@
-import { db, FactStatus } from "@crm/db";
+import { db, FactStatus } from "@app/db";
 import {
 	canonicalValue,
 	type FactField,

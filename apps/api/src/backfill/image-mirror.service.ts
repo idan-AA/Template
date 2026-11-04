@@ -1,10 +1,10 @@
-import type { Db, Prisma } from "@crm/db";
-import { blobEnabled, mirror } from "@crm/db/blob";
+import type { Db, Prisma } from "@app/db";
+import { blobEnabled, mirror } from "@app/db/blob";
 import {
 	BLOB_HOST_SUFFIX,
 	COMPANY_IMAGE_FIELDS,
 	type CompanyImageField,
-} from "@crm/db/images";
+} from "@app/db/images";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 

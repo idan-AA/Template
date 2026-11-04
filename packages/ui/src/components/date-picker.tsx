@@ -1,17 +1,17 @@
 "use client";
 
 import CalendarGlyph from "@carbon/icons-react/es/Calendar";
-import { Button } from "@crm/ui/components/button";
-import { Calendar } from "@crm/ui/components/calendar";
-import { Icon } from "@crm/ui/components/icon";
+import { Button } from "@app/ui/components/button";
+import { Calendar } from "@app/ui/components/calendar";
+import { Icon } from "@app/ui/components/icon";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-} from "@crm/ui/components/popover";
-import { selectTriggerVariants } from "@crm/ui/components/select";
-import { formatDay, fromDay, toDay } from "@crm/ui/lib/format";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/popover";
+import { selectTriggerVariants } from "@app/ui/components/select";
+import { formatDay, fromDay, toDay } from "@app/ui/lib/format";
+import { cn } from "@app/ui/lib/utils";
 import type { VariantProps } from "class-variance-authority";
 import { useState } from "react";
 

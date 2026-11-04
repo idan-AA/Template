@@ -52,7 +52,7 @@ somebody else's page. That imposes rules nothing else in this repo has:
   the page records nothing at all. Every `decodeURIComponent`, `JSON.parse`, `new
   URL` and `history` call is already wrapped; a malformed UTM parameter must read as
   *absent*, never as *fatal*.
-- **Constants come from `@crm/db/tracking`**, interpolated in — `MAX_BODY_BYTES`,
+- **Constants come from `@app/db/tracking`**, interpolated in — `MAX_BODY_BYTES`,
   `MAX_EVENTS_PER_BATCH`, `LINKER_MAX_AGE_SECONDS`, `COOKIE_NAME`. A literal at the
   call site is a client and a server that disagree, and the disagreement is silent.
 - **The client stays inside the body limit the collector enforces.** `flush()`
@@ -193,7 +193,7 @@ deleted* comes to be true of email and not of forms.
 
 ## Settings, and who may change them
 
-Settings → Tracking & Analytics. `canManageTracking` (`@crm/auth`) gates every
+Settings → Tracking & Analytics. `canManageTracking` (`@app/auth`) gates every
 mutation **in the service**, and the same flag disables the control — the button and
 the 403 cannot disagree, as everywhere else.
 

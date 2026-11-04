@@ -1,6 +1,6 @@
 "use client";
 
-import type { DataTableFacet } from "@crm/ui/components/data-table";
+import type { DataTableFacet } from "@app/ui/components/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useTRPC } from "@/lib/trpc/client";

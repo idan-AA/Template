@@ -1,16 +1,16 @@
 "use client";
 
+import { Button } from "@app/ui/components/button";
+import type { CarbonIcon } from "@app/ui/components/icon";
+import { Spinner } from "@app/ui/components/spinner";
+import { ToggleGroup, ToggleGroupItem } from "@app/ui/components/toggle-group";
+import { cn } from "@app/ui/lib/utils";
 import Chat from "@carbon/icons-react/es/Chat";
 import Checkmark from "@carbon/icons-react/es/Checkmark";
 import Email from "@carbon/icons-react/es/Email";
 import Events from "@carbon/icons-react/es/Events";
 import Task from "@carbon/icons-react/es/Task";
 import Time from "@carbon/icons-react/es/Time";
-import { Button } from "@crm/ui/components/button";
-import type { CarbonIcon } from "@crm/ui/components/icon";
-import { Spinner } from "@crm/ui/components/spinner";
-import { ToggleGroup, ToggleGroupItem } from "@crm/ui/components/toggle-group";
-import { cn } from "@crm/ui/lib/utils";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
 import { DetailSheetEmpty, SECTION_TITLE } from "@/components/detail-sheet";

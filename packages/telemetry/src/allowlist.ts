@@ -1,4 +1,4 @@
-import { TASK_KINDS } from "@crm/db/agent-tasks";
+import { TASK_KINDS } from "@app/db/agent-tasks";
 
 export const ALLOWED_PROPERTIES = [
 	"crm_version",

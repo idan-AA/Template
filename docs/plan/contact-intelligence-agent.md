@@ -688,7 +688,7 @@ costs nothing and removes the only shell-shaped path out of the building for
 the email bodies this agent now reads in full. It is set on the backend factory
 rather than in `onSession`, so it cannot be forgotten per session.
 
-**`packages/db` and `packages/auth` imported `@crm/env` without declaring it.**
+**`packages/db` and `packages/auth` imported `@app/env` without declaring it.**
 Hoisting hid it until `bun add` in `apps/agent` created a local `node_modules`
 that shadowed the root, and then every DB-touching test failed at once. Two
 one-line `package.json` fixes; worth recording because the symptom

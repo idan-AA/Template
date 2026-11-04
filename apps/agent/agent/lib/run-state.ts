@@ -1,5 +1,5 @@
-import type { Prisma } from "@crm/db";
-import type { AgentRunStatus } from "@crm/db/enums";
+import type { Prisma } from "@app/db";
+import type { AgentRunStatus } from "@app/db/enums";
 
 export type LockedAgentRun = {
 	id: string;

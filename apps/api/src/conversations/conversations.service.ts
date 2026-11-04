@@ -1,21 +1,21 @@
-import { WORKSPACE_ID } from "@crm/auth/organization";
+import { WORKSPACE_ID } from "@app/auth/organization";
 import {
 	AgentConversationPermissionMode,
 	type Db,
 	type Prisma,
 	Prisma as PrismaNamespace,
-} from "@crm/db";
-import { readAgentManifestSummary } from "@crm/validation/agent-manifest";
+} from "@app/db";
+import { readAgentManifestSummary } from "@app/validation/agent-manifest";
 import {
 	type AgentPermissionMode,
 	agentPermissionMode,
 	type BuilderToolApproval,
 	builderToolApproval,
-} from "@crm/validation/agent-permission";
+} from "@app/validation/agent-permission";
 import {
 	type BuilderQuestion,
 	builderQuestion,
-} from "@crm/validation/builder-question";
+} from "@app/validation/builder-question";
 import {
 	BadRequestException,
 	Injectable,

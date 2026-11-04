@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@crm/ui/lib/utils";
+import { cn } from "@app/ui/lib/utils";
 import type { ReactNode } from "react";
 import { type RecordKind, useOpenRecord } from "./record-stack";
 

@@ -1,7 +1,7 @@
+import { db } from "@app/db";
+import { schemas } from "@app/validation";
 import { apiKey } from "@better-auth/api-key";
 import { sso } from "@better-auth/sso";
-import { db } from "@crm/db";
-import { schemas } from "@crm/validation";
 import { type BetterAuthOptions, betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError } from "better-auth/api";

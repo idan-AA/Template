@@ -1,16 +1,16 @@
 import { isDeepStrictEqual } from "node:util";
-import { db, type Prisma } from "@crm/db";
+import { db, type Prisma } from "@app/db";
 import {
 	CRM_EVENT_CATALOG,
 	CRM_EVENT_TYPES,
 	type CrmEventType,
-} from "@crm/db/crm-events";
-import { readAgentModel } from "@crm/db/settings";
-import { WORKSPACE_ID } from "@crm/db/workspace";
+} from "@app/db/crm-events";
+import { readAgentModel } from "@app/db/settings";
+import { WORKSPACE_ID } from "@app/db/workspace";
 import {
 	AGENT_ACTION_TYPES,
 	type AgentManifestMcpGrant,
-} from "@crm/validation/agent-manifest";
+} from "@app/validation/agent-manifest";
 import { z } from "zod";
 import { actionDependency } from "./agent-actions";
 import { requestStaleSlackInventorySync } from "./slack-people";

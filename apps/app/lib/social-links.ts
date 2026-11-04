@@ -1,9 +1,9 @@
+import type { CarbonIcon } from "@app/ui/components/icon";
 import LogoGithub from "@carbon/icons-react/es/LogoGithub";
 import LogoLinkedin from "@carbon/icons-react/es/LogoLinkedin";
 import LogoX from "@carbon/icons-react/es/LogoX";
 import Money from "@carbon/icons-react/es/Money";
 import UserMultiple from "@carbon/icons-react/es/UserMultiple";
-import type { CarbonIcon } from "@crm/ui/components/icon";
 
 type SocialLink<T> = { key: keyof T; label: string; icon: CarbonIcon };
 

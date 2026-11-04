@@ -2,9 +2,9 @@
 
 import Checkmark from "@carbon/icons-react/es/Checkmark";
 import WarningAlt from "@carbon/icons-react/es/WarningAlt";
-import { DotMatrix } from "@crm/ui/components/dot-matrix";
-import { Icon } from "@crm/ui/components/icon";
-import { Shimmer } from "@crm/ui/components/shimmer";
+import { DotMatrix } from "@app/ui/components/dot-matrix";
+import { Icon } from "@app/ui/components/icon";
+import { Shimmer } from "@app/ui/components/shimmer";
 import type * as React from "react";
 
 export const TOOL_STEP_STATES = ["pending", "done", "failed"] as const;

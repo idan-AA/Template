@@ -1,7 +1,7 @@
 "use client";
 
-import GitHubLogo from "@crm/ui/components/brand-logos/github";
-import { Button } from "@crm/ui/components/button";
+import GitHubLogo from "@app/ui/components/brand-logos/github";
+import { Button } from "@app/ui/components/button";
 import { type CtaLocation, captureLanding } from "./analytics";
 import { REPO_STARS, REPO_URL } from "./links";
 

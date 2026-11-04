@@ -1,7 +1,7 @@
 "use client";
 
-import { Skeleton } from "@crm/ui/components/skeleton";
-import { cn } from "@crm/ui/lib/utils";
+import { Skeleton } from "@app/ui/components/skeleton";
+import { cn } from "@app/ui/lib/utils";
 import { domAnimation, LazyMotion, m, useReducedMotion } from "motion/react";
 import {
 	type ReactNode,

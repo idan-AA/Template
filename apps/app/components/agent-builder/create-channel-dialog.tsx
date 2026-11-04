@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	Dialog,
 	DialogContent,
@@ -9,10 +9,10 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "@crm/ui/components/dialog";
-import { Input } from "@crm/ui/components/input";
-import { Label } from "@crm/ui/components/label";
-import { Switch } from "@crm/ui/components/switch";
+} from "@app/ui/components/dialog";
+import { Input } from "@app/ui/components/input";
+import { Label } from "@app/ui/components/label";
+import { Switch } from "@app/ui/components/switch";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";

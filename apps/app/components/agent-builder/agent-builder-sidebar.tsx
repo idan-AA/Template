@@ -1,13 +1,13 @@
 "use client";
 
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
+import { cn } from "@app/ui/lib/utils";
 import Add from "@carbon/icons-react/es/Add";
 import Bot from "@carbon/icons-react/es/Bot";
 import CheckmarkFilled from "@carbon/icons-react/es/CheckmarkFilled";
 import CircleFilled from "@carbon/icons-react/es/CircleFilled";
 import Renew from "@carbon/icons-react/es/Renew";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
-import { cn } from "@crm/ui/lib/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

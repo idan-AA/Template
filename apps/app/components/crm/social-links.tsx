@@ -1,6 +1,6 @@
-import { Button } from "@crm/ui/components/button";
-import type { CarbonIcon } from "@crm/ui/components/icon";
-import { Icon } from "@crm/ui/components/icon";
+import { Button } from "@app/ui/components/button";
+import type { CarbonIcon } from "@app/ui/components/icon";
+import { Icon } from "@app/ui/components/icon";
 import {
 	type CompanyLinks,
 	type ContactLinks,

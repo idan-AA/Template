@@ -1,9 +1,7 @@
 "use client";
 
-import CheckmarkFilled from "@carbon/icons-react/es/CheckmarkFilled";
-import Warning from "@carbon/icons-react/es/Warning";
-import { Alert, AlertDescription, AlertTitle } from "@crm/ui/components/alert";
-import { Button } from "@crm/ui/components/button";
+import { Alert, AlertDescription, AlertTitle } from "@app/ui/components/alert";
+import { Button } from "@app/ui/components/button";
 import {
 	Card,
 	CardAction,
@@ -11,17 +9,19 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
-import { Field, FieldDescription, FieldLabel } from "@crm/ui/components/field";
-import { Icon } from "@crm/ui/components/icon";
+} from "@app/ui/components/card";
+import { Field, FieldDescription, FieldLabel } from "@app/ui/components/field";
+import { Icon } from "@app/ui/components/icon";
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupInput,
 	InputGroupText,
-} from "@crm/ui/components/input-group";
-import { Spinner } from "@crm/ui/components/spinner";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
+} from "@app/ui/components/input-group";
+import { Spinner } from "@app/ui/components/spinner";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
+import CheckmarkFilled from "@carbon/icons-react/es/CheckmarkFilled";
+import Warning from "@carbon/icons-react/es/Warning";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useId, useState } from "react";
 import { toast } from "sonner";

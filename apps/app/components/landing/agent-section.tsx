@@ -1,3 +1,5 @@
+import SlackLogo from "@app/ui/components/brand-logos/slack";
+import { cn } from "@app/ui/lib/utils";
 import Add from "@carbon/icons-react/es/Add";
 import ArrowRight from "@carbon/icons-react/es/ArrowRight";
 import ArrowUp from "@carbon/icons-react/es/ArrowUp";
@@ -5,8 +7,6 @@ import Attachment from "@carbon/icons-react/es/Attachment";
 import ChevronDown from "@carbon/icons-react/es/ChevronDown";
 import Renew from "@carbon/icons-react/es/Renew";
 import Time from "@carbon/icons-react/es/Time";
-import SlackLogo from "@crm/ui/components/brand-logos/slack";
-import { cn } from "@crm/ui/lib/utils";
 import Image from "next/image";
 import type * as React from "react";
 import { Chip } from "./chip";

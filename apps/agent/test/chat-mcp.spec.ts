@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { vendors } from "@crm/mcp-integrations/catalog";
+import { vendors } from "@app/mcp-integrations/catalog";
 import {
 	buildChatMcpConnections,
 	chatCallApprovalStatus,

@@ -1,11 +1,11 @@
-import { db, type Prisma } from "@crm/db";
-import { lockIdempotencyKey } from "@crm/db/idempotency";
+import { db, type Prisma } from "@app/db";
+import { lockIdempotencyKey } from "@app/db/idempotency";
 import {
 	type InputRequest,
 	type InputRequested,
 	parse,
 	schemas,
-} from "@crm/validation";
+} from "@app/validation";
 import type { ChannelEvents } from "eve/channels";
 import { readBuilderEvent, storeBuilderEvent } from "./builder-event-storage";
 import {

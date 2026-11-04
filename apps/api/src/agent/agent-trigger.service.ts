@@ -1,9 +1,9 @@
-import { type Db, type FieldEntity, Prisma } from "@crm/db";
-import { PRIORITY } from "@crm/db/agent-tasks";
-import { CRM_EVENT_CATALOG, type CrmEventType } from "@crm/db/crm-events";
-import { RECORD_ID_COLUMNS } from "@crm/db/fields";
-import { lockIdempotencyKey } from "@crm/db/idempotency";
-import { fieldBackfillPayload } from "@crm/validation/field-backfill";
+import { type Db, type FieldEntity, Prisma } from "@app/db";
+import { PRIORITY } from "@app/db/agent-tasks";
+import { CRM_EVENT_CATALOG, type CrmEventType } from "@app/db/crm-events";
+import { RECORD_ID_COLUMNS } from "@app/db/fields";
+import { lockIdempotencyKey } from "@app/db/idempotency";
+import { fieldBackfillPayload } from "@app/validation/field-backfill";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 import { AGENT_DISPATCH } from "./agent-dispatch.config";

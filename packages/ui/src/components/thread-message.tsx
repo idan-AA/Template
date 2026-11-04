@@ -1,5 +1,5 @@
-import { PersonAvatar } from "@crm/ui/components/person-avatar";
-import { cn } from "@crm/ui/lib/utils";
+import { PersonAvatar } from "@app/ui/components/person-avatar";
+import { cn } from "@app/ui/lib/utils";
 import type * as React from "react";
 
 function ThreadMessage({

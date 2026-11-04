@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import { AgentQueueService } from "../src/agent/agent-queue.service";
 
 const suffix = process.env.TEST_RUN_ID ?? "agent-queue-spec";

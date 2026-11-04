@@ -1,4 +1,4 @@
-import { groupGrantedScopes } from "@crm/mcp-integrations/scopes";
+import { groupGrantedScopes } from "@app/mcp-integrations/scopes";
 import { MCP_CONNECTION } from "./mcp-connection-config";
 
 type ToolCallKind = "read" | "change" | "risky";

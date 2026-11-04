@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "bun:test";
 import {
 	GoogleSyncStatus,
 	type MailboxSyncModel as MailboxSync,
-} from "@crm/db";
+} from "@app/db";
 import type { GoogleConnectionService } from "../src/google/google-connection.service";
 import type { GoogleSyncService } from "../src/google/google-sync.service";
 import {

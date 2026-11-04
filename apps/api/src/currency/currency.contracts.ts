@@ -1,5 +1,5 @@
-import { RateSource } from "@crm/db";
-import { isCurrencyCode } from "@crm/db/currency";
+import { RateSource } from "@app/db";
+import { isCurrencyCode } from "@app/db/currency";
 import { z } from "zod";
 
 export const currencyCode = z

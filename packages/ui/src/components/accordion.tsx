@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from "@crm/ui/lib/utils";
-import { UI_MOTION } from "@crm/ui/lib/motion";
+import { cn } from "@app/ui/lib/utils";
+import { UI_MOTION } from "@app/ui/lib/motion";
 import { cva, type VariantProps } from "class-variance-authority";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { domAnimation, LazyMotion, m, useReducedMotion } from "motion/react";

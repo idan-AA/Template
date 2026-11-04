@@ -1,21 +1,21 @@
 "use client";
 
-import { workspaceSlug } from "@crm/db/workspace";
-import { Button } from "@crm/ui/components/button";
+import { workspaceSlug } from "@app/db/workspace";
+import { Button } from "@app/ui/components/button";
 import {
 	Field,
 	FieldDescription,
 	FieldGroup,
 	FieldLabel,
-} from "@crm/ui/components/field";
-import { Input } from "@crm/ui/components/input";
+} from "@app/ui/components/field";
+import { Input } from "@app/ui/components/input";
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupInput,
 	InputGroupText,
-} from "@crm/ui/components/input-group";
-import { Spinner } from "@crm/ui/components/spinner";
+} from "@app/ui/components/input-group";
+import { Spinner } from "@app/ui/components/spinner";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useId, useRef, useState } from "react";

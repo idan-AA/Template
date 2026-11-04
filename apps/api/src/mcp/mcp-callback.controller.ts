@@ -1,5 +1,5 @@
-import { type auth } from "@crm/auth/auth";
-import { SESSION_COOKIE_NAME } from "@crm/auth/cookies";
+import { type auth } from "@app/auth/auth";
+import { SESSION_COOKIE_NAME } from "@app/auth/cookies";
 import {
 	BadRequestException,
 	Controller,

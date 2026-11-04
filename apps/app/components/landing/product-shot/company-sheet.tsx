@@ -1,10 +1,10 @@
+import Logo from "@app/ui/components/logo";
+import { cn } from "@app/ui/lib/utils";
 import Close from "@carbon/icons-react/es/Close";
 import MagicWand from "@carbon/icons-react/es/MagicWand";
 import OverflowMenuVertical from "@carbon/icons-react/es/OverflowMenuVertical";
 import Renew from "@carbon/icons-react/es/Renew";
 import Send from "@carbon/icons-react/es/Send";
-import Logo from "@crm/ui/components/logo";
-import { cn } from "@crm/ui/lib/utils";
 import Image from "next/image";
 import { OWNER } from "./companies";
 import { CompanyMark } from "./company-mark";

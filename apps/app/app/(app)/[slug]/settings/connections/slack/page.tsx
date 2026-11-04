@@ -1,5 +1,3 @@
-import Close from "@carbon/icons-react/es/Close";
-import Warning from "@carbon/icons-react/es/Warning";
 import {
 	describeSlackScopes,
 	SLACK_REQUESTED_SCOPES,
@@ -7,16 +5,18 @@ import {
 	SLACK_USER_GRANT,
 	type SlackScope,
 	slackScopeDrift,
-} from "@crm/auth/slack-scopes";
+} from "@app/auth/slack-scopes";
 import {
 	Alert,
 	AlertAction,
 	AlertDescription,
 	AlertTitle,
-} from "@crm/ui/components/alert";
-import SlackLogo from "@crm/ui/components/brand-logos/slack";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
+} from "@app/ui/components/alert";
+import SlackLogo from "@app/ui/components/brand-logos/slack";
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
+import Close from "@carbon/icons-react/es/Close";
+import Warning from "@carbon/icons-react/es/Warning";
 import Link from "next/link";
 import { Suspense } from "react";
 import { NewAgentDialog } from "@/components/agent-builder/new-agent-dialog";

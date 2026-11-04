@@ -1,13 +1,13 @@
 "use client";
 
+import { Button } from "@app/ui/components/button";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
+import { Icon } from "@app/ui/components/icon";
+import { SimpleTableRow } from "@app/ui/components/simple-table";
+import { Spinner } from "@app/ui/components/spinner";
+import { TableCell } from "@app/ui/components/table";
+import { formatMoney } from "@app/ui/lib/format";
 import Add from "@carbon/icons-react/es/Add";
-import { Button } from "@crm/ui/components/button";
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
-import { Icon } from "@crm/ui/components/icon";
-import { SimpleTableRow } from "@crm/ui/components/simple-table";
-import { Spinner } from "@crm/ui/components/spinner";
-import { TableCell } from "@crm/ui/components/table";
-import { formatMoney } from "@crm/ui/lib/format";
 import type { ReactNode } from "react";
 import {
 	DetailSheetHeader,

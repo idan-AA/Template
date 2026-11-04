@@ -41,7 +41,7 @@ inverts on ingest.
   `baseAmount` is `Decimal(24, 4)` so amount × rate still fits.
 - **Reporting currency is `AppSetting.reportingCurrency`**, read only through
   `readReportingCurrency`.
-- **Codes are validated against `isCurrencyCode` (`@crm/db/currency`), not a regex** —
+- **Codes are validated against `isCurrencyCode` (`@app/db/currency`), not a regex** —
   `z.string().length(3)` accepted `ZZZ`. `isWellFormedCurrency` is separate because
   `Intl` throws on non-three-letter input.
 - **`CURRENCIES` is eleven currencies and that is all this CRM supports** — USD, EUR,

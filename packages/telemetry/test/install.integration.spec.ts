@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "bun:test";
 import { join } from "node:path";
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import {
 	bumpCounter,
 	drainCounters,
@@ -14,7 +14,7 @@ import {
 const PACKAGE = join(import.meta.dir, "..");
 
 const PRINT_UUID = [
-	'import { db } from "@crm/db";',
+	'import { db } from "@app/db";',
 	'import { readInstall } from "./src/install";',
 	"const install = await readInstall();",
 	'process.stdout.write(install?.uuid ?? "none");',

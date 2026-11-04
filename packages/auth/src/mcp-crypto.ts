@@ -1,4 +1,4 @@
-import "@crm/env/load";
+import "@app/env/load";
 
 import { createSecretBox, type SecretBox } from "./secret-box";
 

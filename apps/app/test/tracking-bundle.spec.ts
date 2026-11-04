@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { brotliCompressSync } from "node:zlib";
-import type { TrackingConfig } from "@crm/db/tracking";
+import type { TrackingConfig } from "@app/db/tracking";
 import { LOADER_SOURCE } from "@/lib/tracking/loader";
 import { trackerSource } from "@/lib/tracking/tracker";
 

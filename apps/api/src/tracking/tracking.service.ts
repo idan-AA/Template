@@ -1,14 +1,14 @@
-import { appUrl } from "@crm/auth/env";
+import { appUrl } from "@app/auth/env";
 import {
 	canManageTracking,
 	isWorkspaceRole,
 	WORKSPACE_ID,
 	type WorkspaceRole,
-} from "@crm/auth/organization";
-import { type Db, DomainScope, Prisma } from "@crm/db";
-import { describeTouch } from "@crm/db/attribution";
-import { safeFetch } from "@crm/db/safe-fetch";
-import { SETTINGS_ID } from "@crm/db/settings";
+} from "@app/auth/organization";
+import { type Db, DomainScope, Prisma } from "@app/db";
+import { describeTouch } from "@app/db/attribution";
+import { safeFetch } from "@app/db/safe-fetch";
+import { SETTINGS_ID } from "@app/db/settings";
 import {
 	COOKIE_LIFETIMES,
 	gtmContainers,
@@ -22,7 +22,7 @@ import {
 	trackingReady,
 	trackingSnippet,
 	VERIFY_WINDOW_MS,
-} from "@crm/db/tracking";
+} from "@app/db/tracking";
 import {
 	BadRequestException,
 	ForbiddenException,

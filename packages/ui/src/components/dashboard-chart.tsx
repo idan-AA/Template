@@ -7,8 +7,8 @@ import {
 	ChartLegendContent,
 	ChartTooltip,
 	ChartTooltipContent,
-} from "@crm/ui/components/chart";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/chart";
+import { cn } from "@app/ui/lib/utils";
 import * as React from "react";
 import {
 	Area,

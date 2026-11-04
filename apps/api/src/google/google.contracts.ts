@@ -1,4 +1,4 @@
-import { EmailDirection, GoogleSyncStatus } from "@crm/db";
+import { EmailDirection, GoogleSyncStatus } from "@app/db";
 import { z } from "zod";
 import { GOOGLE_SYNC_SOURCES } from "../mailbox/mailbox.constants";
 

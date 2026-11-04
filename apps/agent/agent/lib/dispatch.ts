@@ -1,6 +1,6 @@
-import { EnrichmentStatus } from "@crm/db";
-import { DIRECT_KINDS } from "@crm/db/agent-tasks";
-import { fieldBackfillPayload } from "@crm/validation/field-backfill";
+import { EnrichmentStatus } from "@app/db";
+import { DIRECT_KINDS } from "@app/db/agent-tasks";
+import { fieldBackfillPayload } from "@app/validation/field-backfill";
 import { APP_AUTH, type AppAuth } from "./app-auth";
 import { brandOutcome, runBrand } from "./brand";
 import { queueEventAgentRuns } from "./custom-agent-dispatch";

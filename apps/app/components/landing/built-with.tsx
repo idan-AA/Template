@@ -1,6 +1,6 @@
-import EveLogo from "@crm/ui/components/brand-logos/eve";
-import NextjsLogo from "@crm/ui/components/brand-logos/nextjs";
-import VercelLogo from "@crm/ui/components/brand-logos/vercel";
+import EveLogo from "@app/ui/components/brand-logos/eve";
+import NextjsLogo from "@app/ui/components/brand-logos/nextjs";
+import VercelLogo from "@app/ui/components/brand-logos/vercel";
 
 export function BuiltWith() {
 	return (

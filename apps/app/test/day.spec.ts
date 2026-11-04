@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { formatDay, fromDay, toDay } from "@crm/ui/lib/format";
+import { formatDay, fromDay, toDay } from "@app/ui/lib/format";
 
 describe("day strings", () => {
 	it("round-trips a date through its local parts", () => {

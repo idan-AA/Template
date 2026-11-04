@@ -1,5 +1,5 @@
-import { type Db, type FieldEntity, Prisma as PrismaNamespace } from "@crm/db";
-import { parseSavedViewFilters } from "@crm/validation/saved-view";
+import { type Db, type FieldEntity, Prisma as PrismaNamespace } from "@app/db";
+import { parseSavedViewFilters } from "@app/validation/saved-view";
 import {
 	ConflictException,
 	Injectable,

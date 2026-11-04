@@ -1,4 +1,4 @@
-import "@crm/env/load";
+import "@app/env/load";
 
 import { PostHog } from "posthog-node";
 import { type Properties, permitted } from "./allowlist";

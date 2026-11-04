@@ -6,8 +6,8 @@ import {
 	expect,
 	it,
 } from "bun:test";
-import { db } from "@crm/db";
-import { workspaceSlug } from "@crm/db/workspace";
+import { db } from "@app/db";
+import { workspaceSlug } from "@app/db/workspace";
 import { type BetterAuthPlugin, betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { createAuthEndpoint, createAuthMiddleware } from "better-auth/api";

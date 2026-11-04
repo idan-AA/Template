@@ -72,14 +72,14 @@ On top of that:
   [`dynamic-fields.md` §5](./dynamic-fields.md).
 - No `organizationId`. Single tenant.
 
-## 3. `@crm/db/fields` — the shared core
+## 3. `@app/db/fields` — the shared core
 
 Everything else in this plan is a caller of this module. It is what makes the
 feature API-driven *and* agent-driven without two implementations drifting apart.
 
 Create `packages/db/src/fields.ts` and add `"./fields": "./src/fields.ts"` to the
 `exports` map in `packages/db/package.json` — the same shape as
-`@crm/db/currency` and `@crm/db/workspace`, which are the precedents.
+`@app/db/currency` and `@app/db/workspace`, which are the precedents.
 
 It owns:
 
@@ -136,7 +136,7 @@ Rules that are not optional:
 
 ## 5. Agents — `apps/agent`
 
-The API is one caller of `@crm/db/fields`; the agent is the other. Add
+The API is one caller of `@app/db/fields`; the agent is the other. Add
 `apps/agent/agent/lib/fields.ts` as a thin wrapper, in the shape of
 `lib/facts.ts`, then these tools in `apps/agent/agent/tools/`:
 
@@ -159,7 +159,7 @@ Constraints:
 - Missing capability ⇒ missing capability, never a throw.
 
 **MCP later, for free.** Every capability is a tRPC procedure over
-`@crm/db/fields`, and every tool is a thin call to the same module. An MCP server
+`@app/db/fields`, and every tool is a thin call to the same module. An MCP server
 is then a mechanical wrapper over `fields.*` with no new logic. That only stays
 true if you keep logic out of the tools. Do not build MCP now.
 
@@ -311,7 +311,7 @@ Never "eve" in the product. It is *your agents*.
 Each phase ends green — typecheck, lint, tests — before the next begins.
 
 1. **Schema.** Models, migration, back-relations. `bun run db:migrate`.
-2. **`@crm/db/fields`.** Types, key derivation, value schemas, read/write. Unit
+2. **`@app/db/fields`.** Types, key derivation, value schemas, read/write. Unit
    tests here; it is pure and cheap to test.
 3. **API.** Contracts, service, router, module, registration. Regenerate and
    commit `server.ts`. `fields.spec.ts` green.
@@ -332,7 +332,7 @@ Each phase ends green — typecheck, lint, tests — before the next begins.
 - Do not write a custom button, input, chip, switch or menu.
 - Do not override component colours or typography with `className`. Layout only.
 - Do not put field logic in a router, a component or a tool — it goes in
-  `@crm/db/fields`.
+  `@app/db/fields`.
 - Do not put a vendor client, scoring or enrichment in `apps/api`.
 - Do not add code comments.
 - Do not add a `Co-Authored-By` trailer.

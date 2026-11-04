@@ -1,14 +1,14 @@
-import { PersonAvatar } from "@crm/ui/components/person-avatar";
+import { PersonAvatar } from "@app/ui/components/person-avatar";
 import {
 	type StatusTone,
 	StatusIndicator,
-} from "@crm/ui/components/status-indicator";
+} from "@app/ui/components/status-indicator";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
-} from "@crm/ui/components/tooltip";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/tooltip";
+import { cn } from "@app/ui/lib/utils";
 import type * as React from "react";
 
 export type Attendee = {

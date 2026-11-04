@@ -1,10 +1,10 @@
 "use client";
 
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
+import { cn } from "@app/ui/lib/utils";
 import Checkmark from "@carbon/icons-react/es/Checkmark";
 import Locked from "@carbon/icons-react/es/Locked";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
-import { cn } from "@crm/ui/lib/utils";
 
 export type PickerChannel = {
 	id: string;

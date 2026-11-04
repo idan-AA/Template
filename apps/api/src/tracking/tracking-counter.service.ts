@@ -1,5 +1,5 @@
-import type { Db } from "@crm/db";
-import { windowExpiry } from "@crm/db/tracking";
+import type { Db } from "@app/db";
+import { windowExpiry } from "@app/db/tracking";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 

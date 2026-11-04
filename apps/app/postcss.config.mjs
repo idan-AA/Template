@@ -1,3 +1,3 @@
-import config from "@crm/ui/postcss.config";
+import config from "@app/ui/postcss.config";
 
 export default config;

@@ -1,5 +1,5 @@
-import type { EnrichmentStatus } from "@crm/db/enums";
-import type { StatusTone } from "@crm/ui/components/status-indicator";
+import type { EnrichmentStatus } from "@app/db/enums";
+import type { StatusTone } from "@app/ui/components/status-indicator";
 
 type EnrichmentPresentation = Record<
 	EnrichmentStatus,

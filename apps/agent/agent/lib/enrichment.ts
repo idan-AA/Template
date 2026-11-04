@@ -1,5 +1,5 @@
-import { db, EnrichmentStatus, type Prisma } from "@crm/db";
-import { ownsCompanyStatus, ownsContactStatus } from "@crm/db/agent-tasks";
+import { db, EnrichmentStatus, type Prisma } from "@app/db";
+import { ownsCompanyStatus, ownsContactStatus } from "@app/db/agent-tasks";
 import type { TaskSubject } from "./tasks";
 
 type StatusGuard =

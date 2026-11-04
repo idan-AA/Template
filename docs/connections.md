@@ -31,7 +31,7 @@ form to a settings page, stop — that work belongs in the builder.
 
 A connection is shared. One person disconnecting Slack stops every agent that
 posts to it and clears the cached channel list for everybody, so
-`SlackConnectionService.disconnect` asks `canManageConnections` (`@crm/auth`)
+`SlackConnectionService.disconnect` asks `canManageConnections` (`@app/auth`)
 after `AgentAccessService.assertMember`, and `slack.status` returns `canManage`
 so the button is disabled for the same people the service refuses. Being signed
 in is not authorisation: `AuthMiddleware` only proves a session exists.

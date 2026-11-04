@@ -1,5 +1,5 @@
-import type { Db } from "@crm/db";
-import { classifyTouch, type RawTouch, type Touch } from "@crm/db/attribution";
+import type { Db } from "@app/db";
+import { classifyTouch, type RawTouch, type Touch } from "@app/db/attribution";
 import {
 	dedupeKey,
 	EVENTS_PER_MINUTE,
@@ -11,7 +11,7 @@ import {
 	rateWindowKey,
 	stripQuery,
 	type TrackingConfig,
-} from "@crm/db/tracking";
+} from "@app/db/tracking";
 import { Injectable, Logger } from "@nestjs/common";
 import { z } from "zod";
 import { normalizeEmail } from "../crm/values";

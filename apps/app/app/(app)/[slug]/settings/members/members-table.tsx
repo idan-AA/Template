@@ -1,20 +1,20 @@
 "use client";
 
-import OverflowMenuHorizontal from "@carbon/icons-react/es/OverflowMenuHorizontal";
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	DataTable,
 	type DataTableColumn,
 	type DataTableFacet,
-} from "@crm/ui/components/data-table";
+} from "@app/ui/components/data-table";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { Icon } from "@crm/ui/components/icon";
-import { PersonAvatar } from "@crm/ui/components/person-avatar";
+} from "@app/ui/components/dropdown-menu";
+import { Icon } from "@app/ui/components/icon";
+import { PersonAvatar } from "@app/ui/components/person-avatar";
+import OverflowMenuHorizontal from "@carbon/icons-react/es/OverflowMenuHorizontal";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { ListSearch } from "@/components/data-table/list-search";

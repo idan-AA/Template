@@ -6,7 +6,7 @@ import {
 	SheetDescription,
 	SheetHeader,
 	SheetTitle,
-} from "@crm/ui/components/sheet";
+} from "@app/ui/components/sheet";
 import { useState } from "react";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { AgentActivity, AgentRuns } from "./agent-history";

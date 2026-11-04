@@ -1,11 +1,11 @@
-import type { Db } from "@crm/db";
-import { SETTINGS_ID } from "@crm/db/settings";
+import type { Db } from "@app/db";
+import { SETTINGS_ID } from "@app/db/settings";
 import {
 	configHash,
 	mintSiteId,
 	readTrackingConfig,
 	type TrackingConfig,
-} from "@crm/db/tracking";
+} from "@app/db/tracking";
 import { CACHE_MANAGER } from "@nestjs/cache-manager";
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import type { Cache } from "cache-manager";

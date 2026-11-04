@@ -3,7 +3,7 @@ import { randomBytes } from "node:crypto";
 import {
 	chatEventPurpose,
 	createChatEventSecretBox,
-} from "@crm/auth/chat-event-crypto";
+} from "@app/auth/chat-event-crypto";
 import {
 	conversationResumeSnapshot,
 	publicConversationEvent,

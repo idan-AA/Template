@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
-import { db } from "@crm/db";
-import { MAX_ATTEMPTS } from "@crm/db/agent-tasks";
+import { db } from "@app/db";
+import { MAX_ATTEMPTS } from "@app/db/agent-tasks";
 import {
 	claimDue,
 	completeTask,

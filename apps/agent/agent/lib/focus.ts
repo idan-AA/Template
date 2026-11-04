@@ -1,4 +1,4 @@
-import { bumpCounter, COUNTERS } from "@crm/telemetry";
+import { bumpCounter, COUNTERS } from "@app/telemetry";
 import { defineState } from "eve/context";
 
 export const focus = defineState("crm.focus", () => ({

@@ -8,12 +8,12 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "@crm/ui/components/command";
+} from "@app/ui/components/command";
 import {
 	EntityLogo,
 	type EntityLogoTone,
-} from "@crm/ui/components/entity-logo";
-import { PersonAvatar } from "@crm/ui/components/person-avatar";
+} from "@app/ui/components/entity-logo";
+import { PersonAvatar } from "@app/ui/components/person-avatar";
 import { useQuery } from "@tanstack/react-query";
 import { parseAsBoolean, useQueryState } from "nuqs";
 import { useEffect, useState } from "react";

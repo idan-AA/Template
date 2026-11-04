@@ -1,8 +1,5 @@
 "use client";
 
-import Archive from "@carbon/icons-react/es/Archive";
-import Renew from "@carbon/icons-react/es/Renew";
-import Undo from "@carbon/icons-react/es/Undo";
 import {
 	DropdownMenuGroup,
 	DropdownMenuItem,
@@ -10,8 +7,11 @@ import {
 	DropdownMenuSub,
 	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { formatCount } from "@crm/ui/lib/format";
+} from "@app/ui/components/dropdown-menu";
+import { formatCount } from "@app/ui/lib/format";
+import Archive from "@carbon/icons-react/es/Archive";
+import Renew from "@carbon/icons-react/es/Renew";
+import Undo from "@carbon/icons-react/es/Undo";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { toast } from "sonner";

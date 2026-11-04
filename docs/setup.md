@@ -96,7 +96,7 @@ the live database. On 2026-08-01 eleven migrations landed on Neon from a laptop.
    `db:reset`, `db:seed`** and takes `ALLOW_REMOTE_DB=1`. `db:deploy` is unguarded on
    purpose. It reads the root files directly rather than `process.env`, because Bun
    auto-loads the working directory's `.env` while Prisma's CLI only sees
-   `@crm/env/load`.
+   `@app/env/load`.
 
 ## Migrations run on the production deploy, and nowhere else
 

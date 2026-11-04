@@ -14,8 +14,8 @@
 		"components": "@/components",
 		"hooks": "@/hooks",
 		"lib": "@/lib",
-		"utils": "@crm/ui/lib/utils",
-		"ui": "@crm/ui/components"
+		"utils": "@app/ui/lib/utils",
+		"ui": "@app/ui/components"
 	},
 	"rtl": false,
 	"menuColor": "default",

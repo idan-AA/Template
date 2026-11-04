@@ -1,7 +1,7 @@
-# `@crm/auth`
+# `@app/auth`
 
 [Better Auth](https://better-auth.com) configuration for the monorepo, backed by
-`@crm/db`.
+`@app/db`.
 
 Enabled: Google sign-in, account linking, cookie-cached sessions, and
 database-backed rate limiting. This is an internal, single-tenant app — there
@@ -24,7 +24,7 @@ or the cookie one writes will not verify in the other.
 ### Server
 
 ```ts
-import { auth } from "@crm/auth/auth";
+import { auth } from "@app/auth/auth";
 
 // Session for an incoming request
 const session = await auth.api.getSession({ headers: request.headers });
@@ -34,7 +34,7 @@ const session = await auth.api.getSession({ headers: request.headers });
 mounts anywhere. In a Next.js App Router route (`app/api/auth/[...all]/route.ts`):
 
 ```ts
-import { auth } from "@crm/auth/auth";
+import { auth } from "@app/auth/auth";
 
 export const GET = auth.handler;
 export const POST = auth.handler;
@@ -43,7 +43,7 @@ export const POST = auth.handler;
 ### Client
 
 ```ts
-import { signIn, signOut, useSession } from "@crm/auth/client";
+import { signIn, signOut, useSession } from "@app/auth/client";
 
 await signIn.social({ provider: "google", callbackURL: "/" });
 ```
@@ -66,7 +66,7 @@ openssl rand -base64 32   # -> BETTER_AUTH_SECRET
 
 This package is a library and never loads an env file of its own; it reads
 whatever `process.env` its host process has, and `src/env.ts` imports
-`@crm/env/load` so the repo-root `.env` is picked up even when the Better Auth
+`@app/env/load` so the repo-root `.env` is picked up even when the Better Auth
 CLI loads `auth.ts` directly. See
 [`docs/environment.md`](../../docs/environment.md).
 

@@ -254,7 +254,7 @@ Do not record secret arguments or raw sensitive results.
 
 ### Network safety
 
-Fetch metadata through `@crm/db/safe-fetch`.
+Fetch metadata through `@app/db/safe-fetch`.
 Apply the same SSRF rules to MCP endpoints.
 Resolve and validate every redirect target.
 

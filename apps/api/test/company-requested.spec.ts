@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import { AgentTriggerService } from "../src/agent/agent-trigger.service";
 
 const suffix = process.env.TEST_RUN_ID ?? "company-requested-spec";

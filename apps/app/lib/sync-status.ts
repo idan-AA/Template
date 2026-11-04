@@ -1,4 +1,4 @@
-import type { GoogleSyncStatus } from "@crm/db/enums";
+import type { GoogleSyncStatus } from "@app/db/enums";
 
 export const SYNC_POLL_MS = 5_000;
 

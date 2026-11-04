@@ -1,5 +1,5 @@
-import Logo from "@crm/ui/components/logo";
-import { cn } from "@crm/ui/lib/utils";
+import Logo from "@app/ui/components/logo";
+import { cn } from "@app/ui/lib/utils";
 
 export function Wordmark({ className }: { className?: string }) {
 	return (

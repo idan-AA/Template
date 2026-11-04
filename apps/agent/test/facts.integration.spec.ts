@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import type { Evidence } from "../agent/lib/evidence";
 import { recordFact, writeBrief } from "../agent/lib/facts";
 

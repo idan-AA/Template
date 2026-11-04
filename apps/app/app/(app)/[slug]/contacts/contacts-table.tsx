@@ -1,16 +1,16 @@
 "use client";
 
-import Archive from "@carbon/icons-react/es/Archive";
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	DataTable,
 	type DataTableColumn,
 	type DataTableFacet,
-} from "@crm/ui/components/data-table";
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
-import { PersonAvatar } from "@crm/ui/components/person-avatar";
-import { useSearchInput } from "@crm/ui/hooks/use-search-input";
-import { useTableSelection } from "@crm/ui/hooks/use-table-selection";
+} from "@app/ui/components/data-table";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
+import { PersonAvatar } from "@app/ui/components/person-avatar";
+import { useSearchInput } from "@app/ui/hooks/use-search-input";
+import { useTableSelection } from "@app/ui/hooks/use-table-selection";
+import Archive from "@carbon/icons-react/es/Archive";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { CompanyCell } from "@/components/crm/company-cell";

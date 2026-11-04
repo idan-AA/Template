@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { TASK_KINDS } from "@crm/db/agent-tasks";
+import { TASK_KINDS } from "@app/db/agent-tasks";
 import {
 	AGENT_TOOLS,
 	ALLOWED_PROPERTIES,

@@ -1,5 +1,31 @@
 "use client";
 
+import {
+	AsyncButtonContent,
+	useAsyncAction,
+} from "@app/ui/components/async-action";
+import { Badge } from "@app/ui/components/badge";
+import { Button } from "@app/ui/components/button";
+import { ChatMessage } from "@app/ui/components/chat-message";
+import { ChatThread, ChatThreadItem } from "@app/ui/components/chat-thread";
+import { DotMatrix } from "@app/ui/components/dot-matrix";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuLabel,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuTrigger,
+} from "@app/ui/components/dropdown-menu";
+import { Icon } from "@app/ui/components/icon";
+import { Markdown } from "@app/ui/components/markdown";
+import { ProviderMark } from "@app/ui/components/provider-mark";
+import { Reasoning } from "@app/ui/components/reasoning";
+import { ThinkingIndicator } from "@app/ui/components/thinking-indicator";
+import { ToolStep } from "@app/ui/components/tool-step";
+import type { ProviderBrand } from "@app/ui/lib/provider-brand";
+import { cn } from "@app/ui/lib/utils";
+import type { AgentManifestSummary } from "@app/validation/agent-manifest";
 import Add from "@carbon/icons-react/es/Add";
 import Application from "@carbon/icons-react/es/Application";
 import ArrowRight from "@carbon/icons-react/es/ArrowRight";
@@ -15,32 +41,6 @@ import ThumbsDown from "@carbon/icons-react/es/ThumbsDown";
 import ThumbsUp from "@carbon/icons-react/es/ThumbsUp";
 import User from "@carbon/icons-react/es/User";
 import WarningAlt from "@carbon/icons-react/es/WarningAlt";
-import {
-	AsyncButtonContent,
-	useAsyncAction,
-} from "@crm/ui/components/async-action";
-import { Badge } from "@crm/ui/components/badge";
-import { Button } from "@crm/ui/components/button";
-import { ChatMessage } from "@crm/ui/components/chat-message";
-import { ChatThread, ChatThreadItem } from "@crm/ui/components/chat-thread";
-import { DotMatrix } from "@crm/ui/components/dot-matrix";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuLabel,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
-	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { Icon } from "@crm/ui/components/icon";
-import { Markdown } from "@crm/ui/components/markdown";
-import { ProviderMark } from "@crm/ui/components/provider-mark";
-import { Reasoning } from "@crm/ui/components/reasoning";
-import { ThinkingIndicator } from "@crm/ui/components/thinking-indicator";
-import { ToolStep } from "@crm/ui/components/tool-step";
-import type { ProviderBrand } from "@crm/ui/lib/provider-brand";
-import { cn } from "@crm/ui/lib/utils";
-import type { AgentManifestSummary } from "@crm/validation/agent-manifest";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { MessageStreamEvent } from "eve/client";
 import {

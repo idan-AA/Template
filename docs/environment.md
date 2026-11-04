@@ -78,7 +78,7 @@ list fails closed.** Parsed on demand. `packages/auth/src/workspace.ts`.
 - **`AUTH_COOKIE_DOMAIN`** only for API and app on different subdomains of one parent.
 - **`AGENT_URL`** is the agent's deployment, server-side only, and **must include the
   scheme** — validated at boot, or it throws when a task is queued instead.
-- **`AUTH_COOKIE_PREFIX` is `crm`** (`@crm/auth/cookies`), set on **both**
+- **`AUTH_COOKIE_PREFIX` is `crm`** (`@app/auth/cookies`), set on **both**
   `advanced.cookiePrefix` in `auth.ts` and `getSessionCookie(request, { cookiePrefix })`
   in `proxy.ts` — one alone redirects every signed-in request. Better Auth's default
   collides with any neighbour on a shared parent domain, silently: sign-in completes,
@@ -101,7 +101,7 @@ and lists every variable the API reads and nothing else.
 
 - **Validation runs while `AppModule` is evaluated** — a test must set variables before
   importing it (see the dynamic `import()` in `test/auth.e2e.spec.ts`).
-- **The schema is the API's, not the repo's** — `@crm/auth` and the agent read their own.
+- **The schema is the API's, not the repo's** — `@app/auth` and the agent read their own.
 
 ## Builder chat encryption
 
@@ -145,7 +145,7 @@ General — an admin who cannot redeploy cannot set a variable.
   company stays `PENDING`, which the sweep re-queues
   (`test/keyless-brand.integration.spec.ts`).
 - **Saving the key runs the company sweep immediately** (fire-and-forget).
-- **`readContextDevKey` (`@crm/db/settings`) is the only reader**, read live with no
+- **`readContextDevKey` (`@app/db/settings`) is the only reader**, read live with no
   cache. An unreadable database is a capability that is off, not an exception.
 - **The key is never read back** — only whether one is set, and its last four.
 - **The agent checks it, not the API** (a vendor client in the API is a bug):
@@ -161,7 +161,7 @@ URI beyond the sign-in one. Scopes are requested at sign-in and gated by
 `requireMailboxAccess()`, because granular consent lets a user untick one and still
 sign in.
 
-**An SSO rep is not gated** — `needsMailboxGrant` (`@crm/auth`) walls only an account
+**An SSO rep is not gated** — `needsMailboxGrant` (`@app/auth`) walls only an account
 whose sign-in rows are *all* mailbox providers. It cannot be "has the scopes": an SSO
 rep has no Google or Microsoft account to grant on, and `revoke()` keeps the `account`
 row, so trying the optional feature and revoking would lock them out. They connect from

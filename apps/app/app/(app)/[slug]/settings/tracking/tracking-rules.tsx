@@ -6,9 +6,9 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
-import { Label } from "@crm/ui/components/label";
-import { Switch } from "@crm/ui/components/switch";
+} from "@app/ui/components/card";
+import { Label } from "@app/ui/components/label";
+import { Switch } from "@app/ui/components/switch";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useCrmCache } from "@/lib/trpc/cache";

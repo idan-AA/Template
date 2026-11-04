@@ -1,18 +1,18 @@
 "use client";
 
-import Add from "@carbon/icons-react/es/Add";
-import Close from "@carbon/icons-react/es/Close";
-import Warning from "@carbon/icons-react/es/Warning";
-import { Alert, AlertDescription, AlertTitle } from "@crm/ui/components/alert";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
+import { Alert, AlertDescription, AlertTitle } from "@app/ui/components/alert";
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-} from "@crm/ui/components/popover";
-import { SaveBar } from "@crm/ui/components/save-bar";
-import { Switch } from "@crm/ui/components/switch";
+} from "@app/ui/components/popover";
+import { SaveBar } from "@app/ui/components/save-bar";
+import { Switch } from "@app/ui/components/switch";
+import Add from "@carbon/icons-react/es/Add";
+import Close from "@carbon/icons-react/es/Close";
+import Warning from "@carbon/icons-react/es/Warning";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";

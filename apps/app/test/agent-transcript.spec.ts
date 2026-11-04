@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { readdirSync } from "node:fs";
-import type { EveToolInput, EveToolOutput } from "@crm/validation/eve-tool";
+import type { EveToolInput, EveToolOutput } from "@app/validation/eve-tool";
 import type { EveMessage } from "eve/react";
 import {
 	conversationTimeline,

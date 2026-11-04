@@ -1,15 +1,15 @@
 "use client";
 
-import Archive from "@carbon/icons-react/es/Archive";
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	DataTable,
 	type DataTableColumn,
 	type DataTableFacet,
-} from "@crm/ui/components/data-table";
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
-import { useTableSelection } from "@crm/ui/hooks/use-table-selection";
-import { formatMoney } from "@crm/ui/lib/format";
+} from "@app/ui/components/data-table";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
+import { useTableSelection } from "@app/ui/hooks/use-table-selection";
+import { formatMoney } from "@app/ui/lib/format";
+import Archive from "@carbon/icons-react/es/Archive";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";
 import { CLOSING_OPTIONS } from "@/components/crm/closing-window";

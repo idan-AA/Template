@@ -1,4 +1,4 @@
-import { Skeleton } from "@crm/ui/components/skeleton";
+import { Skeleton } from "@app/ui/components/skeleton";
 
 export function AgentBuilderHomeFallback() {
 	return (

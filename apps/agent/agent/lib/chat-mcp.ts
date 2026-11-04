@@ -1,8 +1,8 @@
-import { db } from "@crm/db";
-import { WORKSPACE_ID } from "@crm/db/workspace";
-import { vendorAccess } from "@crm/mcp-integrations/catalog";
-import type { Vendor } from "@crm/mcp-integrations/vendor";
-import type { AgentConnectionRequestStatus } from "@crm/validation/agent-connection-request";
+import { db } from "@app/db";
+import { WORKSPACE_ID } from "@app/db/workspace";
+import { vendorAccess } from "@app/mcp-integrations/catalog";
+import type { Vendor } from "@app/mcp-integrations/vendor";
+import type { AgentConnectionRequestStatus } from "@app/validation/agent-connection-request";
 import {
 	ConnectionAuthorizationFailedError,
 	ConnectionAuthorizationRequiredError,

@@ -5,9 +5,9 @@ import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@crm/ui/components/accordion";
-import { Skeleton } from "@crm/ui/components/skeleton";
-import { ThreadMessage } from "@crm/ui/components/thread-message";
+} from "@app/ui/components/accordion";
+import { Skeleton } from "@app/ui/components/skeleton";
+import { ThreadMessage } from "@app/ui/components/thread-message";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { LocalDateTime } from "@/components/local-date-time";

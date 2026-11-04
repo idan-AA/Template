@@ -6,17 +6,17 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
-import { Field, FieldDescription, FieldLabel } from "@crm/ui/components/field";
-import { Label } from "@crm/ui/components/label";
+} from "@app/ui/components/card";
+import { Field, FieldDescription, FieldLabel } from "@app/ui/components/field";
+import { Label } from "@app/ui/components/label";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@crm/ui/components/select";
-import { Switch } from "@crm/ui/components/switch";
+} from "@app/ui/components/select";
+import { Switch } from "@app/ui/components/switch";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useId } from "react";
 import { toast } from "sonner";

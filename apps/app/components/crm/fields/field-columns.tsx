@@ -1,8 +1,8 @@
 "use client";
 
-import type { DataTableColumn } from "@crm/ui/components/data-table";
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
-import { formatDay } from "@crm/ui/lib/format";
+import type { DataTableColumn } from "@app/ui/components/data-table";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
+import { formatDay } from "@app/ui/lib/format";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { type Owner, OwnerCell } from "@/components/crm/owner-cell";

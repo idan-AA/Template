@@ -1,7 +1,7 @@
-import { Badge } from "@crm/ui/components/badge";
-import { Link } from "@crm/ui/components/link";
-import { ProviderMark } from "@crm/ui/components/provider-mark";
-import type { ProviderBrand } from "@crm/ui/lib/provider-brand";
+import { Badge } from "@app/ui/components/badge";
+import { Link } from "@app/ui/components/link";
+import { ProviderMark } from "@app/ui/components/provider-mark";
+import type { ProviderBrand } from "@app/ui/lib/provider-brand";
 import type { ReactNode } from "react";
 
 export function ProviderResultCard({

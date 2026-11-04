@@ -1,5 +1,5 @@
-import type { DealStage } from "@crm/db/enums";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
+import type { DealStage } from "@app/db/enums";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
 import { dealStagePresentation } from "@/lib/deal-stage";
 
 export function DealStageIndicator({

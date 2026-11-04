@@ -6,12 +6,12 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@crm/ui/components/table";
+} from "@app/ui/components/table";
 import {
 	ROW_ACCENT,
 	ROW_ACCENT_EXPANDABLE,
-} from "@crm/ui/lib/row-accent";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/lib/row-accent";
+import { cn } from "@app/ui/lib/utils";
 import type { ComponentProps, ReactNode } from "react";
 
 export type SimpleTableColumn = {

@@ -1,12 +1,7 @@
 "use client";
 
-import Asleep from "@carbon/icons-react/es/Asleep";
-import Light from "@carbon/icons-react/es/Light";
-import Logout from "@carbon/icons-react/es/Logout";
-import Menu from "@carbon/icons-react/es/Menu";
-import UserAvatar from "@carbon/icons-react/es/UserAvatar";
-import { Avatar, AvatarFallback, AvatarImage } from "@crm/ui/components/avatar";
-import { Button } from "@crm/ui/components/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@app/ui/components/avatar";
+import { Button } from "@app/ui/components/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -14,10 +9,15 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import Logo from "@crm/ui/components/logo";
-import { Separator } from "@crm/ui/components/separator";
-import { Skeleton } from "@crm/ui/components/skeleton";
+} from "@app/ui/components/dropdown-menu";
+import Logo from "@app/ui/components/logo";
+import { Separator } from "@app/ui/components/separator";
+import { Skeleton } from "@app/ui/components/skeleton";
+import Asleep from "@carbon/icons-react/es/Asleep";
+import Light from "@carbon/icons-react/es/Light";
+import Logout from "@carbon/icons-react/es/Logout";
+import Menu from "@carbon/icons-react/es/Menu";
+import UserAvatar from "@carbon/icons-react/es/UserAvatar";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useTheme } from "next-themes";

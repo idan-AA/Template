@@ -1,6 +1,6 @@
-import { db } from "@crm/db";
-import { lockIdempotencyKey } from "@crm/db/idempotency";
-import type { OauthAccess } from "@crm/validation";
+import { db } from "@app/db";
+import { lockIdempotencyKey } from "@app/db/idempotency";
+import type { OauthAccess } from "@app/validation";
 import { SLACK_PROVIDER_ID } from "./scopes";
 import { SLACK_CONNECTION } from "./slack-config";
 

@@ -5,16 +5,16 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
-import type { ChartConfig } from "@crm/ui/components/chart";
-import { DashboardRow, StatGroup } from "@crm/ui/components/dashboard";
-import { StatCard, type StatDelta } from "@crm/ui/components/stat-card";
+} from "@app/ui/components/card";
+import type { ChartConfig } from "@app/ui/components/chart";
+import { DashboardRow, StatGroup } from "@app/ui/components/dashboard";
+import { StatCard, type StatDelta } from "@app/ui/components/stat-card";
 import {
 	formatCount,
 	formatMoney,
 	formatMoneyCompact,
 	formatPercent,
-} from "@crm/ui/lib/format";
+} from "@app/ui/lib/format";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { AreaTrend, DonutStat } from "@/components/dashboard-charts";

@@ -1,9 +1,9 @@
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import {
 	MAX_LINE,
 	MAX_NARRATIVE,
 	writeWorkspaceProfile,
-} from "@crm/db/workspace";
+} from "@app/db/workspace";
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { changeWrite } from "../lib/approval";

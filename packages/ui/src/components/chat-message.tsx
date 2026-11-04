@@ -1,6 +1,6 @@
-import { Bubble, BubbleContent } from "@crm/ui/components/bubble";
-import { Message, MessageContent } from "@crm/ui/components/message";
-import { cn } from "@crm/ui/lib/utils";
+import { Bubble, BubbleContent } from "@app/ui/components/bubble";
+import { Message, MessageContent } from "@app/ui/components/message";
+import { cn } from "@app/ui/lib/utils";
 import type * as React from "react";
 
 export type ChatMessageAuthor = "user" | "assistant";

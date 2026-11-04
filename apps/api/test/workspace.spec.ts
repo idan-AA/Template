@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "bun:test";
-import { isWorkspaceEmail } from "@crm/auth/workspace";
+import { isWorkspaceEmail } from "@app/auth/workspace";
 import { externalParticipants } from "../src/mailbox/participants";
 
 beforeEach(() => {

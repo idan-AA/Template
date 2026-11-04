@@ -1,6 +1,5 @@
 "use client";
 
-import ChevronDown from "@carbon/icons-react/es/ChevronDown";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -10,8 +9,8 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-} from "@crm/ui/components/alert-dialog";
-import { Button } from "@crm/ui/components/button";
+} from "@app/ui/components/alert-dialog";
+import { Button } from "@app/ui/components/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -22,8 +21,9 @@ import {
 	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { Spinner } from "@crm/ui/components/spinner";
+} from "@app/ui/components/dropdown-menu";
+import { Spinner } from "@app/ui/components/spinner";
+import ChevronDown from "@carbon/icons-react/es/ChevronDown";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
 

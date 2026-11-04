@@ -8,12 +8,12 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-} from "@crm/ui/components/alert-dialog";
+} from "@app/ui/components/alert-dialog";
 import {
 	AsyncButtonContent,
 	useAsyncAction,
-} from "@crm/ui/components/async-action";
-import { Button } from "@crm/ui/components/button";
+} from "@app/ui/components/async-action";
+import { Button } from "@app/ui/components/button";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

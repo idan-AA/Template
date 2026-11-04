@@ -6,8 +6,8 @@ import {
 	expect,
 	it,
 } from "bun:test";
-import { db } from "@crm/db";
-import { EVENTS_PER_MINUTE, type TrackingConfig } from "@crm/db/tracking";
+import { db } from "@app/db";
+import { EVENTS_PER_MINUTE, type TrackingConfig } from "@app/db/tracking";
 import type { TrackingConfigService } from "../src/tracking/tracking-config.service";
 import { TrackingCounterService } from "../src/tracking/tracking-counter.service";
 import type { TrackingFilingService } from "../src/tracking/tracking-filing.service";

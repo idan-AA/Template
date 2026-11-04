@@ -1,9 +1,9 @@
 "use client";
 
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
 import Checkmark from "@carbon/icons-react/es/Checkmark";
 import Renew from "@carbon/icons-react/es/Renew";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
 import { File, MultiFileDiff } from "@pierre/diffs/react";
 import {
 	FileTree,

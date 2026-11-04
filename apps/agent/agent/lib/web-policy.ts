@@ -1,5 +1,5 @@
 import { isIP } from "node:net";
-import { vendors } from "@crm/mcp-integrations/catalog";
+import { vendors } from "@app/mcp-integrations/catalog";
 import type { ModelMessage } from "ai";
 import { z } from "zod";
 import { WEB_POLICY } from "./web-policy-config";

@@ -1,11 +1,11 @@
-import { auth } from "@crm/auth/auth";
+import { auth } from "@app/auth/auth";
 import {
 	GOOGLE_PROVIDER_ID,
 	type MailboxProviderId,
 	parseScopes,
 	type SignInAccount,
-} from "@crm/auth/scopes";
-import { type Db } from "@crm/db";
+} from "@app/auth/scopes";
+import { type Db } from "@app/db";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 import {

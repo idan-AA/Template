@@ -1,4 +1,4 @@
-import type { EveToolOutput } from "@crm/validation/eve-tool";
+import type { EveToolOutput } from "@app/validation/eve-tool";
 import type { TranscriptItem } from "./agent-transcript";
 
 export type AnchoredResult<T> = { itemId: string; value: T };

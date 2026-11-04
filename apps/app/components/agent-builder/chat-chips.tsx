@@ -1,5 +1,3 @@
-import Close from "@carbon/icons-react/es/Close";
-import Document from "@carbon/icons-react/es/Document";
 import {
 	Attachment,
 	AttachmentAction,
@@ -7,14 +5,16 @@ import {
 	AttachmentContent,
 	AttachmentMedia,
 	AttachmentTitle,
-} from "@crm/ui/components/attachment";
-import { Avatar, AvatarFallback, AvatarImage } from "@crm/ui/components/avatar";
-import { type CarbonIcon, Icon } from "@crm/ui/components/icon";
+} from "@app/ui/components/attachment";
+import { Avatar, AvatarFallback, AvatarImage } from "@app/ui/components/avatar";
+import { type CarbonIcon, Icon } from "@app/ui/components/icon";
 import {
 	TokenFieldAction,
 	TokenFieldItem,
-} from "@crm/ui/components/token-field";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/token-field";
+import { cn } from "@app/ui/lib/utils";
+import Close from "@carbon/icons-react/es/Close";
+import Document from "@carbon/icons-react/es/Document";
 import Image from "next/image";
 
 type ChatChipVariant = "default" | "composer";

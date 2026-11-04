@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
-import { DEFAULT_WORKSPACE_NAME, WORKSPACE_ID } from "@crm/auth/organization";
-import { db } from "@crm/db";
-import { workspaceSlug } from "@crm/db/workspace";
+import { DEFAULT_WORKSPACE_NAME, WORKSPACE_ID } from "@app/auth/organization";
+import { db } from "@app/db";
+import { workspaceSlug } from "@app/db/workspace";
 import { z } from "zod";
 import { ConversationSharingService } from "../src/conversations/conversation-sharing.service";
 import { ConversationsService } from "../src/conversations/conversations.service";

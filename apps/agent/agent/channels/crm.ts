@@ -1,8 +1,8 @@
 import { timingSafeEqual } from "node:crypto";
-import { EnrichmentStatus, Prisma } from "@crm/db";
-import { MAX_ATTEMPTS } from "@crm/db/agent-tasks";
-import { schemas } from "@crm/validation";
-import { eveTurnFailure } from "@crm/validation/eve-stream";
+import { EnrichmentStatus, Prisma } from "@app/db";
+import { MAX_ATTEMPTS } from "@app/db/agent-tasks";
+import { schemas } from "@app/validation";
+import { eveTurnFailure } from "@app/validation/eve-stream";
 import { type ChannelFrom, defineChannel, GET, POST } from "eve/channels";
 import { z } from "zod";
 import { persistBuilderInputRequest } from "../lib/builder-input";
@@ -141,7 +141,7 @@ export default defineChannel({
 			}
 
 			const health = dispatchHealth();
-			const { db } = await import("@crm/db");
+			const { db } = await import("@app/db");
 			const now = new Date();
 			const overdue = await db.agentTask.count({
 				where: {
@@ -284,7 +284,7 @@ export default defineChannel({
 			const conversationId = builderIdFromToken(channel.continuation?.token);
 			if (!conversationId || !data.message?.trim()) return;
 
-			await import("@crm/db").then(({ db }) =>
+			await import("@app/db").then(({ db }) =>
 				db.agentConversation.updateMany({
 					where: { id: conversationId, kind: "BUILDER" },
 					data: {
@@ -302,7 +302,7 @@ export default defineChannel({
 			const conversationId = builderIdFromToken(channel.continuation?.token);
 			if (!conversationId) return;
 
-			await import("@crm/db").then(({ db }) =>
+			await import("@app/db").then(({ db }) =>
 				db.agentConversation.updateMany({
 					where: { id: conversationId, kind: "BUILDER" },
 					data: { continuationToken: builderToken(conversationId) },
@@ -323,7 +323,7 @@ export default defineChannel({
 
 			const conversationId = builderIdFromToken(channel.continuation?.token);
 			if (conversationId) {
-				const { db } = await import("@crm/db");
+				const { db } = await import("@app/db");
 				await db.agentConversation.updateMany({
 					where: { id: conversationId, kind: "BUILDER" },
 					data: {
@@ -343,7 +343,7 @@ export default defineChannel({
 
 			const conversationId = builderIdFromToken(channel.continuation?.token);
 			if (conversationId) {
-				const { db } = await import("@crm/db");
+				const { db } = await import("@app/db");
 				await db.agentConversation.updateMany({
 					where: { id: conversationId, kind: "BUILDER" },
 					data: { pendingInputRequest: Prisma.DbNull },
@@ -354,7 +354,7 @@ export default defineChannel({
 			const runId = runIdFromToken(channel.continuation?.token);
 			if (!runId) return;
 
-			const { db } = await import("@crm/db");
+			const { db } = await import("@app/db");
 			const run = await db.agentRun.findUnique({
 				where: { id: runId },
 				select: { status: true, summary: true, result: true },
@@ -388,7 +388,7 @@ export default defineChannel({
 
 			const conversationId = builderIdFromToken(channel.continuation?.token);
 			if (conversationId) {
-				const { db } = await import("@crm/db");
+				const { db } = await import("@app/db");
 				await db.agentConversation.updateMany({
 					where: { id: conversationId, kind: "BUILDER" },
 					data: {
@@ -412,7 +412,7 @@ export default defineChannel({
 		async "session.failed"(data, channel) {
 			const conversationId = builderIdFromToken(channel.continuation?.token);
 			if (conversationId) {
-				const { db } = await import("@crm/db");
+				const { db } = await import("@app/db");
 				await db.agentConversation.updateMany({
 					where: { id: conversationId, kind: "BUILDER" },
 					data: {

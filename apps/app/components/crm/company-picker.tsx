@@ -1,6 +1,6 @@
 "use client";
 
-import { Combobox, type ComboboxOption } from "@crm/ui/components/combobox";
+import { Combobox, type ComboboxOption } from "@app/ui/components/combobox";
 import {
 	Command,
 	CommandEmpty,
@@ -8,10 +8,10 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "@crm/ui/components/command";
-import { Spinner } from "@crm/ui/components/spinner";
-import { useSearchInput } from "@crm/ui/hooks/use-search-input";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/command";
+import { Spinner } from "@app/ui/components/spinner";
+import { useSearchInput } from "@app/ui/hooks/use-search-input";
+import { cn } from "@app/ui/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { type Ref, useId, useState } from "react";
 import { PROPERTY_LABEL, PROPERTY_ROW } from "@/components/detail-sheet";

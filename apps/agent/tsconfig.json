@@ -1,5 +1,5 @@
 {
-	"extends": "@crm/typescript-config/base.json",
+	"extends": "@app/typescript-config/base.json",
 	"compilerOptions": {
 		"noEmit": true,
 		"module": "preserve",

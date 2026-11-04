@@ -1,7 +1,7 @@
-import type { Db, Prisma } from "@crm/db";
-import type { AgentDefinitionStatus } from "@crm/db/enums";
-import { schemas } from "@crm/validation";
-import { readAgentManifestSummary } from "@crm/validation/agent-manifest";
+import type { Db, Prisma } from "@app/db";
+import type { AgentDefinitionStatus } from "@app/db/enums";
+import { schemas } from "@app/validation";
+import { readAgentManifestSummary } from "@app/validation/agent-manifest";
 import {
 	BadRequestException,
 	Injectable,

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import { joinSlackChannel } from "../agent/lib/slack-membership";
 
 const USER_ID = "slack-join-spec-user";

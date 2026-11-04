@@ -6,11 +6,11 @@ import {
 	FactBand,
 	FactStatus,
 	RecordSource,
-} from "@crm/db";
-import { RETIRED_OUTCOME } from "@crm/db/agent-tasks";
-import { readAgentModel } from "@crm/db/settings";
-import { CONTACT_CAP_REASON } from "@crm/db/tracking";
-import { WORKSPACE_ID } from "@crm/db/workspace";
+} from "@app/db";
+import { RETIRED_OUTCOME } from "@app/db/agent-tasks";
+import { readAgentModel } from "@app/db/settings";
+import { CONTACT_CAP_REASON } from "@app/db/tracking";
+import { WORKSPACE_ID } from "@app/db/workspace";
 import {
 	bucket,
 	claimRollup,
@@ -25,7 +25,7 @@ import {
 	releaseRollup,
 	restoreCounters,
 	telemetryDisabled,
-} from "@crm/telemetry";
+} from "@app/telemetry";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 import { FunnelService } from "./funnel.service";

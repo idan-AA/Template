@@ -7,14 +7,14 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "@crm/ui/components/command";
+} from "@app/ui/components/command";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-} from "@crm/ui/components/popover";
-import { selectTriggerVariants } from "@crm/ui/components/select";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/popover";
+import { selectTriggerVariants } from "@app/ui/components/select";
+import { cn } from "@app/ui/lib/utils";
 import type { VariantProps } from "class-variance-authority";
 import { ChevronDownIcon } from "lucide-react";
 import type * as React from "react";

@@ -1,27 +1,27 @@
 "use client";
 
+import type { FieldValueJson } from "@app/db/fields";
+import { Button } from "@app/ui/components/button";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
+import {
+	EntityLogo,
+	type EntityLogoTone,
+} from "@app/ui/components/entity-logo";
+import { Icon } from "@app/ui/components/icon";
+import { PersonAvatar } from "@app/ui/components/person-avatar";
+import { SimpleTable, SimpleTableRow } from "@app/ui/components/simple-table";
+import { TableCell } from "@app/ui/components/table";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@app/ui/components/tooltip";
+import { formatMoney } from "@app/ui/lib/format";
 import Add from "@carbon/icons-react/es/Add";
 import Partnership from "@carbon/icons-react/es/Partnership";
 import Star from "@carbon/icons-react/es/Star";
 import StarFilled from "@carbon/icons-react/es/StarFilled";
 import UserMultiple from "@carbon/icons-react/es/UserMultiple";
-import type { FieldValueJson } from "@crm/db/fields";
-import { Button } from "@crm/ui/components/button";
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
-import {
-	EntityLogo,
-	type EntityLogoTone,
-} from "@crm/ui/components/entity-logo";
-import { Icon } from "@crm/ui/components/icon";
-import { PersonAvatar } from "@crm/ui/components/person-avatar";
-import { SimpleTable, SimpleTableRow } from "@crm/ui/components/simple-table";
-import { TableCell } from "@crm/ui/components/table";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipTrigger,
-} from "@crm/ui/components/tooltip";
-import { formatMoney } from "@crm/ui/lib/format";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AgentPanel } from "@/components/crm/agent-panel";

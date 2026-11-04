@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { createHash } from "node:crypto";
-import { createMcpSecretBox } from "@crm/auth/mcp-crypto";
-import { type AuthorizationServer, McpOAuthClient } from "@crm/auth/mcp-oauth";
-import type { Db } from "@crm/db";
+import { createMcpSecretBox } from "@app/auth/mcp-crypto";
+import { type AuthorizationServer, McpOAuthClient } from "@app/auth/mcp-oauth";
+import type { Db } from "@app/db";
 import type { AgentTriggerService } from "../src/agent/agent-trigger.service";
 import {
 	assertGrantedScopeBounds,

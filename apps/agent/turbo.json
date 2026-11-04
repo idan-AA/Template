@@ -37,7 +37,7 @@
 			]
 		},
 		/**
-		 * `@crm/auth#test` is not a build dependency — it is a lock.
+		 * `@app/auth#test` is not a build dependency — it is a lock.
 		 *
 		 * Every other fixture in these suites is namespaced with `TEST_RUN_ID`,
 		 * but the workspace cannot be: it is a singleton by design, one row whose
@@ -54,7 +54,7 @@
 		 * a schema per package so nothing shares a row in the first place.
 		 */
 		"test": {
-			"dependsOn": ["topo", "^build", "@crm/auth#test"],
+			"dependsOn": ["topo", "^build", "@app/auth#test"],
 			"passThroughEnv": ["DATABASE_URL"]
 		}
 	}

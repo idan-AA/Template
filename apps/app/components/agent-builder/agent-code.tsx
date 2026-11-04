@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@crm/ui/components/button";
-import { SaveBar } from "@crm/ui/components/save-bar";
+import { Button } from "@app/ui/components/button";
+import { SaveBar } from "@app/ui/components/save-bar";
 import {
 	type FileContents,
 	type FileOptions,

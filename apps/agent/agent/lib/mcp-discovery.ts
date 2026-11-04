@@ -1,10 +1,10 @@
-import { db, type Prisma } from "@crm/db";
-import { vendorAccess, vendorBySlug } from "@crm/mcp-integrations/catalog";
+import { db, type Prisma } from "@app/db";
+import { vendorAccess, vendorBySlug } from "@app/mcp-integrations/catalog";
 import {
 	classifyTool,
 	mcpToolSchema,
 	toolFingerprint,
-} from "@crm/mcp-integrations/tool";
+} from "@app/mcp-integrations/tool";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { z } from "zod";

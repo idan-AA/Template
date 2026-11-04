@@ -1,32 +1,32 @@
 "use client";
 
-import ChevronRight from "@carbon/icons-react/es/ChevronRight";
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	Collapsible,
 	CollapsibleContent,
 	CollapsibleTrigger,
-} from "@crm/ui/components/collapsible";
+} from "@app/ui/components/collapsible";
 import {
 	EntityLogo,
 	type EntityLogoTone,
-} from "@crm/ui/components/entity-logo";
-import { PersonAvatar } from "@crm/ui/components/person-avatar";
+} from "@app/ui/components/entity-logo";
+import { PersonAvatar } from "@app/ui/components/person-avatar";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
-} from "@crm/ui/components/popover";
+} from "@app/ui/components/popover";
 import {
 	IndicatorDot,
 	StatusIndicator,
 	type StatusTone,
-} from "@crm/ui/components/status-indicator";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/status-indicator";
+import { cn } from "@app/ui/lib/utils";
 import {
 	ENRICHMENT_PAGE,
 	ENRICHMENT_PAGE_MAX,
-} from "@crm/validation/enrichment-queue";
+} from "@app/validation/enrichment-queue";
+import ChevronRight from "@carbon/icons-react/es/ChevronRight";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";

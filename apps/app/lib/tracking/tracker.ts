@@ -1,11 +1,11 @@
-import { COOKIE_FIRST_TOUCH } from "@crm/db/attribution";
-import type { TrackingConfig } from "@crm/db/tracking";
+import { COOKIE_FIRST_TOUCH } from "@app/db/attribution";
+import type { TrackingConfig } from "@app/db/tracking";
 import {
 	COOKIE_NAME,
 	LINKER_MAX_AGE_SECONDS,
 	MAX_BODY_BYTES,
 	MAX_EVENTS_PER_BATCH,
-} from "@crm/db/tracking";
+} from "@app/db/tracking";
 
 export function trackerSource(
 	config: TrackingConfig,

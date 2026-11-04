@@ -1,9 +1,9 @@
 "use client";
 
+import ClaudeLogo from "@app/ui/components/brand-logos/claude";
+import { Button } from "@app/ui/components/button";
 import Checkmark from "@carbon/icons-react/es/Checkmark";
 import Copy from "@carbon/icons-react/es/Copy";
-import ClaudeLogo from "@crm/ui/components/brand-logos/claude";
-import { Button } from "@crm/ui/components/button";
 import { useState } from "react";
 import { type CtaLocation, captureLanding } from "./analytics";
 

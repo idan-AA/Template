@@ -1,4 +1,4 @@
-import { db, FactBand, FactStatus, type Prisma } from "@crm/db";
+import { db, FactBand, FactStatus, type Prisma } from "@app/db";
 import { type Evidence, scoreEvidence } from "./evidence";
 import { currentFocus } from "./focus";
 import { isDerivedName, splitName } from "./names";

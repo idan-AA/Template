@@ -1,7 +1,6 @@
 "use client";
 
-import Checkmark from "@carbon/icons-react/es/Checkmark";
-import { Button } from "@crm/ui/components/button";
+import { Button } from "@app/ui/components/button";
 import {
 	Dialog,
 	DialogContent,
@@ -10,19 +9,20 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "@crm/ui/components/dialog";
-import { Icon } from "@crm/ui/components/icon";
-import { Input } from "@crm/ui/components/input";
-import { Label } from "@crm/ui/components/label";
+} from "@app/ui/components/dialog";
+import { Icon } from "@app/ui/components/icon";
+import { Input } from "@app/ui/components/input";
+import { Label } from "@app/ui/components/label";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@crm/ui/components/select";
-import { Textarea } from "@crm/ui/components/textarea";
-import { InvalidInput, type Permission, parse, schemas } from "@crm/validation";
+} from "@app/ui/components/select";
+import { Textarea } from "@app/ui/components/textarea";
+import { InvalidInput, type Permission, parse, schemas } from "@app/validation";
+import Checkmark from "@carbon/icons-react/es/Checkmark";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

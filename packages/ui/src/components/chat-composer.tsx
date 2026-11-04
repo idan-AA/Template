@@ -2,15 +2,15 @@
 
 import ArrowUp from "@carbon/icons-react/es/ArrowUp";
 import StopFilled from "@carbon/icons-react/es/StopFilled";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupTextarea,
-} from "@crm/ui/components/input-group";
-import { Spinner } from "@crm/ui/components/spinner";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/input-group";
+import { Spinner } from "@app/ui/components/spinner";
+import { cn } from "@app/ui/lib/utils";
 import type * as React from "react";
 
 export type ChatComposerSize = "page" | "panel";

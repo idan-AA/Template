@@ -1,8 +1,8 @@
-import { EmptyCellValue } from "@crm/ui/components/empty-cell";
+import { EmptyCellValue } from "@app/ui/components/empty-cell";
 import {
 	EntityLogo,
 	type EntityLogoTone,
-} from "@crm/ui/components/entity-logo";
+} from "@app/ui/components/entity-logo";
 
 export type CompanyRef = {
 	id: string;

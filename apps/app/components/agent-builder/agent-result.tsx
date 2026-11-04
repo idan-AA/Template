@@ -1,5 +1,5 @@
-import { Skeleton } from "@crm/ui/components/skeleton";
-import type { EveToolOutput } from "@crm/validation/eve-tool";
+import { Skeleton } from "@app/ui/components/skeleton";
+import type { EveToolOutput } from "@app/validation/eve-tool";
 import type { ReactNode } from "react";
 import { anchorResults } from "@/lib/agent-results";
 import {

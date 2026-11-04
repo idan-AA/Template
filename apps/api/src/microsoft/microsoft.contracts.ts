@@ -1,4 +1,4 @@
-import { GoogleSyncStatus } from "@crm/db";
+import { GoogleSyncStatus } from "@app/db";
 import { z } from "zod";
 import { MICROSOFT_SYNC_SOURCES } from "../mailbox/mailbox.constants";
 

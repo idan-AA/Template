@@ -1,5 +1,5 @@
-import { db } from "@crm/db";
-import { agentManifest } from "@crm/validation/agent-manifest";
+import { db } from "@app/db";
+import { agentManifest } from "@app/validation/agent-manifest";
 import { defineEval } from "eve/evals";
 import { equals, satisfies } from "eve/evals/expect";
 

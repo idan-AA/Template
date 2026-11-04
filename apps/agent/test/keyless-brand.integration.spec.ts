@@ -1,6 +1,6 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "bun:test";
-import { db, EnrichmentStatus } from "@crm/db";
-import { readContextDevKey, writeContextDevKey } from "@crm/db/settings";
+import { db, EnrichmentStatus } from "@app/db";
+import { readContextDevKey, writeContextDevKey } from "@app/db/settings";
 import { runBrand } from "../agent/lib/brand";
 import { settle } from "../agent/lib/enrichment";
 

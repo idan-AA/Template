@@ -1,5 +1,5 @@
-import { AUTH_COOKIE_PREFIX } from "@crm/auth/cookies";
-import { db } from "@crm/db";
+import { AUTH_COOKIE_PREFIX } from "@app/auth/cookies";
+import { db } from "@app/db";
 
 const COOKIE_NAME = `${AUTH_COOKIE_PREFIX}.session_token`;
 const SESSION_DAYS = 7;

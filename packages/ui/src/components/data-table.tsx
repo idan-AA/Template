@@ -7,8 +7,8 @@ import ChevronDown from "@carbon/icons-react/es/ChevronDown";
 import ChevronRight from "@carbon/icons-react/es/ChevronRight";
 import Column from "@carbon/icons-react/es/Column";
 import Filter from "@carbon/icons-react/es/Filter";
-import { Button } from "@crm/ui/components/button";
-import { Checkbox } from "@crm/ui/components/checkbox";
+import { Button } from "@app/ui/components/button";
+import { Checkbox } from "@app/ui/components/checkbox";
 import {
 	Command,
 	CommandEmpty,
@@ -16,7 +16,7 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "@crm/ui/components/command";
+} from "@app/ui/components/command";
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -30,9 +30,9 @@ import {
 	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { Spinner } from "@crm/ui/components/spinner";
-import { TablePagination } from "@crm/ui/components/table-pagination";
+} from "@app/ui/components/dropdown-menu";
+import { Spinner } from "@app/ui/components/spinner";
+import { TablePagination } from "@app/ui/components/table-pagination";
 import {
 	Table,
 	TableBody,
@@ -40,11 +40,11 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@crm/ui/components/table";
-import type { TableSelection } from "@crm/ui/hooks/use-table-selection";
-import { ROW_ACCENT, ROW_ACCENT_EXPANDABLE } from "@crm/ui/lib/row-accent";
-import type { TableQueryState } from "@crm/ui/lib/table-query";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/table";
+import type { TableSelection } from "@app/ui/hooks/use-table-selection";
+import { ROW_ACCENT, ROW_ACCENT_EXPANDABLE } from "@app/ui/lib/row-accent";
+import type { TableQueryState } from "@app/ui/lib/table-query";
+import { cn } from "@app/ui/lib/utils";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import {
 	Fragment,

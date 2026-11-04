@@ -1,4 +1,4 @@
-import { API_KEY_EXPIRATION } from "@crm/auth/api-keys";
+import { API_KEY_EXPIRATION } from "@app/auth/api-keys";
 import { z } from "zod";
 import { listInput } from "../trpc/list-input";
 

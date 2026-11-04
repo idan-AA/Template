@@ -2,9 +2,9 @@
 
 import Checkmark from "@carbon/icons-react/es/Checkmark";
 import Close from "@carbon/icons-react/es/Close";
-import { Button } from "@crm/ui/components/button";
-import { Icon } from "@crm/ui/components/icon";
-import { Spinner } from "@crm/ui/components/spinner";
+import { Button } from "@app/ui/components/button";
+import { Icon } from "@app/ui/components/icon";
+import { Spinner } from "@app/ui/components/spinner";
 import type * as React from "react";
 
 export function Suggestion({

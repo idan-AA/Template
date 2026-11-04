@@ -1,5 +1,5 @@
-import { db } from "@crm/db";
-import { PRIORITY } from "@crm/db/agent-tasks";
+import { db } from "@app/db";
+import { PRIORITY } from "@app/db/agent-tasks";
 import { runVisibleLane } from "../../agent/lib/dispatch";
 import {
 	reasonOf,

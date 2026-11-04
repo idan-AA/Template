@@ -1,4 +1,4 @@
-import { PRIORITY } from "@crm/db/agent-tasks";
+import { PRIORITY } from "@app/db/agent-tasks";
 
 const MINUTE_MS = 60_000;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { AttendeeList } from "@crm/ui/components/attendee-list";
+import { AttendeeList } from "@app/ui/components/attendee-list";
 import { useQuery } from "@tanstack/react-query";
 import {
 	LocalDateTime,

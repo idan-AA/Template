@@ -4,8 +4,8 @@ import {
 	MICROSOFT_PROVIDER_ID,
 	OUTLOOK_MAIL_SCOPE,
 	SYNC_SCOPES,
-} from "@crm/auth/scopes";
-import { ActivityType, db, EmailDirection, GoogleSyncStatus } from "@crm/db";
+} from "@app/auth/scopes";
+import { ActivityType, db, EmailDirection, GoogleSyncStatus } from "@app/db";
 import { ActivityStampService } from "../src/crm/activity-stamp.service";
 import { GoogleConnectionService } from "../src/google/google-connection.service";
 import type { MailboxMatchService } from "../src/mailbox/mailbox-match.service";

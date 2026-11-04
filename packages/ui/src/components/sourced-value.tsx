@@ -4,7 +4,7 @@ import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
-} from "@crm/ui/components/tooltip";
+} from "@app/ui/components/tooltip";
 import type * as React from "react";
 
 export const SOURCED_VALUE = "underline decoration-dotted underline-offset-4";

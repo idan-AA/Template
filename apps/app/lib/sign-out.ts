@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@crm/auth/client";
+import { signOut } from "@app/auth/client";
 import { toast } from "sonner";
 
 export async function signOutAndRedirect() {

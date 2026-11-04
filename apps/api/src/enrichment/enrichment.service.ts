@@ -1,5 +1,5 @@
-import type { Db, Prisma } from "@crm/db";
-import { ENRICHMENT_PAGE, pageSize } from "@crm/validation/enrichment-queue";
+import type { Db, Prisma } from "@app/db";
+import { ENRICHMENT_PAGE, pageSize } from "@app/validation/enrichment-queue";
 import { Injectable } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 import {

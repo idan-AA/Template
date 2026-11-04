@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { TokenField } from "@crm/ui/components/token-field";
+import { TokenField } from "@app/ui/components/token-field";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 

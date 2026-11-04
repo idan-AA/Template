@@ -1,14 +1,12 @@
 "use client";
 
-import OverflowMenuVertical from "@carbon/icons-react/es/OverflowMenuVertical";
-import Warning from "@carbon/icons-react/es/Warning";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@crm/ui/components/accordion";
-import { Alert, AlertDescription, AlertTitle } from "@crm/ui/components/alert";
+} from "@app/ui/components/accordion";
+import { Alert, AlertDescription, AlertTitle } from "@app/ui/components/alert";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -18,9 +16,9 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-} from "@crm/ui/components/alert-dialog";
-import { Badge } from "@crm/ui/components/badge";
-import { Button } from "@crm/ui/components/button";
+} from "@app/ui/components/alert-dialog";
+import { Badge } from "@app/ui/components/badge";
+import { Button } from "@app/ui/components/button";
 import {
 	Card,
 	CardAction,
@@ -36,23 +34,25 @@ import {
 	CardPanelScroll,
 	CardTitle,
 	CardToolbar,
-} from "@crm/ui/components/card";
-import { CodeBlock } from "@crm/ui/components/code-block";
+} from "@app/ui/components/card";
+import { CodeBlock } from "@app/ui/components/code-block";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { Icon } from "@crm/ui/components/icon";
-import { InlineReferenceText } from "@crm/ui/components/inline-reference-text";
-import { ProviderMark } from "@crm/ui/components/provider-mark";
-import { Spinner } from "@crm/ui/components/spinner";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
-import { ToggleGroup, ToggleGroupItem } from "@crm/ui/components/toggle-group";
-import { useMountEffect } from "@crm/ui/hooks/use-mount-effect";
-import type { ProviderBrand } from "@crm/ui/lib/provider-brand";
+} from "@app/ui/components/dropdown-menu";
+import { Icon } from "@app/ui/components/icon";
+import { InlineReferenceText } from "@app/ui/components/inline-reference-text";
+import { ProviderMark } from "@app/ui/components/provider-mark";
+import { Spinner } from "@app/ui/components/spinner";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
+import { ToggleGroup, ToggleGroupItem } from "@app/ui/components/toggle-group";
+import { useMountEffect } from "@app/ui/hooks/use-mount-effect";
+import type { ProviderBrand } from "@app/ui/lib/provider-brand";
+import OverflowMenuVertical from "@carbon/icons-react/es/OverflowMenuVertical";
+import Warning from "@carbon/icons-react/es/Warning";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

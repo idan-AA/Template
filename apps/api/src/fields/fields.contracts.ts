@@ -1,4 +1,4 @@
-import { FIELD_ENTITIES, FIELD_TYPES } from "@crm/db/fields";
+import { FIELD_ENTITIES, FIELD_TYPES } from "@app/db/fields";
 import { z } from "zod";
 
 export const fieldEntity = z.enum(FIELD_ENTITIES);

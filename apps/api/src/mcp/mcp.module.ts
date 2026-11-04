@@ -1,4 +1,4 @@
-import { McpOAuthClient } from "@crm/auth/mcp-oauth";
+import { McpOAuthClient } from "@app/auth/mcp-oauth";
 import { Module } from "@nestjs/common";
 import { AgentModule } from "../agent/agent.module";
 import { TrpcModule } from "../trpc/trpc.module";

@@ -1,5 +1,5 @@
-import { db } from "@crm/db";
-import { schemas } from "@crm/validation";
+import { db } from "@app/db";
+import { schemas } from "@app/validation";
 import { z } from "zod";
 import { SLACK } from "./slack-config";
 import { slackAccessToken, slackUserToken } from "./slack-connection";

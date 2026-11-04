@@ -1,8 +1,7 @@
 "use client";
 
-import ChevronDown from "@carbon/icons-react/es/ChevronDown";
-import type { DealStage } from "@crm/db/enums";
-import { Button } from "@crm/ui/components/button";
+import type { DealStage } from "@app/db/enums";
+import { Button } from "@app/ui/components/button";
 import {
 	Dialog,
 	DialogContent,
@@ -10,18 +9,19 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@crm/ui/components/dialog";
+} from "@app/ui/components/dialog";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { Field, FieldLabel } from "@crm/ui/components/field";
-import { Icon } from "@crm/ui/components/icon";
-import { Spinner } from "@crm/ui/components/spinner";
-import { Textarea } from "@crm/ui/components/textarea";
+} from "@app/ui/components/dropdown-menu";
+import { Field, FieldLabel } from "@app/ui/components/field";
+import { Icon } from "@app/ui/components/icon";
+import { Spinner } from "@app/ui/components/spinner";
+import { Textarea } from "@app/ui/components/textarea";
+import ChevronDown from "@carbon/icons-react/es/ChevronDown";
 import { useMutation } from "@tanstack/react-query";
 import { parseAsString, useQueryStates } from "nuqs";
 import { useId, useState } from "react";

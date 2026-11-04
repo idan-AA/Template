@@ -1,4 +1,4 @@
-import { type Db, db } from "@crm/db";
+import { type Db, db } from "@app/db";
 import {
 	Global,
 	Logger,

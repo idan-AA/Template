@@ -1,4 +1,4 @@
-import { loadRootEnv } from "@crm/env";
+import { loadRootEnv } from "@app/env";
 import type { NextConfig } from "next";
 
 loadRootEnv();
@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
 		NEXT_PUBLIC_API_URL: apiUrl,
 	},
 
-	transpilePackages: ["@crm/auth", "@crm/db", "@crm/telemetry", "@crm/ui"],
+	transpilePackages: ["@app/auth", "@app/db", "@app/telemetry", "@app/ui"],
 
 	serverExternalPackages: ["@prisma/client", "@prisma/adapter-pg", "pg"],
 

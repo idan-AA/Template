@@ -1,4 +1,4 @@
-# `@crm/db`
+# `@app/db`
 
 PostgreSQL access for the monorepo: the Prisma schema, migrations, and a shared
 `PrismaClient` instance.
@@ -6,7 +6,7 @@ PostgreSQL access for the monorepo: the Prisma schema, migrations, and a shared
 ## Usage
 
 ```ts
-import { db } from "@crm/db";
+import { db } from "@app/db";
 
 const users = await db.user.findMany({ take: 10 });
 ```
@@ -14,7 +14,7 @@ const users = await db.user.findMany({ take: 10 });
 Types and query helpers come from the same entrypoint:
 
 ```ts
-import { Prisma, type User } from "@crm/db";
+import { Prisma, type User } from "@app/db";
 ```
 
 ## Setup
@@ -26,9 +26,9 @@ bun run db:generate        # generate Prisma Client
 bun run db:deploy          # apply the migrations
 ```
 
-`DATABASE_URL` comes from the **repo-root `.env`**, loaded by `@crm/env` — see
+`DATABASE_URL` comes from the **repo-root `.env`**, loaded by `@app/env` — see
 [`docs/environment.md`](../../docs/environment.md). `src/client.ts` imports
-`@crm/env/load` before reading it, and `prisma.config.ts` does the same so the
+`@app/env/load` before reading it, and `prisma.config.ts` does the same so the
 CLI works without any app running.
 
 ## Scripts
@@ -66,7 +66,7 @@ generated model map.
   runtime — the NestJS API runs on Bun for exactly this reason.
 - **Auth models are generated.** `User`, `Session`, `Account`, `Verification`
   and `RateLimit` come from `@better-auth/cli`. Do not hand-edit them — change
-  the Better Auth config in `@crm/auth` and re-run `bun run auth:generate`.
+  the Better Auth config in `@app/auth` and re-run `bun run auth:generate`.
   The generator is additive: it adds models and fields a plugin needs but never
   removes the ones a dropped plugin left behind, so removing a plugin means
   deleting its models from the schema by hand.

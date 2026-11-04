@@ -1,5 +1,5 @@
 {
-	"name": "@crm/db",
+	"name": "@app/db",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -44,13 +44,13 @@
 		"clean": "rm -rf .turbo node_modules src/generated"
 	},
 	"dependencies": {
-		"@crm/env": "workspace:*",
+		"@app/env": "workspace:*",
 		"@prisma/adapter-pg": "^7.10.1",
 		"@prisma/client": "^7.10.1",
 		"@vercel/blob": "^2.6.1"
 	},
 	"devDependencies": {
-		"@crm/typescript-config": "workspace:*",
+		"@app/typescript-config": "workspace:*",
 		"@types/node": "^24.10.1",
 		"pg": "^8.22.0",
 		"prisma": "^7.10.1",

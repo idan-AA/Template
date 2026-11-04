@@ -6,7 +6,7 @@ import {
 	DrawerDescription,
 	DrawerHeader,
 	DrawerTitle,
-} from "@crm/ui/components/drawer";
+} from "@app/ui/components/drawer";
 import {
 	type SheetSize,
 	Sheet as UISheet,
@@ -14,9 +14,9 @@ import {
 	SheetDescription as UISheetDescription,
 	SheetHeader as UISheetHeader,
 	SheetTitle as UISheetTitle,
-} from "@crm/ui/components/sheet";
-import { useIsMobile } from "@crm/ui/hooks/use-mobile";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/sheet";
+import { useIsMobile } from "@app/ui/hooks/use-mobile";
+import { cn } from "@app/ui/lib/utils";
 import type * as React from "react";
 import { createContext, useContext } from "react";
 

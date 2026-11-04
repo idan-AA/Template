@@ -1,7 +1,7 @@
 "use client";
 
-import { Provenance } from "@crm/ui/components/sourced-value";
-import { Suggestion } from "@crm/ui/components/suggestion";
+import { Provenance } from "@app/ui/components/sourced-value";
+import { Suggestion } from "@app/ui/components/suggestion";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { LocalDateTime } from "@/components/local-date-time";

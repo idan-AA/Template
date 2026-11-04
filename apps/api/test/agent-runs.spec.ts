@@ -1,7 +1,7 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "bun:test";
-import { DEFAULT_WORKSPACE_NAME, WORKSPACE_ID } from "@crm/auth/organization";
-import { db } from "@crm/db";
-import { workspaceSlug } from "@crm/db/workspace";
+import { DEFAULT_WORKSPACE_NAME, WORKSPACE_ID } from "@app/auth/organization";
+import { db } from "@app/db";
+import { workspaceSlug } from "@app/db/workspace";
 import { AgentAccessService } from "../src/agent/agent-access.service";
 import { AgentRunsService } from "../src/agent/agent-runs.service";
 import { AgentTriggerService } from "../src/agent/agent-trigger.service";

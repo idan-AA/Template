@@ -1,7 +1,7 @@
 "use client";
 
-import { CURRENCIES } from "@crm/db/currency";
-import { Button } from "@crm/ui/components/button";
+import { CURRENCIES } from "@app/db/currency";
+import { Button } from "@app/ui/components/button";
 import {
 	Card,
 	CardAction,
@@ -9,26 +9,26 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
-import { CardTableEmpty } from "@crm/ui/components/card-table";
-import { Field, FieldDescription, FieldLabel } from "@crm/ui/components/field";
-import { Input } from "@crm/ui/components/input";
+} from "@app/ui/components/card";
+import { CardTableEmpty } from "@app/ui/components/card-table";
+import { Field, FieldDescription, FieldLabel } from "@app/ui/components/field";
+import { Input } from "@app/ui/components/input";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@crm/ui/components/select";
+} from "@app/ui/components/select";
 import {
 	SimpleTable,
 	type SimpleTableColumn,
 	SimpleTableRow,
-} from "@crm/ui/components/simple-table";
-import { Spinner } from "@crm/ui/components/spinner";
-import { StatusIndicator } from "@crm/ui/components/status-indicator";
-import { TableCell } from "@crm/ui/components/table";
-import { formatCount } from "@crm/ui/lib/format";
+} from "@app/ui/components/simple-table";
+import { Spinner } from "@app/ui/components/spinner";
+import { StatusIndicator } from "@app/ui/components/status-indicator";
+import { TableCell } from "@app/ui/components/table";
+import { formatCount } from "@app/ui/lib/format";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useId, useState } from "react";
 import { toast } from "sonner";

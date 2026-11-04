@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { MAX_ATTEMPTS, TASK_KINDS } from "@crm/db/agent-tasks";
+import { MAX_ATTEMPTS, TASK_KINDS } from "@app/db/agent-tasks";
 import {
 	enrichmentDueLabel,
 	enrichmentQueueLine,

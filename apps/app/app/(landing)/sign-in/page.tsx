@@ -1,4 +1,4 @@
-import type { MailboxProviderId } from "@crm/auth/scopes";
+import type { MailboxProviderId } from "@app/auth/scopes";
 import type { Metadata } from "next";
 import { redirect, unstable_rethrow } from "next/navigation";
 import { Suspense } from "react";

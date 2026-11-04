@@ -1,5 +1,5 @@
-import type { AgentDefinitionStatus } from "@crm/db/enums";
-import { parseAgentManifest } from "@crm/validation/agent-manifest";
+import type { AgentDefinitionStatus } from "@app/db/enums";
+import { parseAgentManifest } from "@app/validation/agent-manifest";
 
 type AgentUsingMcp = {
 	id: string;

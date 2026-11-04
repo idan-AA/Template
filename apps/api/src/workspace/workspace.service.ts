@@ -6,9 +6,9 @@ import {
 	WORKSPACE_ID,
 	type WorkspaceRole,
 	workspaceRoleOf,
-} from "@crm/auth/organization";
-import type { Db, Prisma } from "@crm/db";
-import { isOnboarded, markOnboarded, workspaceSlug } from "@crm/db/workspace";
+} from "@app/auth/organization";
+import type { Db, Prisma } from "@app/db";
+import { isOnboarded, markOnboarded, workspaceSlug } from "@app/db/workspace";
 import {
 	BadRequestException,
 	ForbiddenException,

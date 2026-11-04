@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
-import { WORKSPACE_ID } from "@crm/auth/organization";
-import type { Db, Prisma } from "@crm/db";
+import { WORKSPACE_ID } from "@app/auth/organization";
+import type { Db, Prisma } from "@app/db";
 import {
 	ForbiddenException,
 	Injectable,

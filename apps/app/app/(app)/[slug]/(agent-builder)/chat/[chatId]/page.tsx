@@ -1,5 +1,5 @@
-import { vendors } from "@crm/mcp-integrations/catalog";
-import { providerBrand } from "@crm/ui/lib/provider-brand";
+import { vendors } from "@app/mcp-integrations/catalog";
+import { providerBrand } from "@app/ui/lib/provider-brand";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";

@@ -1,8 +1,8 @@
-import { CRM_EVENT_TYPES } from "@crm/db/crm-events";
+import { CRM_EVENT_TYPES } from "@app/db/crm-events";
 import {
 	AGENT_ACTION_TYPES,
 	agentManifestMcpGrant,
-} from "@crm/validation/agent-manifest";
+} from "@app/validation/agent-manifest";
 import { z } from "zod";
 import type { DraftAgentInput } from "../../../lib/builder-runtime";
 

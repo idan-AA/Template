@@ -5,14 +5,14 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@crm/ui/components/card";
-import { CardTableEmpty } from "@crm/ui/components/card-table";
+} from "@app/ui/components/card";
+import { CardTableEmpty } from "@app/ui/components/card-table";
 import {
 	SimpleTable,
 	type SimpleTableColumn,
 	SimpleTableRow,
-} from "@crm/ui/components/simple-table";
-import { TableCell } from "@crm/ui/components/table";
+} from "@app/ui/components/simple-table";
+import { TableCell } from "@app/ui/components/table";
 import { useQuery } from "@tanstack/react-query";
 import { useTRPC } from "@/lib/trpc/client";
 

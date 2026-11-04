@@ -1,5 +1,5 @@
-import type { Db } from "@crm/db";
-import { readArchiveRetentionDays } from "@crm/db/settings";
+import type { Db } from "@app/db";
+import { readArchiveRetentionDays } from "@app/db/settings";
 import {
 	Controller,
 	ForbiddenException,

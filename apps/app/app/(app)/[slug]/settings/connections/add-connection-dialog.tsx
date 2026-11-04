@@ -1,19 +1,19 @@
 "use client";
 
-import DocusignLogo from "@crm/ui/components/brand-logos/docusign";
-import GoogleLogo from "@crm/ui/components/brand-logos/google";
-import MicrosoftLogo from "@crm/ui/components/brand-logos/microsoft";
-import SlackLogo from "@crm/ui/components/brand-logos/slack";
-import StripeLogo from "@crm/ui/components/brand-logos/stripe";
+import DocusignLogo from "@app/ui/components/brand-logos/docusign";
+import GoogleLogo from "@app/ui/components/brand-logos/google";
+import MicrosoftLogo from "@app/ui/components/brand-logos/microsoft";
+import SlackLogo from "@app/ui/components/brand-logos/slack";
+import StripeLogo from "@app/ui/components/brand-logos/stripe";
 import {
 	Dialog,
 	DialogContent,
 	DialogDescription,
 	DialogHeader,
 	DialogTitle,
-} from "@crm/ui/components/dialog";
-import { ProviderMark } from "@crm/ui/components/provider-mark";
-import type { ProviderBrand } from "@crm/ui/lib/provider-brand";
+} from "@app/ui/components/dialog";
+import { ProviderMark } from "@app/ui/components/provider-mark";
+import type { ProviderBrand } from "@app/ui/lib/provider-brand";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

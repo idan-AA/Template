@@ -1,8 +1,8 @@
+import GitHubLogo from "@app/ui/components/brand-logos/github";
+import StripeLogo from "@app/ui/components/brand-logos/stripe";
+import VercelLogo from "@app/ui/components/brand-logos/vercel";
+import { cn } from "@app/ui/lib/utils";
 import ArrowRight from "@carbon/icons-react/es/ArrowRight";
-import GitHubLogo from "@crm/ui/components/brand-logos/github";
-import StripeLogo from "@crm/ui/components/brand-logos/stripe";
-import VercelLogo from "@crm/ui/components/brand-logos/vercel";
-import { cn } from "@crm/ui/lib/utils";
 import type * as React from "react";
 import { AskCard } from "./ask-card";
 import {

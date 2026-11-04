@@ -1,9 +1,5 @@
 "use client";
 
-import Archive from "@carbon/icons-react/es/Archive";
-import OverflowMenuVertical from "@carbon/icons-react/es/OverflowMenuVertical";
-import TrashCan from "@carbon/icons-react/es/TrashCan";
-import Undo from "@carbon/icons-react/es/Undo";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -13,15 +9,19 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-} from "@crm/ui/components/alert-dialog";
-import { Button } from "@crm/ui/components/button";
+} from "@app/ui/components/alert-dialog";
+import { Button } from "@app/ui/components/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
-} from "@crm/ui/components/dropdown-menu";
-import { Icon } from "@crm/ui/components/icon";
+} from "@app/ui/components/dropdown-menu";
+import { Icon } from "@app/ui/components/icon";
+import Archive from "@carbon/icons-react/es/Archive";
+import OverflowMenuVertical from "@carbon/icons-react/es/OverflowMenuVertical";
+import TrashCan from "@carbon/icons-react/es/TrashCan";
+import Undo from "@carbon/icons-react/es/Undo";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";

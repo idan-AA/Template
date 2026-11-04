@@ -1,7 +1,7 @@
-import { onSignedIn } from "@crm/auth/signed-in";
-import { type Db, EnrichmentStatus, type Prisma } from "@crm/db";
-import { PRIORITY } from "@crm/db/agent-tasks";
-import { readWorkspaceIdentity } from "@crm/db/workspace";
+import { onSignedIn } from "@app/auth/signed-in";
+import { type Db, EnrichmentStatus, type Prisma } from "@app/db";
+import { PRIORITY } from "@app/db/agent-tasks";
+import { readWorkspaceIdentity } from "@app/db/workspace";
 import { CACHE_MANAGER } from "@nestjs/cache-manager";
 import { Inject, Injectable, Logger, type OnModuleInit } from "@nestjs/common";
 import type { Cache } from "cache-manager";

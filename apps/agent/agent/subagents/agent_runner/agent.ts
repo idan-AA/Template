@@ -1,5 +1,5 @@
-import { db } from "@crm/db";
-import { DEFAULT_AGENT_MODEL } from "@crm/db/settings";
+import { db } from "@app/db";
+import { DEFAULT_AGENT_MODEL } from "@app/db/settings";
 import { defineAgent, defineDynamic } from "eve";
 import { attribute, purposeOf } from "../../lib/session-purpose";
 

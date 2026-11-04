@@ -1,7 +1,7 @@
 import {
 	type AgentPermissionMode,
 	agentPermissionMode,
-} from "@crm/validation/agent-permission";
+} from "@app/validation/agent-permission";
 import type { Approval, ApprovalContext } from "eve/tools/approval";
 import { APP_AUTH } from "./app-auth";
 import { attribute } from "./session-purpose";

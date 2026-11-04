@@ -1,4 +1,4 @@
-import { db } from "@crm/db";
+import { db } from "@app/db";
 
 export const BUILDER_CONVERSATION_TITLE_MAX_LENGTH = 60;
 

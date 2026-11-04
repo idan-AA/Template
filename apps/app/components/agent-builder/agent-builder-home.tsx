@@ -1,7 +1,7 @@
 "use client";
 
+import { Icon } from "@app/ui/components/icon";
 import ArrowRight from "@carbon/icons-react/es/ArrowRight";
-import { Icon } from "@crm/ui/components/icon";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";

@@ -1,4 +1,4 @@
-import { cn } from "@crm/ui/lib/utils";
+import { cn } from "@app/ui/lib/utils";
 
 const GRID = 5;
 const CELLS = Array.from({ length: GRID * GRID }, (_, index) => index);

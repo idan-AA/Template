@@ -7,13 +7,13 @@ import {
 	expect,
 	it,
 } from "bun:test";
-import { db, type Prisma } from "@crm/db";
+import { db, type Prisma } from "@app/db";
 import {
 	DEFAULT_AGENT_MODEL,
 	readAgentModel,
 	SETTINGS_ID,
 	writeAgentModel,
-} from "@crm/db/settings";
+} from "@app/db/settings";
 import { selectedModel } from "../agent/lib/model";
 
 async function clear() {

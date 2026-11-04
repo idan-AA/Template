@@ -4,8 +4,8 @@ import {
 	FactBand,
 	FactStatus,
 	RecordSource,
-} from "@crm/db";
-import { FIELD_ENTITIES, FIELD_TYPES } from "@crm/db/fields";
+} from "@app/db";
+import { FIELD_ENTITIES, FIELD_TYPES } from "@app/db/fields";
 import { z } from "zod";
 import { bulkIdsInput } from "../crm/bulk";
 import { recordFieldValues } from "../fields/fields.contracts";

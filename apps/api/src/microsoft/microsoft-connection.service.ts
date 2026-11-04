@@ -1,6 +1,6 @@
-import { isMicrosoftConfigured } from "@crm/auth/env";
-import { MICROSOFT_PROVIDER_ID, signsInWithMicrosoft } from "@crm/auth/scopes";
-import type { Db, Prisma } from "@crm/db";
+import { isMicrosoftConfigured } from "@app/auth/env";
+import { MICROSOFT_PROVIDER_ID, signsInWithMicrosoft } from "@app/auth/scopes";
+import type { Db, Prisma } from "@app/db";
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { ActivityStampService } from "../crm/activity-stamp.service";
 import { InjectDatabase } from "../database/database.constants";

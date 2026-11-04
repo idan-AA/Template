@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
-import { isGoogleConfigured } from "@crm/auth/env";
-import { WORKSPACE_ID } from "@crm/auth/organization";
-import type { Db } from "@crm/db";
+import { isGoogleConfigured } from "@app/auth/env";
+import { WORKSPACE_ID } from "@app/auth/organization";
+import type { Db } from "@app/db";
 import { ForbiddenException } from "@nestjs/common";
 import { SsoService } from "../src/sso/sso.service";
 

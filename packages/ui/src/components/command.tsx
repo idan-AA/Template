@@ -6,13 +6,13 @@ import {
 	DialogDescription,
 	DialogHeader,
 	DialogTitle,
-} from "@crm/ui/components/dialog";
+} from "@app/ui/components/dialog";
 import {
 	InputGroup,
 	InputGroupAddon,
-} from "@crm/ui/components/input-group";
+} from "@app/ui/components/input-group";
 
-import { cn } from "@crm/ui/lib/utils";
+import { cn } from "@app/ui/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
 import { CheckIcon, SearchIcon } from "lucide-react";
 import type * as React from "react";

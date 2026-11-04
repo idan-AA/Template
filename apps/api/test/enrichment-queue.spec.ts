@@ -1,11 +1,11 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
-import { db } from "@crm/db";
+import { db } from "@app/db";
 import {
 	ENRICHMENT_PAGE,
 	ENRICHMENT_PAGE_MAX,
 	enrichmentQueueInput,
 	pageSize,
-} from "@crm/validation/enrichment-queue";
+} from "@app/validation/enrichment-queue";
 import { EnrichmentService } from "../src/enrichment/enrichment.service";
 
 const suffix = process.env.TEST_RUN_ID ?? "enrichment-queue-spec";

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { vendorBySlug } from "@crm/mcp-integrations/catalog";
+import { vendorBySlug } from "@app/mcp-integrations/catalog";
 import {
 	authorizationServerMetadataUrl,
 	checkAuthorizationServer,

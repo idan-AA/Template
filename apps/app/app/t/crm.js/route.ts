@@ -1,7 +1,7 @@
 import {
 	BUNDLE_MAX_AGE_SECONDS,
 	LOADER_MAX_AGE_SECONDS,
-} from "@crm/db/tracking";
+} from "@app/db/tracking";
 import { LOADER_SOURCE } from "@/lib/tracking/loader";
 
 export function GET(): Response {

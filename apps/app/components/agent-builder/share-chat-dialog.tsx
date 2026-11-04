@@ -1,12 +1,10 @@
 "use client";
 
-import Close from "@carbon/icons-react/es/Close";
-import Copy from "@carbon/icons-react/es/Copy";
 import {
 	AsyncButtonContent,
 	useAsyncAction,
-} from "@crm/ui/components/async-action";
-import { Button } from "@crm/ui/components/button";
+} from "@app/ui/components/async-action";
+import { Button } from "@app/ui/components/button";
 import {
 	Dialog,
 	DialogClose,
@@ -16,9 +14,11 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "@crm/ui/components/dialog";
-import { Icon } from "@crm/ui/components/icon";
-import { cn } from "@crm/ui/lib/utils";
+} from "@app/ui/components/dialog";
+import { Icon } from "@app/ui/components/icon";
+import { cn } from "@app/ui/lib/utils";
+import Close from "@carbon/icons-react/es/Close";
+import Copy from "@carbon/icons-react/es/Copy";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";

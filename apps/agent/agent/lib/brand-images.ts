@@ -1,6 +1,6 @@
-import type { Prisma } from "@crm/db";
-import { blobEnabled, mirror } from "@crm/db/blob";
-import { COMPANY_IMAGE_FIELDS } from "@crm/db/images";
+import type { Prisma } from "@app/db";
+import { blobEnabled, mirror } from "@app/db/blob";
+import { COMPANY_IMAGE_FIELDS } from "@app/db/images";
 import { z } from "zod";
 
 const mirrorableUrl = z.string().regex(/\S/).nullable().catch(null);

@@ -1,6 +1,6 @@
-import "@crm/env/load";
+import "@app/env/load";
 
-import { onTelemetryProblem, syncVersion } from "@crm/telemetry";
+import { onTelemetryProblem, syncVersion } from "@app/telemetry";
 import { defineAgent, defineDynamic } from "eve";
 import { logCapabilities } from "./lib/capabilities";
 import { selectedModel } from "./lib/model";

@@ -1,13 +1,13 @@
-import type { ProviderBrand } from "@crm/ui/lib/provider-brand";
+import type { ProviderBrand } from "@app/ui/lib/provider-brand";
 import {
 	type AgentConnectionRequestStatus,
 	agentConnectionRequest,
-} from "@crm/validation/agent-connection-request";
+} from "@app/validation/agent-connection-request";
 import {
 	type EveStreamEvent,
 	eveTurnFailure,
 	eveTurnReference,
-} from "@crm/validation/eve-stream";
+} from "@app/validation/eve-stream";
 import {
 	type EveToolInput,
 	type EveToolOutcome,
@@ -15,7 +15,7 @@ import {
 	eveToolInput,
 	eveToolOutcome,
 	eveToolOutput,
-} from "@crm/validation/eve-tool";
+} from "@app/validation/eve-tool";
 import type { MessageStreamEvent } from "eve/client";
 import {
 	defaultMessageReducer,

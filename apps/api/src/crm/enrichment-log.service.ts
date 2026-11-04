@@ -1,5 +1,5 @@
-import { ActivityType, type Db } from "@crm/db";
-import type { ActivityMetaFields } from "@crm/validation/activity-meta";
+import { ActivityType, type Db } from "@app/db";
+import type { ActivityMetaFields } from "@app/validation/activity-meta";
 import { Injectable } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 import { ActivityStampService } from "./activity-stamp.service";

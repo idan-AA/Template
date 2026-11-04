@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import type { WorkspaceRole } from "@crm/auth/organization";
-import type { Db } from "@crm/db";
+import type { WorkspaceRole } from "@app/auth/organization";
+import type { Db } from "@app/db";
 import type { AgentAccessService } from "../src/agent/agent-access.service";
 import type { AgentTriggerService } from "../src/agent/agent-trigger.service";
 import type { SlackChannelsService } from "../src/slack/slack-channels.service";

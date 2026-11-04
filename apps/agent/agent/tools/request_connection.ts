@@ -1,7 +1,7 @@
-import { db } from "@crm/db";
-import { WORKSPACE_ID } from "@crm/db/workspace";
-import { vendors } from "@crm/mcp-integrations/catalog";
-import { agentConnectionRequest } from "@crm/validation/agent-connection-request";
+import { db } from "@app/db";
+import { WORKSPACE_ID } from "@app/db/workspace";
+import { vendors } from "@app/mcp-integrations/catalog";
+import { agentConnectionRequest } from "@app/validation/agent-connection-request";
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { connectionRequestStatus } from "../lib/chat-mcp";
