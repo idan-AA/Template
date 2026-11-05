@@ -27,13 +27,12 @@ export type OverviewWidget = {
 	Body: ComponentType<OverviewWidgetProps>;
 };
 
-export const OVERVIEW_WIDGETS: Readonly<Record<BuiltWidgetId, OverviewWidget>> =
-	{
-		"crm.sales": {
-			Description: OverviewDescription,
-			DescriptionFallback: OverviewDescriptionFallback,
-			Actions: OverviewScopeToggle,
-			ActionsFallback: OverviewScopeToggleFallback,
-			Body: CrmOverviewBody,
-		},
-	};
+export const OVERVIEW_WIDGETS = {
+	"crm.sales": {
+		Description: OverviewDescription,
+		DescriptionFallback: OverviewDescriptionFallback,
+		Actions: OverviewScopeToggle,
+		ActionsFallback: OverviewScopeToggleFallback,
+		Body: CrmOverviewBody,
+	},
+} satisfies Readonly<Record<BuiltWidgetId, OverviewWidget>>;

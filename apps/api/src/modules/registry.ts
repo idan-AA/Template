@@ -14,10 +14,10 @@ import type { Type } from "@nestjs/common";
  * left out yet. Moving them behind this list is the work of moving the CRM
  * behind its module; until then the CRM API is always mounted.
  */
-export const MODULE_API: Readonly<Record<ModuleId, readonly Type[]>> = {
+export const MODULE_API = {
 	crm: [],
 	bookkeeping: [],
-};
+} satisfies Readonly<Record<ModuleId, readonly Type[]>>;
 
 /** The Nest modules for these product modules, in the order given. */
 export function apiModulesFor(

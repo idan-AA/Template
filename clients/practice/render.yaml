@@ -1,22 +1,32 @@
-# Render Blueprint template. Do not deploy this file.
-# `bun run new-client <id>` writes clients/<id>/render.yaml from it, with every
-# practice replaced by the client id. In Render: New > Blueprint > this repository >
-# Blueprint Path = clients/<id>/render.yaml. See docs/setup.md "Deploy a new client".
+# Render Blueprint for client "practice" (the owner's practice deploy).
+# In Render: New > Blueprint > this repository > Blueprint Path = clients/practice/render.yaml.
+# See docs/setup.md "Deploy a new client".
 #
-# One client = one database, an API, a web app and a private agent. Nothing else:
-# the scheduled jobs run inside the API process (apps/api/src/scheduler).
+# FREE VERSION (owner decision 2026-11-05: "all free, no Chat for now"):
+# - Database, API and web app on Render's free plans. Free web services sleep after
+#   about 15 minutes idle (first visit takes about a minute) and the in-process
+#   scheduled jobs pause while asleep. The free database is deleted 30 days after
+#   creation (14-day grace period), so this is for practice only.
+# - No agent service: private services and disks have no free plan. AGENT_SHELL is
+#   "0", so Chat, the agent builder and team agents show "Not available on this
+#   deployment" instead of queueing work that never runs.
+# - Free plans cannot run a pre-deploy command, so the API applies migrations and
+#   checks schema drift at start (dockerCommand below) before serving.
+# To go paid later: set the plans back to 0.5c-512mb / 0.1c-256mb, restore the
+# practice-agent service and preDeployCommand from render.yaml.template, and set
+# AGENT_SHELL to "1".
 #
 # Values typed at the prompts (sync: false): API_URL, APP_URL, ALLOWED_SIGN_IN,
 # AUTH_COOKIE_DOMAIN, the sign-in client pair and AI_GATEWAY_API_KEY. API_URL and
 # APP_URL must be right before the first build: the web app bakes API_URL into the
-# browser bundle.
+# browser bundle. Leave ALLOWED_SIGN_IN, AUTH_COOKIE_DOMAIN and Google blank.
 
-# region must be the same on the database and every service (private URLs only work
-# inside one region) and cannot be changed after creation.
+# region must be the same on the database and every service and cannot be changed
+# after creation.
 databases:
   - name: practice-db
     region: oregon
-    plan: 0.1c-256mb
+    plan: free
     postgresMajorVersion: "17"
     ipAllowList: []
 
@@ -35,26 +45,23 @@ envVarGroups:
         generateValue: true
       - key: CHAT_EVENT_ENCRYPTION_KEY
         generateValue: true
-      - key: AGENT_URL
-        value: http://practice-agent:10000
-      # The agent builder, Chat and deployed team agents run code in a sandbox shell
-      # inside the agent service. ON by default for client deploys (owner decision
-      # 2026-11-05, docs/DECISIONS.md). Read by the api AND the agent, so it lives in
-      # this shared group. Set it to "0" to switch those features off everywhere.
+      # No agent service on the free plan, so the shell features are off and the
+      # app says so. Set to "1" when the agent service is added.
       - key: AGENT_SHELL
-        value: "1"
+        value: "0"
 
 services:
   - type: web
     name: practice-api
     runtime: docker
     region: oregon
-    plan: 0.5c-512mb
+    plan: free
     dockerfilePath: ./apps/api/Dockerfile
     dockerContext: .
+    # Free plans have no preDeployCommand: migrate and check drift, then start.
+    dockerCommand: sh -c "bun run db:deploy && bun apps/api/scripts/check-schema-drift.mjs && exec bun apps/api/dist/main.js"
     healthCheckPath: /health
     autoDeployTrigger: "off"
-    preDeployCommand: bun run db:deploy && bun apps/api/scripts/check-schema-drift.mjs
     envVars:
       - fromGroup: practice-shared
       - key: DATABASE_URL
@@ -80,7 +87,7 @@ services:
     name: practice-app
     runtime: docker
     region: oregon
-    plan: 0.5c-512mb
+    plan: free
     dockerfilePath: ./apps/app/Dockerfile
     dockerContext: .
     healthCheckPath: /api/health
@@ -91,11 +98,10 @@ services:
         fromDatabase:
           name: practice-db
           property: connectionString
-      # CLIENT_ID is also set on the service itself, not only in the shared group.
-      # Render documents that service-level variables become Docker build arguments
-      # (https://render.com/docs/docker, "Environment variable translation"); it says
-      # nothing about group variables. The web app bakes CLIENT_ID at `next build`, so
-      # do not rely on the group alone. Service-level wins over the group (same value).
+      # CLIENT_ID is also set on the service itself: Render documents that
+      # service-level variables become Docker build arguments
+      # (https://render.com/docs/docker, "Environment variable translation"), and the
+      # web app bakes CLIENT_ID at `next build`.
       - key: CLIENT_ID
         value: practice
       - key: IS_MARKETING
@@ -109,27 +115,4 @@ services:
       - key: GOOGLE_CLIENT_ID
         sync: false
       - key: GOOGLE_CLIENT_SECRET
-        sync: false
-
-  - type: pserv
-    name: practice-agent
-    runtime: docker
-    region: oregon
-    plan: 0.5c-512mb
-    dockerfilePath: ./apps/agent/Dockerfile
-    dockerContext: .
-    autoDeployTrigger: "off"
-    disk:
-      name: eve-workflow
-      mountPath: /app/apps/agent/.eve/.workflow-data
-      sizeGB: 1
-    envVars:
-      - fromGroup: practice-shared
-      - key: DATABASE_URL
-        fromDatabase:
-          name: practice-db
-          property: connectionString
-      - key: PORT
-        value: "10000"
-      - key: AI_GATEWAY_API_KEY
         sync: false

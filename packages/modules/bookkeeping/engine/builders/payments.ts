@@ -80,7 +80,9 @@ function assertTarget(target: SettlementTarget): void {
 	}
 }
 
-function controlOf(kind: PaymentKind): { account: "AR" | "AP"; side: Side } {
+type Control = { account: "AR" | "AP"; side: Side };
+
+function controlOf(kind: PaymentKind): Control {
 	switch (kind) {
 		case "RECEIPT":
 			return { account: "AR", side: "CREDIT" };

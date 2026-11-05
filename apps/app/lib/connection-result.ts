@@ -24,7 +24,7 @@ export type SupportedResultProvider = {
 	brand?: ProviderBrand | null;
 };
 
-export type ProviderCardItem = {
+type ProviderCardItem = {
 	key: string;
 	title?: string;
 	reference?: string;

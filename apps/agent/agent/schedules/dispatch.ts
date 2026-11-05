@@ -78,7 +78,7 @@ export default defineSchedule({
 					console.log(
 						tickLine(counts, Date.now() - startedAt, undefined, shellState()),
 					),
-				(error: unknown) => {
+				(error) => {
 					console.log(
 						tickLine(
 							counts,

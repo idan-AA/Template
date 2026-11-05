@@ -50,7 +50,7 @@ async function inRolledBackTransaction(
 			},
 			{ timeout: 180_000, maxWait: 30_000 },
 		)
-		.catch((error: unknown) => {
+		.catch((error) => {
 			if (!(error instanceof Rollback)) throw error;
 		});
 }
@@ -102,6 +102,6 @@ describe("the seed order", () => {
 	it("gives bookkeeping a server half with a seed, so the runner seeds the ledger", async () => {
 		const books = await loadServer("bookkeeping");
 
-		expect(typeof books.seed).toBe("function");
+		expect(books.seed).toBeInstanceOf(Function);
 	});
 });

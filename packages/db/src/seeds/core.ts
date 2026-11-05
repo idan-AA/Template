@@ -4,13 +4,15 @@ import { RateSource } from "../generated/prisma/enums";
 import { SETTINGS_ID } from "../settings";
 
 /** Placeholder rates against USD so converted figures work before the rates cron has run. */
-export const SEED_RATES: Readonly<Record<string, number>> = {
-	EUR: 1.09,
-	GBP: 1.27,
-	CAD: 0.73,
-	AUD: 0.66,
-	JPY: 0.0067,
-};
+export const SEED_RATES: ReadonlyMap<string, number> = new Map(
+	Object.entries({
+		EUR: 1.09,
+		GBP: 1.27,
+		CAD: 0.73,
+		AUD: 0.66,
+		JPY: 0.0067,
+	}),
+);
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -34,7 +36,7 @@ export async function seedCore(
 		select: { id: true },
 	});
 
-	for (const [quoteCurrency, rate] of Object.entries(SEED_RATES)) {
+	for (const [quoteCurrency, rate] of SEED_RATES) {
 		await client.exchangeRate.upsert({
 			where: {
 				baseCurrency_quoteCurrency_source: {
@@ -55,5 +57,5 @@ export async function seedCore(
 		});
 	}
 
-	return Object.keys(SEED_RATES).length;
+	return SEED_RATES.size;
 }

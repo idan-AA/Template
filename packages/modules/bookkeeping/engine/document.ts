@@ -63,20 +63,20 @@ function assertTaxRate(rate: TaxRateInput): void {
 	}
 }
 
+/** A gross or net amount broken into its net and tax parts. */
+export type NetAndTax = { net: bigint; tax: bigint };
+
 export function splitGross(
 	gross: bigint,
 	taxRate: TaxRateInput | null,
-): { net: bigint; tax: bigint } {
+): NetAndTax {
 	if (!taxRate) return { net: gross, tax: 0n };
 	assertTaxRate(taxRate);
 	const net = mulDivRound(gross, BASIS, BASIS + BigInt(taxRate.rateBp));
 	return { net, tax: gross - net };
 }
 
-export function addTax(
-	net: bigint,
-	taxRate: TaxRateInput | null,
-): { net: bigint; tax: bigint } {
+export function addTax(net: bigint, taxRate: TaxRateInput | null): NetAndTax {
 	if (!taxRate) return { net, tax: 0n };
 	assertTaxRate(taxRate);
 	return { net, tax: mulDivRound(net, BigInt(taxRate.rateBp), BASIS) };

@@ -22,7 +22,7 @@ async function inRolledBackTransaction<T>(
 			result = await body(tx);
 			throw new Rollback();
 		})
-		.catch((error: unknown) => {
+		.catch((error) => {
 			if (!(error instanceof Rollback)) throw error;
 		});
 

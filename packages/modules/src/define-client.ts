@@ -89,12 +89,17 @@ export type ClientConfigInput = {
 	features?: z.input<typeof featuresSchema>;
 };
 
+/** Each module's options after its own schema has parsed them. */
+export type ParsedModuleOptions = {
+	[K in ModuleId]?: z.output<(typeof ALL_MODULES)[K]["optionsSchema"]>;
+};
+
 export type ClientConfig = {
 	brand: z.output<typeof brandSchema>;
 	modules: {
 		enabled: ModuleId[];
 		/** Each enabled module's options, already parsed by that module's schema. */
-		options: Partial<Record<ModuleId, unknown>>;
+		options: ParsedModuleOptions;
 	};
 	locale: z.output<typeof localeSchema>;
 	features: z.output<typeof featuresSchema>;
@@ -158,7 +163,7 @@ export function defineClient(input: ClientConfigInput): ClientConfig {
 
 	assertModuleSet(enabled, "The client config");
 
-	const options: Partial<Record<ModuleId, unknown>> = {};
+	const options: ParsedModuleOptions = {};
 
 	for (const [id, value] of Object.entries(rawOptions)) {
 		if (!isModuleId(id)) {
@@ -186,7 +191,7 @@ export function defineClient(input: ClientConfigInput): ClientConfig {
 			);
 		}
 
-		options[id] = checked.data;
+		Object.assign(options, { [id]: checked.data });
 	}
 
 	return {

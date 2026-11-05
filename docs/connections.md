@@ -45,14 +45,18 @@ undo it.
 Connecting is the same decision as disconnecting, because `replaceSlackConnection`
 deletes every other Slack account row: a second person connecting *replaces* the
 workspace's Slack, and every deployed agent then reads from and posts to whichever
-Slack they installed. Hiding the button is not enough — `authClient.oauth2.link`
+Slack they installed. Hiding the button is not enough — `authClient.linkSocial`
 is one POST.
 
 `slackConnectGuard` (`packages/auth/src/slack-connect.ts`) is Better Auth's
 `hooks.before`, and it asks the same `canManageConnections` the API does. It
-covers all three doors: `/oauth2/link`, `/sign-in/oauth2` (Slack is a connection,
-never a sign-in method, and that endpoint needs no session) and
-`/oauth2/callback/slack`. The callback is the one that matters — refusing there
+covers all three doors: `/link-social`, `/sign-in/social` (both only when the body
+names `slack`; Slack is a connection, never a sign-in method, and that endpoint
+needs no session) and `/callback/slack`. Since better-auth 1.7 the generic OAuth
+plugin runs on the social-provider path, so these are the same endpoints Google and
+Microsoft use; the guard tells them apart by provider. **The Slack app's redirect
+URL is `<API_URL>/api/auth/callback/slack`** (it was `/api/auth/oauth2/callback/slack`
+before 1.7: change it in the Slack app settings or Slack refuses the install). The callback is the one that matters — refusing there
 happens **before the code is exchanged**, so a refused attempt writes no
 `SlackWorkspaceGrant` user token and deletes no bot token. Google and Microsoft
 sign in on different paths and never reach the guard.

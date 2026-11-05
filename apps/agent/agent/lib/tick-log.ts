@@ -26,6 +26,6 @@ export function tickLine(
 		shell,
 		...counts,
 		durationMs,
-		...(error === undefined ? {} : { error }),
+		error,
 	});
 }

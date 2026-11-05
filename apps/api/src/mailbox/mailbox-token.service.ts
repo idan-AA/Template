@@ -81,8 +81,21 @@ export class MailboxTokenService {
 		}
 
 		try {
+			// better-auth 1.7 selects the account by its own row id, not by provider.
+			const account = await this.db.account.findFirst({
+				where: { userId, providerId },
+				select: { id: true },
+			});
+
+			if (!account) {
+				return {
+					outcome: "not-connected",
+					reason: `${label(providerId)} is not connected.`,
+				};
+			}
+
 			const { accessToken } = await auth.api.getAccessToken({
-				body: { providerId, userId },
+				body: { accountId: account.id, userId },
 			});
 
 			if (!accessToken) {

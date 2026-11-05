@@ -8,7 +8,10 @@ import practiceClient from "./practice/client.config";
  * and brand files, plus one line here. A test fails if a folder is missing from
  * this list, or a line has no folder.
  */
-export const CLIENTS: Readonly<Record<string, ClientConfig>> = {
+/** Client folder name to its config. */
+export type ClientRegistry = Readonly<Record<string, ClientConfig>>;
+
+export const CLIENTS: ClientRegistry = {
 	default: defaultClient,
 	practice: practiceClient,
 };

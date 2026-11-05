@@ -5,11 +5,11 @@ import { readBrandFile } from "@/lib/brand-files";
 
 const CACHE = "public, max-age=300, stale-while-revalidate=3600";
 
-const ICON_SIZES: Record<string, number> = {
-	"icon-192.png": 192,
-	"icon-512.png": 512,
-	"apple-touch-icon.png": 180,
-};
+const ICON_SIZES = new Map([
+	["icon-192.png", 192],
+	["icon-512.png", 512],
+	["apple-touch-icon.png", 180],
+]);
 
 /**
  * The active client's brand files, at fixed URLs so the sign-in page can use
@@ -35,7 +35,7 @@ export async function GET(
 		});
 	}
 
-	const size = ICON_SIZES[file];
+	const size = ICON_SIZES.get(file);
 
 	if (!size) return new Response("Not found", { status: 404 });
 

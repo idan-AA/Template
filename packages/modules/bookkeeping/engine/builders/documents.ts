@@ -12,12 +12,12 @@ import {
 } from "../types";
 import { validatePosting } from "../validate";
 
-const KEY_NAMES: Record<DocKind, string> = {
+const KEY_NAMES = {
 	INVOICE: "invoice",
 	BILL: "bill",
 	CREDIT_NOTE: "credit_note",
 	VENDOR_CREDIT: "vendor_credit",
-};
+} as const satisfies Record<DocKind, string>;
 
 export function documentSourceKey(kind: DocKind, id: string): string {
 	return `${KEY_NAMES[kind]}:${id}:issue`;

@@ -29,10 +29,11 @@ export async function trialBalance(
 	`;
 }
 
-export function trialBalanceTotals(rows: readonly TrialBalanceRow[]): {
-	debit: bigint;
-	credit: bigint;
-} {
+export type TrialBalanceTotals = { debit: bigint; credit: bigint };
+
+export function trialBalanceTotals(
+	rows: readonly TrialBalanceRow[],
+): TrialBalanceTotals {
 	let debit = 0n;
 	let credit = 0n;
 	for (const r of rows) {

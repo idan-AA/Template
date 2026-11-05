@@ -37,7 +37,7 @@ import {
 const socialProviders: NonNullable<BetterAuthOptions["socialProviders"]> = {};
 const slackOAuth = env.slack;
 const slackRedirectUri = new URL(
-	"/api/auth/oauth2/callback/slack",
+	"/api/auth/callback/slack",
 	env.apiUrl,
 ).toString();
 
@@ -197,6 +197,9 @@ export const auth = betterAuth({
 								clientSecret: slackOAuth.clientSecret,
 								disableSignUp: true,
 								redirectURI: slackRedirectUri,
+								// Slack's v2 OAuth does not take a PKCE code_verifier, and the token
+								// exchange below is hand-written; 1.7 turned PKCE on by default.
+								pkce: false,
 								scopes: [...SLACK_REQUESTED_SCOPES],
 								authorizationUrlParams: {
 									user_scope: SLACK_USER_SCOPES.join(","),

@@ -53,9 +53,7 @@ export function requireModule(id: ModuleId): void {
 export function moduleOptions<K extends ModuleId>(
 	id: K,
 ): z.output<(typeof ALL_MODULES)[K]["optionsSchema"]> | undefined {
-	return activeClient().config.modules.options[id] as
-		| z.output<(typeof ALL_MODULES)[K]["optionsSchema"]>
-		| undefined;
+	return activeClient().config.modules.options[id];
 }
 
 export function moduleNav(): NavItem[] {

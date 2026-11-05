@@ -334,7 +334,7 @@ export class WorkspaceService {
 
 				return member;
 			})
-			.catch((error: unknown) => {
+			.catch((error) => {
 				if (error instanceof EmailTakenError) {
 					throw new ConflictException(
 						"Someone with that email address already has an account here.",

@@ -7,11 +7,11 @@ export const CORE_ROLES = ["owner", "admin", "member"] as const;
 
 export type CoreRole = (typeof CORE_ROLES)[number];
 
-export const CORE_ROLE_LABELS: Readonly<Record<CoreRole, string>> = {
+export const CORE_ROLE_LABELS = {
 	owner: "Owner",
 	admin: "Admin",
 	member: "Member",
-};
+} as const satisfies Readonly<Record<CoreRole, string>>;
 
 export function isCoreRole(value: string): value is CoreRole {
 	return (CORE_ROLES as readonly string[]).includes(value);

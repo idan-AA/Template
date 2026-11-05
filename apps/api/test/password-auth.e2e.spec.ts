@@ -55,12 +55,16 @@ function cookieOf(response: request.Response): string {
 	return session.split(";")[0] as string;
 }
 
-async function trpcPost(cookie: string, procedure: string, body: unknown) {
+async function trpcPost(
+	cookie: string,
+	procedure: string,
+	body: Record<string, string | number | boolean | undefined>,
+) {
 	return request(server)
 		.post(`/api/trpc/${procedure}`)
 		.set("Origin", ORIGIN)
 		.set("Cookie", cookie)
-		.send(body as object);
+		.send(body);
 }
 
 async function trpcGet(cookie: string, procedure: string) {

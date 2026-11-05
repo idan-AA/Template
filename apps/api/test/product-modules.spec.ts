@@ -56,10 +56,10 @@ class FixtureBooksRouter {
 @Module({ imports: [TrpcModule], providers: [FixtureBooksRouter] })
 class FixtureBooksModule {}
 
-const FIXTURES: Record<ModuleId, readonly Type[]> = {
+const FIXTURES = {
 	crm: [FixtureCrmModule],
 	bookkeeping: [FixtureBooksModule],
-};
+} satisfies Record<ModuleId, readonly Type[]>;
 
 let app: INestApplication | undefined;
 

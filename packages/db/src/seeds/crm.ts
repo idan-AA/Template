@@ -722,7 +722,7 @@ let seedBase = "USD";
 let withIcons = true;
 
 function money(usdAmount: number, currency: string) {
-	const rate = SEED_RATES[currency] ?? 1;
+	const rate = SEED_RATES.get(currency) ?? 1;
 	const places = currency === "JPY" ? 0 : 2;
 	const amount = Number((usdAmount / rate).toFixed(places));
 

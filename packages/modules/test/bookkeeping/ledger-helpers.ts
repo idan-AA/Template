@@ -55,10 +55,9 @@ export async function adminExec(sql: string): Promise<void> {
 	}
 }
 
-export function deployMigrations(url: string): {
-	exitCode: number;
-	output: string;
-} {
+export type MigrationRun = { exitCode: number; output: string };
+
+export function deployMigrations(url: string): MigrationRun {
 	const result = Bun.spawnSync(
 		[process.execPath, "x", "--bun", "prisma", "migrate", "deploy"],
 		{

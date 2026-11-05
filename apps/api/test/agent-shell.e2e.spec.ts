@@ -36,7 +36,10 @@ let app: INestApplication;
 let server: ReturnType<INestApplication["getHttpServer"]>;
 let cookie = "";
 
-const post = (procedure: string, body: object) =>
+const post = (
+	procedure: string,
+	body: Record<string, string | number | boolean | undefined>,
+) =>
 	request(server)
 		.post(`/api/trpc/${procedure}`)
 		.set("Origin", ORIGIN)

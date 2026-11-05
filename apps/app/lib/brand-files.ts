@@ -5,10 +5,10 @@ import { readFile } from "node:fs/promises";
 import { extname, join, resolve, sep } from "node:path";
 import { activeClient } from "@app/modules";
 
-const CONTENT_TYPES: Record<string, string> = {
-	".svg": "image/svg+xml",
-	".png": "image/png",
-};
+const CONTENT_TYPES = new Map([
+	[".svg", "image/svg+xml"],
+	[".png", "image/png"],
+]);
 
 /**
  * The repository's `clients/` folder. The app runs from `apps/app` (dev, the
@@ -43,7 +43,7 @@ export async function readBrandFile(
 	// A config path that climbs out of the client's own folder is ignored.
 	if (!file.startsWith(folder + sep)) return null;
 
-	const contentType = CONTENT_TYPES[extname(file).toLowerCase()];
+	const contentType = CONTENT_TYPES.get(extname(file).toLowerCase());
 
 	if (!contentType) return null;
 

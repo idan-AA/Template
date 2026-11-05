@@ -43,19 +43,21 @@ const EXPECTED_FUNCTIONS = [
 	"number_sequence_guard",
 ];
 
-const GUARD_BY_TRIGGER: Record<string, string> = {
-	ledger_entry_post_guard: "G1",
-	ledger_entry_immutable: "G2",
-	ledger_line_immutable: "G3",
-	ledger_no_truncate_entry: "G4",
-	ledger_no_truncate_line: "G4",
-	ledger_reversal_guard: "G5",
-	ledger_account_guard: "G7",
-	ledger_settings_guard: "G8",
-	number_sequence_guard: "G13",
-	audit_append_only: "G12 (core)",
-	audit_no_truncate: "G12 (core)",
-};
+const GUARD_BY_TRIGGER = new Map<string, string>(
+	Object.entries({
+		ledger_entry_post_guard: "G1",
+		ledger_entry_immutable: "G2",
+		ledger_line_immutable: "G3",
+		ledger_no_truncate_entry: "G4",
+		ledger_no_truncate_line: "G4",
+		ledger_reversal_guard: "G5",
+		ledger_account_guard: "G7",
+		ledger_settings_guard: "G8",
+		number_sequence_guard: "G13",
+		audit_append_only: "G12 (core)",
+		audit_no_truncate: "G12 (core)",
+	}),
+);
 
 type Inventory = { triggers: string[]; functions: string[] };
 
@@ -83,7 +85,9 @@ async function inventory(url: string): Promise<Inventory> {
 function report(label: string, inv: Inventory): string {
 	const lines = [`== ${label}`, "triggers:"];
 	for (const t of inv.triggers) {
-		lines.push(`  ${GUARD_BY_TRIGGER[t.split(" ")[0] ?? ""] ?? "??"}  ${t}`);
+		lines.push(
+			`  ${GUARD_BY_TRIGGER.get(t.split(" ")[0] ?? "") ?? "??"}  ${t}`,
+		);
 	}
 	lines.push("functions:", ...inv.functions.map((f) => `  ${f}`));
 	return `${lines.join("\n")}\n`;
@@ -107,10 +111,10 @@ describe("trigger and function inventory (T2)", () => {
 		expect(inv.triggers).toEqual(EXPECTED_TRIGGERS);
 		expect(inv.functions).toEqual(EXPECTED_FUNCTIONS);
 		for (const t of inv.triggers) {
-			expect(GUARD_BY_TRIGGER[t.split(" ")[0] ?? ""]).toBeDefined();
+			expect(GUARD_BY_TRIGGER.get(t.split(" ")[0] ?? "")).toBeDefined();
 		}
 		const guards = new Set(
-			inv.triggers.map((t) => GUARD_BY_TRIGGER[t.split(" ")[0] ?? ""]),
+			inv.triggers.map((t) => GUARD_BY_TRIGGER.get(t.split(" ")[0] ?? "")),
 		);
 		expect([...guards].sort()).toEqual([
 			"G1",

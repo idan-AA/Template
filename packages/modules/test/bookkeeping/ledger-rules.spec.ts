@@ -89,7 +89,10 @@ describe("module seed (idempotent)", () => {
 		const crashing = new Proxy(f.db, {
 			get(target, prop, receiver) {
 				if (prop !== "$transaction") return Reflect.get(target, prop, receiver);
-				return (run: (tx: PrismaClient) => Promise<unknown>, opts: object) =>
+				return (
+					run: (tx: PrismaClient) => Promise<unknown>,
+					opts: Parameters<PrismaClient["$transaction"]>[1],
+				) =>
 					target.$transaction(
 						(tx) =>
 							run(
