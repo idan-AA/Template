@@ -4,6 +4,12 @@ Newest first. Owner's words where possible.
 
 ## 2026-11-05
 
+- **Security audit blocks deploys, not backups.** The first push stopped at the
+  dependency audit (critical holes in Next.js 16.3.8 and better-auth 1.6.33).
+  The owner chose: back the code up to GitHub now with only the audit skipped,
+  after every other push check passes; upgrade the dependencies next; nothing is
+  deployed to Render until the full push check, audit included, passes.
+
 - **A developer account sits above the owner, inside every client deploy.**
   Owner: "there should be an owner account, but there should be a developer
   account that actually has the ability to choose what the person gets access
