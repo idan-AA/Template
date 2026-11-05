@@ -127,8 +127,10 @@ describe("resolveClient", () => {
 	});
 
 	it("says what is registered when CLIENT_ID names a client that is not", () => {
+		// Built from the registry, so adding a client never breaks this test.
+		const registered = Object.keys(CLIENTS).join(", ");
 		expect(() => resolveClient({ CLIENT_ID: "ghost" })).toThrow(
-			/no client by that name is registered\. Registered clients: default\. A new client needs clients\/ghost\/client\.config\.ts and a line in clients\/registry\.ts/,
+			`no client by that name is registered. Registered clients: ${registered}. A new client needs clients/ghost/client.config.ts and a line in clients/registry.ts.`,
 		);
 	});
 
