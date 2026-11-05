@@ -59,7 +59,9 @@ services:
     dockerfilePath: ./apps/api/Dockerfile
     dockerContext: .
     # Free plans have no preDeployCommand: migrate and check drift, then start.
-    dockerCommand: sh -c "bun run db:deploy && bun apps/api/scripts/check-schema-drift.mjs && exec bun apps/api/dist/main.js"
+    # A script, not an inline `sh -c "..."`: Render passed the quotes through
+    # literally and the shell looked for a program named the whole line.
+    dockerCommand: sh apps/api/scripts/start-with-migrations.sh
     healthCheckPath: /health
     autoDeployTrigger: "off"
     envVars:
