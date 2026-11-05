@@ -9,6 +9,7 @@ import {
 	Max,
 	Min,
 	MinLength,
+	ValidateIf,
 	validateSync,
 } from "class-validator";
 
@@ -42,12 +43,20 @@ export class EnvironmentVariables {
 	})
 	BETTER_AUTH_SECRET!: string;
 
+	// Email and password always works, so this is not needed to get in. It is
+	// needed (and the server refuses to start without it) as soon as Google or
+	// Microsoft is configured, because then it is the only thing deciding which
+	// strangers those buttons let in. SSO arrivals are checked against it too.
+	@ValidateIf(
+		(env: EnvironmentVariables) =>
+			Boolean(env.GOOGLE_CLIENT_ID) || Boolean(env.MICROSOFT_CLIENT_ID),
+	)
 	@IsString()
 	@MinLength(1, {
 		message:
-			'ALLOWED_SIGN_IN is required — it is the only thing deciding who can sign in. Set it to your email domain, e.g. ALLOWED_SIGN_IN="acme.com", or to a single address for a one-person install.',
+			'ALLOWED_SIGN_IN is required while Google or Microsoft sign-in is set up: it decides who those buttons let in. Set it to your email domain, e.g. ALLOWED_SIGN_IN="acme.com", or to a single address, or remove the Google and Microsoft settings.',
 	})
-	ALLOWED_SIGN_IN!: string;
+	ALLOWED_SIGN_IN?: string;
 
 	@IsOptional()
 	@IsString()
@@ -146,6 +155,10 @@ export class EnvironmentVariables {
 	@IsOptional()
 	@IsString()
 	SCHEDULER_DISABLED?: string;
+
+	@IsOptional()
+	@IsString()
+	CLIENT_ID?: string;
 }
 
 export type RawEnvironment = Record<string, string | undefined>;

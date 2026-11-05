@@ -40,11 +40,12 @@ console.error(
 		"",
 		resolved.from.endsWith(".env.local")
 			? [
-					"  `.env.local` overrides `.env`, and `vercel env pull` writes",
-					"  production credentials into it. Either remove DATABASE_URL from",
-					"  that file, or pull Vercel's environment somewhere inert:",
+					"  `.env.local` overrides `.env`, so a client's Render DATABASE_URL",
+					"  pasted into it points every process at that client. Remove",
+					"  DATABASE_URL from that file. If you must keep a Render value on",
+					"  disk, put it somewhere the loader does not read:",
 					"",
-					"    vercel env pull .env.vercel",
+					"    .env.render",
 				].join("\n")
 			: "  Check which file is winning:  grep -m1 DATABASE_URL .env .env.local",
 		"",

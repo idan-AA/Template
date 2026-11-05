@@ -100,6 +100,7 @@ import {
 	hasAgentResult,
 } from "./agent-result";
 import { AgentScopeBadges } from "./agent-scope-badges";
+import { AgentShellHint, useAgentShell } from "./agent-shell";
 import {
 	ChatAttachmentChip,
 	ChatCommandChip,
@@ -223,6 +224,7 @@ export function AgentBuilderChat({
 	const trpc = useTRPC();
 	const queryClient = useQueryClient();
 	const sharedChat = isSharedChatToken(conversationId);
+	const shell = useAgentShell();
 	const [liveStream, setLiveStream] = useState<{
 		key: string;
 		events: readonly MessageStreamEvent[];
@@ -234,7 +236,9 @@ export function AgentBuilderChat({
 		initialData: sharedChat ? undefined : (initialData as Conversation),
 		refetchInterval: (query) => {
 			const data = query.state.data;
-			return data && builderConversationNeedsPolling(data) ? 2500 : false;
+			return data && builderConversationNeedsPolling(data, shell.available)
+				? 2500
+				: false;
 		},
 	});
 	const shared = useQuery({
@@ -259,7 +263,7 @@ export function AgentBuilderChat({
 				: undefined,
 		refetchInterval: (query) =>
 			conversation.data &&
-			(builderConversationNeedsPolling(conversation.data) ||
+			(builderConversationNeedsPolling(conversation.data, shell.available) ||
 				!eventStreamSettled(query.state.data ?? []))
 				? 2500
 				: false,
@@ -405,7 +409,11 @@ export function AgentBuilderChat({
 			: null;
 	const failure = latestTurnFailure(transcriptEvents);
 	const creatingAgent = hasCreateAgentCommand(submissions);
-	const working = builderConversationIsWorking(data) && !failure;
+	// Queued on a host that cannot run it: nothing is working and nothing will, so
+	// do not spin or poll; each waiting message says why instead.
+	const stalled =
+		!shell.available && builderConversationHasQueuedSubmission(data);
+	const working = builderConversationIsWorking(data) && !failure && !stalled;
 	const builderCallActive = agentBuilderCallIsActive(transcriptEvents);
 	const currentSubmissionCreatesAgent =
 		submissions.at(-1)?.commandType === "CREATE_AGENT";
@@ -483,6 +491,7 @@ export function AgentBuilderChat({
 								key={question.requestId}
 								question={question}
 								pending={answerQuestion.isPending}
+								blockedReason={shell.available ? null : shell.reason}
 								onSubmit={async (response: ClarificationResponse) => {
 									await answerQuestion.mutateAsync({
 										id: conversationId,
@@ -546,6 +555,12 @@ export function AgentBuilderChat({
 										failed={item.submission.status === "FAILED"}
 										retrying={submit.isPending}
 										onRetry={prompt ? () => send(prompt) : null}
+										blockedReason={
+											stalled &&
+											["PENDING", "SENDING"].includes(item.submission.status)
+												? shell.reason
+												: null
+										}
 									/>
 								) : (
 									<AssistantMessage
@@ -563,6 +578,7 @@ export function AgentBuilderChat({
 							<AgentApprovalCard
 								approval={approval}
 								pending={answerApproval.isPending}
+								blockedReason={shell.available ? null : shell.reason}
 								onDecision={(decision) =>
 									answerApproval.mutate({
 										id: conversationId,
@@ -926,12 +942,15 @@ function UserSubmission({
 	retrying,
 	onRetry,
 	sending = false,
+	blockedReason = null,
 }: {
 	submission: BuilderSubmission;
 	failed: boolean;
 	retrying: boolean;
 	onRetry: (() => void) | null;
 	sending?: boolean;
+	/** Set when this message is waiting on a host that cannot run it. */
+	blockedReason?: string | null;
 }) {
 	const message = submission.message;
 	const messageText = message.text ?? "Message unavailable";
@@ -947,7 +966,11 @@ function UserSubmission({
 			author="user"
 			sending={sending}
 			error={
-				failed ? (
+				blockedReason ? (
+					<span className="text-muted-foreground">
+						Waiting, and it will not start. {blockedReason}
+					</span>
+				) : failed ? (
 					<div className="flex items-center justify-end gap-2">
 						<span>This message could not be sent.</span>
 						{onRetry ? (
@@ -1201,10 +1224,13 @@ function PermissionModeMenu({
 function AgentApprovalCard({
 	approval,
 	pending,
+	blockedReason,
 	onDecision,
 }: {
 	approval: ToolApproval;
 	pending: boolean;
+	/** Set when the decision cannot be processed here: the buttons lock and say why. */
+	blockedReason: string | null;
 	onDecision: (decision: "approve" | "cancel") => void;
 }) {
 	const label = toolLabel({
@@ -1216,7 +1242,7 @@ function AgentApprovalCard({
 
 	return (
 		<fieldset
-			disabled={pending}
+			disabled={pending || Boolean(blockedReason)}
 			className="w-full max-w-lg overflow-hidden rounded-lg border bg-card"
 		>
 			<legend className="sr-only">Approval required</legend>
@@ -1229,7 +1255,15 @@ function AgentApprovalCard({
 					</p>
 				</div>
 			</div>
-			<div className="flex items-center justify-end gap-2 border-t bg-muted px-4 py-3">
+			<div className="flex flex-wrap items-center justify-end gap-2 border-t bg-muted px-4 py-3">
+				{blockedReason ? (
+					<p
+						role="note"
+						className="min-w-0 flex-1 basis-48 text-muted-foreground text-xs leading-5"
+					>
+						{blockedReason}
+					</p>
+				) : null}
 				<Button
 					type="button"
 					variant="outline"
@@ -1730,6 +1764,7 @@ function DeployedAgentCard({
 	const workspaceUrl = useWorkspaceUrl();
 	const queryClient = useQueryClient();
 	const agent = conversation.agent;
+	const shell = useAgentShell();
 	const run = useMutation(
 		trpc.agents.runNow.mutationOptions({
 			onSuccess: async () => {
@@ -1787,13 +1822,14 @@ function DeployedAgentCard({
 					/>
 					<ReviewRow label="Runs in" value="Eve runtime · isolated sandbox" />
 					<ReviewRow label="Owner" value={`Team · ${agent.createdBy.name}`} />
+					<AgentShellHint className="pt-1" />
 				</div>
 				<AgentCardFooter note="The chat stays private. The agent is team-owned.">
 					<div className="flex items-center gap-2">
 						<Button
 							variant="outline"
 							size="sm"
-							disabled={runAction.pending}
+							disabled={runAction.pending || !shell.available}
 							aria-busy={runAction.pending}
 							onClick={() => runAction.run()}
 						>
@@ -1913,8 +1949,24 @@ function retryKeyOf(submission: BuilderSubmission): string | null {
 	return prompt ? JSON.stringify(prompt) : null;
 }
 
-function builderConversationNeedsPolling(conversation: Conversation): boolean {
+function builderConversationNeedsPolling(
+	conversation: Conversation,
+	shellAvailable: boolean,
+): boolean {
+	// Without a shell a queued message never starts, so polling it every 2.5 s
+	// would only hammer the API for a state that cannot change.
+	if (!shellAvailable && builderConversationHasQueuedSubmission(conversation)) {
+		return false;
+	}
 	return builderConversationIsWorking(conversation);
+}
+
+function builderConversationHasQueuedSubmission(
+	conversation: Conversation,
+): boolean {
+	return conversation.submissions.some((submission) =>
+		["PENDING", "SENDING"].includes(submission.status),
+	);
 }
 
 function sharedConversationNeedsPolling(

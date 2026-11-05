@@ -9,14 +9,10 @@ import * as z from "zod";
 import {
 	canManageConnections,
 	WORKSPACE_ID,
-	WORKSPACE_ROLES,
 	workspaceRoleOf,
+	workspaceRoles,
 } from "./organization";
 import { SLACK_PROVIDER_ID } from "./scopes";
-
-const CONNECT_MANAGER_ROLES = WORKSPACE_ROLES.filter((role) =>
-	canManageConnections(role),
-);
 
 const SLACK_CONNECT_START_PATHS = ["/oauth2/link", "/sign-in/oauth2"];
 const OAUTH_CALLBACK_PATH = "/oauth2/callback";
@@ -37,12 +33,16 @@ export const slackConnectGuard = createAuthMiddleware(async (ctx) => {
 		});
 	}
 
+	const connectManagerRoles = workspaceRoles().filter((role) =>
+		canManageConnections(role),
+	);
+
 	const [role, managers] = await Promise.all([
 		workspaceRoleOf(session.user.id),
 		db.member.count({
 			where: {
 				organizationId: WORKSPACE_ID,
-				role: { in: [...CONNECT_MANAGER_ROLES] },
+				role: { in: connectManagerRoles },
 			},
 		}),
 	]);

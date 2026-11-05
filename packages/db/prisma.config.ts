@@ -4,7 +4,7 @@ import path from "node:path";
 import { defineConfig, env } from "prisma/config";
 
 export default defineConfig({
-	schema: path.join("prisma", "schema.prisma"),
+	schema: path.join("prisma", "schema"),
 	migrations: {
 		path: path.join("prisma", "migrations"),
 		seed: "bun run prisma/seed.ts",

@@ -161,7 +161,7 @@ test("presents a single Notion account without a meaningless count", () => {
 		tool: "notion__notion-get-self",
 		output: {
 			user: "Caleb Perry",
-			workspace: "Comp AI",
+			workspace: "Acme",
 		},
 	});
 
@@ -173,7 +173,7 @@ test("presents a single Notion account without a meaningless count", () => {
 			{
 				key: "Caleb Perry-0",
 				title: "Caleb Perry",
-				details: [{ label: "Workspace", value: "Comp AI" }],
+				details: [{ label: "Workspace", value: "Acme" }],
 				tags: [],
 			},
 		],
@@ -186,7 +186,7 @@ test("omits a generic item title when the provider returns nested account data",
 		tool: "notion__notion-get-self",
 		output: {
 			user: { name: "Caleb Perry" },
-			workspace: { name: "Comp AI" },
+			workspace: { name: "Acme" },
 		},
 	});
 
@@ -199,7 +199,7 @@ test("omits a generic item title when the provider returns nested account data",
 				key: "result-0",
 				details: [
 					{ label: "User", value: "Caleb Perry" },
-					{ label: "Workspace", value: "Comp AI" },
+					{ label: "Workspace", value: "Acme" },
 				],
 				tags: [],
 			},

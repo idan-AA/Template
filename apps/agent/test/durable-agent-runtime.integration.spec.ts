@@ -267,6 +267,45 @@ describe("durable custom-agent runtime", () => {
 		]);
 	});
 
+	it("creates no run for an event when the agent shell is off", async () => {
+		const trigger = await db.agentTrigger.create({
+			data: {
+				agentId,
+				versionId,
+				type: "EVENT",
+				name: "When a deal closes (shell off)",
+				config: { event: "deal.closed" },
+				createdById: userId,
+				enabled: true,
+			},
+			select: { id: true },
+		});
+		const savedShell = process.env.AGENT_SHELL;
+		process.env.AGENT_SHELL = "0";
+		try {
+			const queued = await queueEventAgentRuns({
+				id: `event-task-off-${suffix}`,
+				contactId: null,
+				companyId: null,
+				dealId: `event-deal-off-${suffix}`,
+				payload: {
+					type: "deal.closed",
+					record: { kind: "deal", id: `event-deal-off-${suffix}` },
+					occurredAt: new Date().toISOString(),
+					data: {},
+				},
+			});
+
+			expect(queued).toBe(0);
+			expect(
+				await db.agentRun.count({ where: { triggerId: trigger.id } }),
+			).toBe(0);
+		} finally {
+			if (savedShell === undefined) delete process.env.AGENT_SHELL;
+			else process.env.AGENT_SHELL = savedShell;
+		}
+	});
+
 	it("advances a due trigger only when its run is committed", async () => {
 		const now = new Date();
 		const results = await Promise.all(

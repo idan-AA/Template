@@ -1,0 +1,17 @@
+{
+	"name": "@app/clients",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"lint": "biome check ."
+	},
+	"dependencies": {
+		"@app/modules": "workspace:*"
+	},
+	"devDependencies": {
+		"@app/typescript-config": "workspace:*",
+		"typescript": "5.9.2"
+	}
+}

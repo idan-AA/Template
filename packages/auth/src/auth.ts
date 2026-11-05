@@ -2,15 +2,20 @@ import { db } from "@app/db";
 import { schemas } from "@app/validation";
 import { apiKey } from "@better-auth/api-key";
 import { sso } from "@better-auth/sso";
-import { type BetterAuthOptions, betterAuth } from "better-auth";
+import {
+	type BetterAuthOptions,
+	type BetterAuthPlugin,
+	betterAuth,
+} from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { APIError } from "better-auth/api";
+import { APIError, createAuthMiddleware } from "better-auth/api";
 import { genericOAuth } from "better-auth/plugins/generic-oauth";
 import { organization } from "better-auth/plugins/organization";
 import { API_KEY_EXPIRATION, API_KEY_HEADER, API_KEY_PREFIX } from "./api-keys";
 import { AUTH_COOKIE_PREFIX } from "./cookies";
 import { env } from "./env";
 import { ensureWorkspaceMembership } from "./organization";
+import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH } from "./password-policy";
 import {
 	GOOGLE_PROVIDER_ID,
 	MICROSOFT_PROVIDER_ID,
@@ -69,6 +74,40 @@ if (env.microsoft) {
 	};
 }
 
+/**
+ * Our own endpoints do the work of these better-auth ones (so each is audited
+ * and the forced-change flag stays true): close the originals.
+ */
+const BLOCKED_PASSWORD_PATHS = [
+	"/sign-up/email",
+	"/change-password",
+	"/set-password",
+	"/reset-password",
+	"/request-password-reset",
+	"/forget-password",
+] as const;
+
+const passwordEndpointGuard = {
+	id: "password-endpoint-guard",
+	hooks: {
+		before: [
+			{
+				matcher: (ctx: { path?: string }) =>
+					BLOCKED_PASSWORD_PATHS.some(
+						(path) => ctx.path === path || ctx.path?.startsWith(`${path}/`),
+					),
+				handler: createAuthMiddleware(async (ctx) => {
+					throw new APIError("FORBIDDEN", {
+						message: ctx.path?.startsWith("/sign-up")
+							? "Sign-up is closed. An owner or admin adds people under Settings, Members."
+							: "Passwords are changed from Settings, Account, or by an owner or admin from Settings, Members.",
+					});
+				}),
+			},
+		],
+	},
+} satisfies BetterAuthPlugin;
+
 export const auth = betterAuth({
 	appName: "CRM",
 	baseURL: env.apiUrl,
@@ -77,8 +116,19 @@ export const auth = betterAuth({
 		provider: "postgresql",
 	}),
 
+	// Email and password is always on, so a deploy works with no Google, no
+	// Microsoft and no SSO. Nobody can create an account through better-auth
+	// itself: `disableSignUp` closes /sign-up/email, and accounts are born only in
+	// `credentials.ts` (the first owner on an empty database, or an owner/admin
+	// adding a member). Reset and change go through our own endpoints too, see
+	// `passwordEndpointGuard`, so every password change is audited and clears the
+	// "must change it" flag.
 	emailAndPassword: {
-		enabled: false,
+		enabled: true,
+		disableSignUp: true,
+		minPasswordLength: PASSWORD_MIN_LENGTH,
+		maxPasswordLength: PASSWORD_MAX_LENGTH,
+		autoSignIn: false,
 	},
 
 	socialProviders,
@@ -93,19 +143,31 @@ export const auth = betterAuth({
 	session: {
 		expiresIn: 60 * 60 * 24 * 7,
 		updateAge: 60 * 60 * 24,
+		// Off on purpose: with the cache on, a session revoked by a password change
+		// or an admin reset kept working on other devices for up to 5 minutes.
 		cookieCache: {
-			enabled: true,
-			maxAge: 5 * 60,
+			enabled: false,
 		},
 	},
 
+	// Every route is limited (100 per 10 s per address by default). A custom
+	// rule REPLACES the default for its path, it does not add to it, so
+	// /sign-in/email is limited to the 10 a minute below and nothing else.
 	rateLimit: {
 		enabled: true,
 		storage: "database",
+		customRules: {
+			"/sign-in/email": { window: 60, max: 10 },
+		},
 	},
 
 	advanced: {
 		cookiePrefix: AUTH_COOKIE_PREFIX,
+
+		// Behind Render every request arrives from Render's proxy. Cloudflare sits in
+		// front and overwrites cf-connecting-ip, so it cannot be forged by a caller;
+		// x-forwarded-for is the fallback (its leftmost entry can be forged).
+		ipAddress: { ipAddressHeaders: ["cf-connecting-ip", "x-forwarded-for"] },
 
 		useSecureCookies: env.isProduction,
 		...(env.cookieDomain && {
@@ -122,6 +184,7 @@ export const auth = betterAuth({
 	},
 
 	plugins: [
+		passwordEndpointGuard,
 		...(slackOAuth
 			? [
 					genericOAuth({
@@ -258,11 +321,15 @@ export const auth = betterAuth({
 
 		user: {
 			create: {
+				// Runs only for people who arrive by themselves through Google,
+				// Microsoft or SSO. Accounts an owner or admin creates, and the first
+				// owner, are inserted directly (credentials.ts) and are allowed by
+				// that act, so this list never decides about them.
 				before: async (user) => {
 					if (!hasSignInAllowList()) {
 						throw new APIError("FORBIDDEN", {
 							message:
-								'No one can sign in yet: set ALLOWED_SIGN_IN in .env to your email domain (for example ALLOWED_SIGN_IN="acme.com") and restart.',
+								"This workspace does not take new people from Google, Microsoft or SSO yet. Ask an owner or admin to add you, or set ALLOWED_SIGN_IN.",
 						});
 					}
 
@@ -304,6 +371,7 @@ export const auth = betterAuth({
 });
 
 export type Auth = typeof auth;
+
 export type Session = typeof auth.$Infer.Session;
 export type SessionUser = Session["user"];
 

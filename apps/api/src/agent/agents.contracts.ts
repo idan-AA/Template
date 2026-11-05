@@ -380,3 +380,10 @@ export const agentCancelRunOutput = z.object({
 	status: agentRunStatus,
 	cancelled: z.boolean(),
 });
+
+export const agentCapabilitiesOutput = z.object({
+	/** False on a host with no sandbox shell: the builder and team agents are off. */
+	shell: z.boolean(),
+	/** One plain sentence for the user when `shell` is false. */
+	reason: z.string().nullable(),
+});

@@ -95,6 +95,56 @@
 					}
 				}
 			}
+		},
+		{
+			"includes": ["packages/modules/crm/**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"patterns": [
+									{
+										"group": [
+											"**/bookkeeping",
+											"**/bookkeeping/**",
+											"@app/modules/bookkeeping",
+											"@app/modules/bookkeeping/**"
+										],
+										"message": "Modules do not import each other. If crm needs bookkeeping, list it in crm's `requires` and ask the manager; do not reach into it."
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"includes": ["packages/modules/bookkeeping/**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"patterns": [
+									{
+										"group": [
+											"**/crm",
+											"**/crm/**",
+											"@app/modules/crm",
+											"@app/modules/crm/**"
+										],
+										"message": "Modules do not import each other. If bookkeeping needs crm, list it in bookkeeping's `requires` and ask the manager; do not reach into it."
+									}
+								]
+							}
+						}
+					}
+				}
+			}
 		}
 	]
 }

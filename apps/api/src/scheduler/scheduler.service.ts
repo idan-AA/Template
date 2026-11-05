@@ -111,6 +111,9 @@ export class SchedulerService implements OnModuleInit, OnApplicationShutdown {
 					reports.push(report);
 
 					if (report.outcome === "failed") {
+						// TODO(error-alert-system): this repo has no error reporter yet, so a
+						// failed job is only logged here and stored in SchedulerRun.lastError.
+						// Report it through the reporter once one exists (skill: error-alert-system).
 						this.logger.error({
 							message: "Scheduled job failed",
 							job: job.name,

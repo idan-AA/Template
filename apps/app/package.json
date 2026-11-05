@@ -17,6 +17,7 @@
 		"@app/db": "workspace:*",
 		"@app/env": "workspace:*",
 		"@app/mcp-integrations": "workspace:*",
+		"@app/modules": "workspace:*",
 		"@app/ui": "workspace:*",
 		"@app/validation": "workspace:*",
 		"@pierre/diffs": "^1.2.12",

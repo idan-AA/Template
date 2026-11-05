@@ -10,7 +10,7 @@
 		"dev:prepare": {
 			"cache": false,
 			"inputs": [
-				"prisma/schema.prisma",
+				"prisma/schema/**",
 				"prisma/migrations/**",
 				"prisma.config.ts",
 				"scripts/prepare-dev.ts",

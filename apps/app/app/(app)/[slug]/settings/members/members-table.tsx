@@ -10,12 +10,15 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@app/ui/components/dropdown-menu";
 import { Icon } from "@app/ui/components/icon";
 import { PersonAvatar } from "@app/ui/components/person-avatar";
 import OverflowMenuHorizontal from "@carbon/icons-react/es/OverflowMenuHorizontal";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { toast } from "sonner";
 import { ListSearch } from "@/components/data-table/list-search";
 import { useTableQuery } from "@/components/data-table/use-table-query";
@@ -24,20 +27,32 @@ import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { membersSearchParams } from "./members-search-params";
+import { ResetPasswordDialog, type ResetTarget } from "./reset-password-dialog";
 
-const ROLE_LABEL = {
-	owner: "Owner",
-	admin: "Admin",
-	member: "Member",
-} as const;
+type RoleOption = { id: string; label: string };
 
-type Role = keyof typeof ROLE_LABEL;
+/** What to show before the workspace has answered: the roles every deploy has. */
+const CORE_ROLE_OPTIONS: RoleOption[] = [
+	{ id: "owner", label: "Owner" },
+	{ id: "admin", label: "Admin" },
+	{ id: "member", label: "Member" },
+];
+
+/** A stored role this deploy no longer offers (its module is off) still reads as a word. */
+function roleLabel(roles: RoleOption[], id: string): string {
+	return (
+		roles.find((role) => role.id === id)?.label ??
+		id.charAt(0).toUpperCase() + id.slice(1)
+	);
+}
 
 type MemberRow = RouterOutputs["workspace"]["members"]["rows"][number];
 
 function columns(
 	canChangeRoles: boolean,
-	onChangeRole: (member: MemberRow, role: Role) => void,
+	roles: RoleOption[],
+	onChangeRole: (member: MemberRow, role: string) => void,
+	onResetPassword: (member: MemberRow) => void,
 	pending: boolean,
 ): DataTableColumn<MemberRow>[] {
 	return [
@@ -78,7 +93,9 @@ function columns(
 			sortable: true,
 			width: "w-[14%]",
 			cell: (row) => (
-				<span className="text-muted-foreground">{ROLE_LABEL[row.role]}</span>
+				<span className="text-muted-foreground">
+					{roleLabel(roles, row.role)}
+				</span>
 			),
 		},
 		{
@@ -108,23 +125,33 @@ function columns(
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" size="icon" disabled={pending}>
 								<Icon icon={OverflowMenuHorizontal} />
-								<span className="sr-only">Change {row.name}'s role</span>
+								<span className="sr-only">Actions for {row.name}</span>
 							</Button>
 						</DropdownMenuTrigger>
 
 						<DropdownMenuContent align="end">
-							{(Object.keys(ROLE_LABEL) as Role[]).map((role) => (
+							<DropdownMenuLabel>Role</DropdownMenuLabel>
+							{roles.map((role) => (
 								<DropdownMenuItem
-									key={role}
-									data-checked={row.role === role}
+									key={role.id}
+									data-checked={row.role === role.id}
 									onSelect={() => {
-										if (row.role === role) return;
-										onChangeRole(row, role);
+										if (row.role === role.id) return;
+										onChangeRole(row, role.id);
 									}}
 								>
-									{ROLE_LABEL[role]}
+									{role.label}
 								</DropdownMenuItem>
 							))}
+
+							{row.isViewer ? null : (
+								<>
+									<DropdownMenuSeparator />
+									<DropdownMenuItem onSelect={() => onResetPassword(row)}>
+										Reset password
+									</DropdownMenuItem>
+								</>
+							)}
 						</DropdownMenuContent>
 					</DropdownMenu>
 				) : null,
@@ -136,6 +163,7 @@ export function MembersTable() {
 	const trpc = useTRPC();
 	const cache = useCrmCache();
 	const { query, input } = useTableQuery(membersSearchParams);
+	const [resetting, setResetting] = useState<ResetTarget | null>(null);
 
 	const workspace = useQuery(trpc.workspace.get.queryOptions());
 	const members = useQuery({
@@ -154,35 +182,53 @@ export function MembersTable() {
 	);
 
 	const facetCounts = members.data?.facetCounts;
+	const roles = workspace.data?.roles ?? CORE_ROLE_OPTIONS;
+
+	// Every role offered, plus any stored role this deploy no longer offers.
+	const facetRoles: RoleOption[] = [
+		...roles,
+		...Object.keys(facetCounts?.role ?? {})
+			.filter((id) => !roles.some((role) => role.id === id))
+			.map((id) => ({ id, label: roleLabel(roles, id) })),
+	];
 
 	const facets: DataTableFacet[] = [
 		{
 			id: "role",
 			label: "Role",
-			options: (Object.keys(ROLE_LABEL) as Role[]).flatMap((role) =>
-				(facetCounts?.role?.[role] ?? 0) > 0
-					? [{ value: role, label: ROLE_LABEL[role] }]
+			options: facetRoles.flatMap((role) =>
+				(facetCounts?.role?.[role.id] ?? 0) > 0
+					? [{ value: role.id, label: role.label }]
 					: [],
 			),
 		},
 	];
 
 	return (
-		<DataTable
-			query={query}
-			search={<ListSearch placeholder="Search by name or email…" />}
-			columns={columns(
-				workspace.data?.canChangeRoles ?? false,
-				(member, role) => setRole.mutate({ memberId: member.id, role }),
-				setRole.isPending,
-			)}
-			rows={members.data?.rows ?? []}
-			total={members.data?.total ?? 0}
-			facetCounts={facetCounts}
-			facets={facets}
-			getRowId={(row) => row.id}
-			loading={members.isFetching}
-			empty="Nobody matches this view."
-		/>
+		<>
+			<DataTable
+				query={query}
+				search={<ListSearch placeholder="Search by name or email…" />}
+				columns={columns(
+					workspace.data?.canChangeRoles ?? false,
+					roles,
+					(member, role) => setRole.mutate({ memberId: member.id, role }),
+					(member) => setResetting({ id: member.id, name: member.name }),
+					setRole.isPending,
+				)}
+				rows={members.data?.rows ?? []}
+				total={members.data?.total ?? 0}
+				facetCounts={facetCounts}
+				facets={facets}
+				getRowId={(row) => row.id}
+				loading={members.isFetching}
+				empty="Nobody matches this view."
+			/>
+
+			<ResetPasswordDialog
+				member={resetting}
+				onClose={() => setResetting(null)}
+			/>
+		</>
 	);
 }

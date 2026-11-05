@@ -1,6 +1,5 @@
 import {
 	isWorkspaceAdmin,
-	toWorkspaceRole,
 	WORKSPACE_ID,
 	type WorkspaceRole,
 	workspaceRoleOf,
@@ -45,7 +44,7 @@ export class AgentAccessService {
 			throw new ForbiddenException("You are not a member of this workspace.");
 		}
 
-		const role = toWorkspaceRole(member.role);
+		const role = member.role;
 		const agent = await tx.agentDefinition.findFirst({
 			where: { id: agentId, status: { not: "DELETED" } },
 			select: {

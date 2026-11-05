@@ -12,7 +12,7 @@ import {
 	lockAgentRun,
 	runTerminalEventId,
 } from "./run-state";
-import { shellFeaturesEnabled } from "./shell";
+import { shellOffNoticeOnce } from "./shell";
 import type { LeasedTask } from "./tasks";
 
 const BUILDER_BATCH = DISPATCH.builder.batch;
@@ -69,7 +69,7 @@ const builderSubmissionMessage = z
 	});
 
 export async function pendingBuilderSubmissionIds(): Promise<string[]> {
-	if (!shellFeaturesEnabled()) return [];
+	if (shellOffNoticeOnce()) return [];
 	await recoverBuilderSubmissions();
 	const rows = await db.agentConversationSubmission.findMany({
 		where: {
@@ -253,7 +253,7 @@ export async function dispatchBuilderSubmission(
 }
 
 export async function queueDueAgentRuns(now = new Date()): Promise<number> {
-	if (!shellFeaturesEnabled()) return 0;
+	if (shellOffNoticeOnce()) return 0;
 	const triggers = await db.agentTrigger.findMany({
 		where: {
 			enabled: true,
@@ -330,6 +330,8 @@ export async function queueEventAgentRuns(
 		"id" | "contactId" | "companyId" | "dealId" | "payload"
 	>,
 ): Promise<number> {
+	// No shell, no run: a QUEUED row here would never start (see shell.ts).
+	if (shellOffNoticeOnce()) return 0;
 	const parsed = crmEventTask.safeParse(task.payload);
 	if (!parsed.success) {
 		throw new Error("The queued agent event is invalid.");
@@ -418,7 +420,7 @@ export async function queueEventAgentRuns(
 }
 
 export async function pendingAgentRunIds(): Promise<string[]> {
-	if (!shellFeaturesEnabled()) return [];
+	if (shellOffNoticeOnce()) return [];
 	await recoverAgentRuns();
 	const rows = await db.agentRun.findMany({
 		where: {

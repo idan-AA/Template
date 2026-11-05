@@ -26,6 +26,7 @@
 		"@app/auth": "workspace:*",
 		"@app/db": "workspace:*",
 		"@app/mcp-integrations": "workspace:*",
+		"@app/modules": "workspace:*",
 		"@app/telemetry": "workspace:*",
 		"@app/validation": "workspace:*",
 		"@keyv/redis": "^5.1.6",

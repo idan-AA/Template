@@ -17,6 +17,10 @@ ENV NEXT_PUBLIC_API_URL=${API_URL}
 ENV APP_URL=${APP_URL}
 ENV CLIENT_ID=${CLIENT_ID}
 ENV DATABASE_URL="postgresql://build:build@localhost:5432/build?schema=public"
+# better-auth refuses to load without a secret while pages prerender at build.
+# This placeholder is only for `next build`, is never used to sign anything, and
+# Render's real BETTER_AUTH_SECRET (runtime) replaces it.
+ENV BETTER_AUTH_SECRET="build-only-placeholder-not-a-real-secret-0000"
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN bun install --frozen-lockfile
@@ -24,6 +28,7 @@ RUN bun run db:generate
 RUN bunx turbo run build --filter=app...
 
 ENV DATABASE_URL=""
+ENV BETTER_AUTH_SECRET=""
 ENV NODE_ENV=production
 EXPOSE 10000
 CMD ["bun", "run", "--cwd", "apps/app", "start"]

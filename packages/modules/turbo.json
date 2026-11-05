@@ -1,0 +1,11 @@
+{
+	"$schema": "https://turborepo.dev/schema.json",
+	"extends": ["//"],
+	"tasks": {
+		"db:seed": {
+			"cache": false,
+			"dependsOn": ["@app/db#db:seed"],
+			"passThroughEnv": ["BLOB_READ_WRITE_TOKEN", "DATABASE_URL"]
+		}
+	}
+}

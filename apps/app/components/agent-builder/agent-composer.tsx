@@ -43,6 +43,7 @@ import {
 	consumeBuilderIntent,
 } from "@/lib/agent-builder";
 import { useTRPC } from "@/lib/trpc/client";
+import { useAgentShell } from "./agent-shell";
 import {
 	ChatAttachmentChip,
 	type ChatChipAttachment,
@@ -449,7 +450,8 @@ export function AgentComposer({
 		onSuccess: () => toast.success("Stop requested."),
 		onError: () => toast.error("The agent could not be stopped. Try again."),
 	});
-	const locked = disabled || submitAction.pending;
+	const shell = useAgentShell();
+	const locked = disabled || !shell.available || submitAction.pending;
 	const canSend =
 		state.draft.trim().length > 0 && !locked && !state.attachmentsReading;
 

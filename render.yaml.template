@@ -11,9 +11,12 @@
 # APP_URL must be right before the first build: the web app bakes API_URL into the
 # browser bundle.
 
+# region must be the same on the database and every service (private URLs only work
+# inside one region) and cannot be changed after creation.
 databases:
   - name: {{ID}}-db
-    plan: basic-256mb
+    region: oregon
+    plan: 0.1c-256mb
     postgresMajorVersion: "17"
     ipAllowList: []
 
@@ -34,12 +37,19 @@ envVarGroups:
         generateValue: true
       - key: AGENT_URL
         value: http://{{ID}}-agent:10000
+      # The agent builder, Chat and deployed team agents run code in a sandbox shell
+      # inside the agent service. ON by default for client deploys (owner decision
+      # 2026-11-05, docs/DECISIONS.md). Read by the api AND the agent, so it lives in
+      # this shared group. Set it to "0" to switch those features off everywhere.
+      - key: AGENT_SHELL
+        value: "1"
 
 services:
   - type: web
     name: {{ID}}-api
     runtime: docker
-    plan: starter
+    region: oregon
+    plan: 0.5c-512mb
     dockerfilePath: ./apps/api/Dockerfile
     dockerContext: .
     healthCheckPath: /health
@@ -69,7 +79,8 @@ services:
   - type: web
     name: {{ID}}-app
     runtime: docker
-    plan: starter
+    region: oregon
+    plan: 0.5c-512mb
     dockerfilePath: ./apps/app/Dockerfile
     dockerContext: .
     healthCheckPath: /api/health
@@ -80,6 +91,13 @@ services:
         fromDatabase:
           name: {{ID}}-db
           property: connectionString
+      # CLIENT_ID is also set on the service itself, not only in the shared group.
+      # Render documents that service-level variables become Docker build arguments
+      # (https://render.com/docs/docker, "Environment variable translation"); it says
+      # nothing about group variables. The web app bakes CLIENT_ID at `next build`, so
+      # do not rely on the group alone. Service-level wins over the group (same value).
+      - key: CLIENT_ID
+        value: {{ID}}
       - key: IS_MARKETING
         value: "false"
       - key: API_URL
@@ -96,7 +114,8 @@ services:
   - type: pserv
     name: {{ID}}-agent
     runtime: docker
-    plan: starter
+    region: oregon
+    plan: 0.5c-512mb
     dockerfilePath: ./apps/agent/Dockerfile
     dockerContext: .
     autoDeployTrigger: "off"

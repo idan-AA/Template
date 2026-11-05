@@ -28,6 +28,7 @@ export function AgentRunsDrawer({
 	onOpenChange,
 	onRetry,
 	open,
+	runsBlockedReason,
 	retryingRunId,
 	runs,
 }: {
@@ -38,6 +39,8 @@ export function AgentRunsDrawer({
 	onOpenChange: (open: boolean) => void;
 	onRetry: (runId: string) => void;
 	open: boolean;
+	/** Set when this deployment cannot run agents; queued runs show it. */
+	runsBlockedReason?: string;
 	retryingRunId?: string;
 	runs: Runs;
 }) {
@@ -86,6 +89,7 @@ export function AgentRunsDrawer({
 							onCancel={onCancel}
 							onRetry={onRetry}
 							retryingRunId={retryingRunId}
+							blockedReason={runsBlockedReason}
 							runs={runs}
 						/>
 					) : (

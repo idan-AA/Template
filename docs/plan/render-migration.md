@@ -354,19 +354,27 @@ Phase 1, spikes (no repo changes, throwaway Render workspace)
 - [ ] TODO Confirm `oven/bun` tag and glibc (R1).
 
 Phase 2, build artifacts (my fence)
-- [ ] TODO `apps/api/Dockerfile`, `apps/app/Dockerfile`, `apps/agent/Dockerfile`, root `.dockerignore`.
-- [ ] TODO `apps/api/scripts/check-schema-drift.mjs` (extract from build-func.mjs:215-251).
-- [ ] TODO `apps/agent/scripts/start.ts`: pass `--host 0.0.0.0`.
-- [ ] TODO In-process scheduler in apps/api (D10, R8): `@nestjs/schedule`, five jobs at the old UTC schedules, a dedicated `pg` client advisory lock helper, error reporting, test with two concurrent runners. Keep `/internal/*` routes and `CRON_SECRET`.
-- [ ] TODO Catch-up: `SchedulerRun` table + migration (tier 2 gate, R8d), run a job on boot/tick when last success is older than its period; test: stop the API across a daily slot, restart, job runs once; test failure does not advance the timestamp.
-- [ ] TODO `scripts/new-client` and `render.yaml.template` (Plan B).
-- [ ] TODO `apps/app/app/api/health/route.ts` returning 200 without a session redirect, then set app `healthCheckPath`.
-- [ ] TODO Agent: drop `vercelOidc()` from `channels/eve.ts`; capability flag that turns the shell-using builder/runner OFF on Render; make `denySandboxNetwork` log when it cannot enforce (R2).
-- [ ] TODO `require-local-db.ts` hint and `.vercel` lines in .gitignore files.
+- [x] DONE (built and booted 2026-11-04 from a HEAD snapshot; re-prove after Agent 1 commits) `apps/api/Dockerfile`, `apps/app/Dockerfile`, `apps/agent/Dockerfile`, root `.dockerignore`.
+- [x] DONE (follows prisma/schema folder if it exists) `apps/api/scripts/check-schema-drift.mjs` (extract from build-func.mjs:215-251).
+- [x] DONE `apps/agent/scripts/start.ts`: pass `--host 0.0.0.0`.
+- [x] DONE (tests: scheduler.integration.spec, scheduler.service.spec) In-process scheduler in apps/api (D10, R8): `@nestjs/schedule`, five jobs at the old UTC schedules, a dedicated `pg` client advisory lock helper, error reporting, test with two concurrent runners. Keep `/internal/*` routes and `CRON_SECRET`.
+- [x] DONE Catch-up: `SchedulerRun` table + migration (tier 2 gate, R8d), run a job on boot/tick when last success is older than its period; test: stop the API across a daily slot, restart, job runs once; test failure does not advance the timestamp.
+- [x] DONE (plan names fixed to 0.1c-256mb and 0.5c-512mb, region added) `scripts/new-client` and `render.yaml.template` (Plan B).
+- [x] DONE (connection() so it is not prerendered) `apps/app/app/api/health/route.ts` returning 200 without a session redirect, then set app `healthCheckPath`.
+- [x] DONE (gate: dispatch sweep only, see DONE log in HANDOFF file) Agent: drop `vercelOidc()` from `channels/eve.ts`; capability flag that turns the shell-using builder/runner OFF on Render; make `denySandboxNetwork` log when it cannot enforce (R2).
+- [ ] DOING (hint DONE, .gitignore lines wait for Phase 5) `require-local-db.ts` hint and `.vercel` lines in .gitignore files.
 - [ ] TODO Spike `@workflow/world-postgres` (Q3b) and report to the manager.
-- [ ] TODO `render.yaml` (section 2b), templated names, region, plans.
-- [ ] TODO `turbo.json`: drop VERCEL vars; keep every new var in `globalPassThroughEnv`; `apps/agent/turbo.json:7` outputs.
-- [ ] TODO `.env.example` and `env.validation.ts` for the section 3 list; remove Vercel and pooler variables.
+- [x] DONE (render.yaml.template) `render.yaml` (section 2b), templated names, region, plans.
+- [x] DONE `turbo.json`: drop VERCEL vars; keep every new var in `globalPassThroughEnv`; `apps/agent/turbo.json:7` outputs.
+- [x] DONE `.env.example` and `env.validation.ts` for the section 3 list; remove Vercel and pooler variables.
+
+Phase 2 review (manager, 2026-11-04): ACCEPTED. Verified by the manager on a fresh boot of the api image: scheduler starts with 5 jobs and runs all 5 within 20 s, /health 200, 503 with the database down, 200 again after; api/agent/auth test packages green. Manager added a once-per-process log of `SHELL_OFF_REASON` (`apps/agent/agent/lib/shell.ts`) so the Render gate is visible in the agent log. Carried over, in priority order:
+- [ ] TODO Builder and team-agent UI must say "not available on this host" (read the gate through the API) instead of letting a user queue work that never starts. Owner of the app surface: the modules builder (Agent 1 area). Until then the agent log carries the reason.
+- [ ] TODO R3: prove in a browser that the deployed app calls the right API host (`API_URL` baked at build). Only possible on a real deploy.
+- [ ] TODO R4: make the agent's per-minute dispatch tick print one log line, so the "Verify a new client deploy" checklist can see it (today only indirect DB activity).
+- [ ] TODO Re-build and re-boot all three images from the committed tree once Agent 1's modules work is committed (the Phase 2 proof was from a HEAD snapshot plus Agent 2's edits).
+- [ ] TODO `retireExhausted` (`apps/agent/agent/lib/tasks.ts:71-92`, `tasks.integration.spec.ts:194`) flaked once for Agent 2, passed for the manager and 6 of 6 alone. Unowned. If it fails again: capture EXPLAIN (ANALYZE) first; hypothesis is the IN-subquery with LIMIT and FOR UPDATE SKIP LOCKED being re-evaluated, fix would be a MATERIALIZED CTE.
+- [ ] TODO Spike `@workflow/world-postgres` (Q3b).
 
 Phase 3, dry run
 - [ ] BLOCKED Access request to the manager before this phase: Render dashboard login in my own browser window, or a Render API key placed in the environment variable `RENDER_API_KEY` (never pasted in chat). Owner's account (Q6).
@@ -374,9 +382,9 @@ Phase 3, dry run
 - [ ] TODO Write down what differed from this plan; fix this document.
 
 Phase 4, docs (my fence plus report)
-- [ ] TODO `docs/setup.md`: replace Vercel sections with Render ones, add "Deploy a new client" and "Verify a new client deploy".
-- [ ] TODO `docs/environment.md`: crons now Render, `AI_GATEWAY_API_KEY` needed everywhere, remove OIDC and Neon notes.
-- [ ] TODO Report to manager the stale Vercel text in docs/api.md, docs/agent.md, READMEs, UI copy (section 1b/1c) for the owners of those files.
+- [x] DONE `docs/setup.md`: replace Vercel sections with Render ones, add "Deploy a new client" and "Verify a new client deploy".
+- [x] DONE `docs/environment.md`: crons now Render, `AI_GATEWAY_API_KEY` needed everywhere, remove OIDC and Neon notes.
+- [x] DONE (list in HANDOFF-dashboard-agent-2.md DONE) Report to manager the stale Vercel text in docs/api.md, docs/agent.md, READMEs, UI copy (section 1b/1c) for the owners of those files.
 
 Phase 5, cleanup (only after Phase 3 DONE and manager says go)
 - [ ] TODO Delete `apps/api/api/index.ts`, `build-func.mjs`, `apps/api/vercel.json`, `.vercelignore`, `.vercel` ignore lines. Drop `@vercel/blob` only if Q1 decides so.

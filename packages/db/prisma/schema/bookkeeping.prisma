@@ -1,0 +1,181 @@
+enum AccountType {
+  ASSET
+  LIABILITY
+  EQUITY
+  INCOME
+  EXPENSE
+}
+
+enum AccountSubtype {
+  BANK
+  CASH
+  CREDIT_CARD
+  ACCOUNTS_RECEIVABLE
+  CURRENT_ASSET
+  FIXED_ASSET
+  OTHER_ASSET
+  ACCOUNTS_PAYABLE
+  CURRENT_LIABILITY
+  TAX_LIABILITY
+  LONG_TERM_LIABILITY
+  OWNER_EQUITY
+  RETAINED_EARNINGS
+  REVENUE
+  OTHER_INCOME
+  COST_OF_SALES
+  OPERATING_EXPENSE
+  OTHER_EXPENSE
+}
+
+enum AccountSystemRole {
+  ACCOUNTS_RECEIVABLE
+  ACCOUNTS_PAYABLE
+  RETAINED_EARNINGS
+  OPENING_BALANCE_EQUITY
+  FX_GAIN_LOSS
+  ROUNDING
+  SUSPENSE
+}
+
+enum EntryStatus {
+  DRAFT
+  POSTED
+}
+
+enum EntrySource {
+  MANUAL
+  ADJUSTMENT
+  OPENING_BALANCE
+  INVOICE
+  BILL
+  CREDIT_NOTE
+  VENDOR_CREDIT
+  PAYMENT
+  ALLOCATION
+  BANK_SPEND
+  BANK_RECEIVE
+  TRANSFER
+  REVERSAL
+}
+
+enum LineKind {
+  NORMAL
+  TAX
+  FX_ADJUSTMENT
+  ROUNDING
+}
+
+enum FxOrigin {
+  IDENTITY
+  MANUAL
+  FETCHED
+}
+
+model LedgerSettings {
+  id                   String    @id
+  baseCurrency         String    @db.VarChar(3)
+  timezone             String
+  fiscalYearStartMonth Int       @default(1)
+  lockDate             DateTime? @db.Date
+  hardLockDate         DateTime? @db.Date
+  conversionDate       DateTime? @db.Date
+  firstPostedAt        DateTime?
+  attentionStaleDays   Int       @default(7)
+  setupCompletedAt     DateTime?
+  updatedAt            DateTime  @updatedAt
+
+  @@map("ledgerSettings")
+}
+
+model NumberSequence {
+  key       String @id
+  prefix    String @db.VarChar(12)
+  padding   Int    @default(4)
+  nextValue Int    @default(1)
+
+  @@map("numberSequence")
+}
+
+model LedgerAccount {
+  id          String             @id @default(cuid())
+  code        String             @unique @db.VarChar(16)
+  name        String             @db.VarChar(120)
+  type        AccountType
+  subtype     AccountSubtype
+  systemRole  AccountSystemRole? @unique
+  parentId    String?
+  parent      LedgerAccount?     @relation("AccountTree", fields: [parentId], references: [id], onDelete: Restrict)
+  children    LedgerAccount[]    @relation("AccountTree")
+  currency    String?            @db.VarChar(3)
+  description String?
+  isSystem    Boolean            @default(false)
+  sortOrder   Int                @default(0)
+  archivedAt  DateTime?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  lines JournalLine[]
+
+  @@index([type, sortOrder])
+  @@index([parentId])
+  @@index([archivedAt])
+  @@map("ledgerAccount")
+}
+
+model JournalEntry {
+  id           String       @id @default(cuid())
+  number       String?      @unique
+  date         DateTime     @db.Date
+  memo         String?
+  status       EntryStatus  @default(DRAFT)
+  source       EntrySource
+  sourceId     String?
+  sourceKey    String?      @unique
+  baseCurrency String       @db.VarChar(3)
+  reversesId   String?      @unique
+  reverses     JournalEntry? @relation("Reversal", fields: [reversesId], references: [id], onDelete: Restrict)
+  reversedBy   JournalEntry? @relation("Reversal")
+  proposalId   String?
+  postedAt     DateTime?
+  postedById   String?
+  createdAt    DateTime     @default(now())
+  createdById  String
+
+  lines JournalLine[]
+
+  @@index([date, status])
+  @@index([source, sourceId])
+  @@index([status, createdAt])
+  @@map("journalEntry")
+}
+
+model JournalLine {
+  id              String        @id @default(cuid())
+  entryId         String
+  entry           JournalEntry  @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  lineNo          Int
+  accountId       String
+  account         LedgerAccount @relation(fields: [accountId], references: [id], onDelete: Restrict)
+  kind            LineKind      @default(NORMAL)
+  currency        String        @db.VarChar(3)
+  debitMinor      BigInt        @default(0)
+  creditMinor     BigInt        @default(0)
+  baseDebitMinor  BigInt        @default(0)
+  baseCreditMinor BigInt        @default(0)
+  fxRate          Decimal       @db.Decimal(24, 10)
+  fxOrigin        FxOrigin
+  fxRateAt        DateTime
+  counterpartyId  String?
+  documentId      String?
+  paymentId       String?
+  taxRateId       String?
+  memo            String?
+
+  @@unique([entryId, lineNo])
+  @@index([accountId, entryId])
+  @@index([documentId])
+  @@index([paymentId])
+  @@index([counterpartyId, accountId])
+  @@index([taxRateId])
+  @@map("journalLine")
+}

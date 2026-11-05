@@ -88,8 +88,7 @@ export function WorkspaceForm() {
 							!canRename ||
 							save.isPending ||
 							!dirty ||
-							values.name.trim() === "" ||
-							values.website.trim() === ""
+							values.name.trim() === ""
 						}
 					>
 						{save.isPending ? <Spinner data-icon="inline-start" /> : null}
@@ -145,7 +144,9 @@ export function WorkspaceForm() {
 									disabled={!canRename || save.isPending}
 								/>
 							</InputGroup>
-							<FieldDescription>Your own company's website.</FieldDescription>
+							<FieldDescription>
+								Optional. Your own company's website, if you have one.
+							</FieldDescription>
 						</Field>
 					</FieldGroup>
 				</form>

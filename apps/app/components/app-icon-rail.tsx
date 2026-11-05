@@ -1,9 +1,8 @@
 "use client";
 
+import type { NavItem } from "@app/modules/define-module";
 import { Button } from "@app/ui/components/button";
-import type { CarbonIcon } from "@app/ui/components/icon";
 import { Icon } from "@app/ui/components/icon";
-import Bot from "@app/ui/components/icons/bot";
 import {
 	Sheet,
 	SheetContent,
@@ -16,49 +15,15 @@ import {
 	TooltipTrigger,
 } from "@app/ui/components/tooltip";
 import { cn } from "@app/ui/lib/utils";
-import Building from "@carbon/icons-react/es/Building";
 import Close from "@carbon/icons-react/es/Close";
-import Dashboard from "@carbon/icons-react/es/Dashboard";
-import Partnership from "@carbon/icons-react/es/Partnership";
-import Settings from "@carbon/icons-react/es/Settings";
-import UserMultiple from "@carbon/icons-react/es/UserMultiple";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import { AgentBuilderSidebar } from "@/components/agent-builder/agent-builder-sidebar";
 import { usePrefetchSection } from "@/components/crm/section-prefetch";
 import { useMobileNav } from "@/components/mobile-nav";
+import { type RailItem, railItems } from "@/lib/rail-items";
 import { useWorkspaceUrl } from "@/lib/use-workspace-url";
-
-type RailItem = {
-	title: string;
-	href: string;
-	icon: CarbonIcon;
-	iconClassName?: string;
-	match: "exact" | "prefix";
-	related?: string[];
-};
-
-const ITEMS: RailItem[] = [
-	{ title: "Overview", href: "/", icon: Dashboard, match: "exact" },
-	{
-		title: "Chat",
-		href: "/chat",
-		icon: Bot,
-		iconClassName: "size-5",
-		match: "prefix",
-		related: ["/agents"],
-	},
-	{ title: "Companies", href: "/companies", icon: Building, match: "prefix" },
-	{
-		title: "Contacts",
-		href: "/contacts",
-		icon: UserMultiple,
-		match: "prefix",
-	},
-	{ title: "Deals", href: "/deals", icon: Partnership, match: "prefix" },
-	{ title: "Settings", href: "/settings", icon: Settings, match: "prefix" },
-];
 
 function isActive(item: RailItem, pathname: string): boolean {
 	return (
@@ -184,14 +149,18 @@ function MobileRailIconLink({
 	);
 }
 
-export function AppIconRailFallback() {
+export function AppIconRailFallback({
+	moduleItems,
+}: {
+	moduleItems: readonly NavItem[];
+}) {
 	return (
 		<nav
 			aria-label="Primary"
 			aria-busy="true"
 			className="hidden w-14 shrink-0 flex-col items-center gap-1 border-r py-3 md:flex [view-transition-name:app-rail]"
 		>
-			{ITEMS.map((item) => (
+			{railItems(moduleItems).map((item) => (
 				<Button
 					key={item.href}
 					variant="ghost"
@@ -207,7 +176,11 @@ export function AppIconRailFallback() {
 	);
 }
 
-export function AppIconRail() {
+export function AppIconRail({
+	moduleItems,
+}: {
+	moduleItems: readonly NavItem[];
+}) {
 	const pathname = usePathname();
 	const workspaceUrl = useWorkspaceUrl();
 	const { open, setOpen } = useMobileNav();
@@ -215,13 +188,13 @@ export function AppIconRail() {
 
 	const items = useMemo(
 		() =>
-			ITEMS.map((item) => ({
+			railItems(moduleItems).map((item) => ({
 				...item,
 				section: item.href,
 				href: workspaceUrl(item.href),
 				related: item.related?.map((path) => workspaceUrl(path)),
 			})),
-		[workspaceUrl],
+		[workspaceUrl, moduleItems],
 	);
 	const inChat = items.some(
 		(item) => item.title === "Chat" && isActive(item, pathname),

@@ -1,7 +1,6 @@
 import { appUrl } from "@app/auth/env";
 import {
 	canManageTracking,
-	isWorkspaceRole,
 	WORKSPACE_ID,
 	type WorkspaceRole,
 } from "@app/auth/organization";
@@ -486,7 +485,7 @@ export class TrackingService {
 			select: { role: true },
 		});
 
-		return member && isWorkspaceRole(member.role) ? member.role : null;
+		return member?.role ?? null;
 	}
 }
 

@@ -1,0 +1,39 @@
+{
+	"name": "@app/modules",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/runtime.ts",
+		"./client-config": "./src/client-config.ts",
+		"./define-client": "./src/define-client.ts",
+		"./define-module": "./src/define-module.ts",
+		"./registry": "./src/registry.ts",
+		"./roles": "./src/roles.ts",
+		"./testing": "./src/testing.ts",
+		"./crm/meta": "./crm/meta.ts",
+		"./crm/server": "./crm/server.ts",
+		"./bookkeeping/meta": "./bookkeeping/meta.ts",
+		"./bookkeeping/server": "./bookkeeping/server.ts",
+		"./bookkeeping/engine": "./bookkeeping/engine/index.ts",
+		"./bookkeeping/ledger/posting": "./bookkeeping/ledger/posting.ts",
+		"./bookkeeping/ledger/queries": "./bookkeeping/ledger/queries.ts"
+	},
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"db:seed": "bun ../db/scripts/require-local-db.ts db:seed && bun scripts/seed.ts",
+		"lint": "biome check .",
+		"test": "bun test",
+		"clean": "rm -rf .turbo node_modules"
+	},
+	"dependencies": {
+		"@app/db": "workspace:*",
+		"zod": "^4.4.3"
+	},
+	"devDependencies": {
+		"@app/typescript-config": "workspace:*",
+		"@types/bun": "^1.3.14",
+		"@types/node": "^24.10.1",
+		"typescript": "5.9.2"
+	}
+}

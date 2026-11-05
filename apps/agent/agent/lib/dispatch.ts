@@ -10,6 +10,7 @@ import { markRunning, settle } from "./enrichment";
 import { runMcpToolDiscovery } from "./mcp-discovery";
 import { collapsing, runLimited } from "./pool";
 import { runPortrait } from "./portrait";
+import { shellFeaturesEnabled } from "./shell";
 import { runSlackChannelJoin } from "./slack-join-task";
 import { runSlackPeopleMatch } from "./slack-people";
 import { staleTaskSweep } from "./stale-tasks";
@@ -117,9 +118,11 @@ async function handleDirect(task: LeasedTask): Promise<void> {
 		const queued = await queueEventAgentRuns(task);
 		await completeTask(
 			task.id,
-			queued === 1
-				? "Queued 1 matching agent run."
-				: `Queued ${queued} matching agent runs.`,
+			!shellFeaturesEnabled()
+				? "Skipped: team agents are switched off on this deployment."
+				: queued === 1
+					? "Queued 1 matching agent run."
+					: `Queued ${queued} matching agent runs.`,
 		);
 		return;
 	}

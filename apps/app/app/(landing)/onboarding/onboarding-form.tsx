@@ -22,7 +22,14 @@ import { useId, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useTRPC } from "@/lib/trpc/client";
 
-export function OnboardingForm({ placeholder }: { placeholder: string }) {
+export function OnboardingForm({
+	placeholder,
+	researchStep,
+}: {
+	placeholder: string;
+	/** True when the CRM module is on, so there is a research key worth offering. */
+	researchStep: boolean;
+}) {
 	const trpc = useTRPC();
 	const router = useRouter();
 
@@ -37,7 +44,7 @@ export function OnboardingForm({ placeholder }: { placeholder: string }) {
 		trpc.workspace.update.mutationOptions({
 			onSuccess: () => {
 				router.refresh();
-				router.replace("/onboarding/research");
+				router.replace(researchStep ? "/onboarding/research" : "/");
 			},
 			onError: (error) => toast.error(error.message),
 		}),
@@ -103,12 +110,14 @@ export function OnboardingForm({ placeholder }: { placeholder: string }) {
 						/>
 					</InputGroup>
 					<FieldDescription>
-						Your team will use this address to open the CRM.
+						Your team will use this address to open the app.
 					</FieldDescription>
 				</Field>
 
 				<Field>
-					<FieldLabel htmlFor={websiteId}>Website</FieldLabel>
+					<FieldLabel htmlFor={websiteId}>
+						Website <span className="text-muted-foreground">(optional)</span>
+					</FieldLabel>
 					<InputGroup>
 						<InputGroupAddon>
 							<InputGroupText>https://</InputGroupText>
@@ -122,11 +131,10 @@ export function OnboardingForm({ placeholder }: { placeholder: string }) {
 							autoCorrect="off"
 							spellCheck={false}
 							inputMode="url"
-							required
 						/>
 					</InputGroup>
 					<FieldDescription>
-						Read once, so every answer afterwards knows what you sell.
+						If you have one, research can learn what you sell from it.
 					</FieldDescription>
 				</Field>
 			</FieldGroup>

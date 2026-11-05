@@ -13,12 +13,14 @@ import { AuthMiddleware } from "../trpc/middlewares/auth.middleware";
 import { restMeta } from "../trpc/openapi";
 import { AgentDefinitionsService } from "./agent-definitions.service";
 import { AgentRunsService } from "./agent-runs.service";
+import { agentShellCapability } from "./agent-shell";
 import {
 	agentActivityOutput,
 	agentArchiveOutput,
 	agentByIdOutput,
 	agentCancelRunInput,
 	agentCancelRunOutput,
+	agentCapabilitiesOutput,
 	agentDeployInput,
 	agentDeployOutput,
 	agentFilesOutput,
@@ -58,6 +60,14 @@ export class AgentsRouter {
 	})
 	async list(@Ctx() ctx: AuthedTrpcContext) {
 		return this.agents.list(ctx.user.id);
+	}
+
+	@Query({
+		output: agentCapabilitiesOutput,
+		meta: restMeta("GET", "/agent-capabilities", ["Agents"]),
+	})
+	capabilities() {
+		return agentShellCapability();
 	}
 
 	@Mutation({

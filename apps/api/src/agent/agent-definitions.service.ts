@@ -10,6 +10,7 @@ import {
 import { z } from "zod";
 import { InjectDatabase } from "../database/database.constants";
 import { AgentAccessService } from "./agent-access.service";
+import { assertAgentShell } from "./agent-shell";
 import { AgentTriggerService } from "./agent-trigger.service";
 import { TEAM_AGENT_STATUSES } from "./agent-visibility";
 import {
@@ -505,6 +506,8 @@ export class AgentDefinitionsService {
 	}
 
 	async deploy(input: AgentDeployInput, userId: string) {
+		// A live agent that can never run is a dead affordance: refuse like runNow does.
+		assertAgentShell();
 		return this.db.$transaction(async (tx) => {
 			await this.access.assertCanManageInTransaction(tx, input.id, userId);
 			const agent = await this.lockAgent(tx, input.id);

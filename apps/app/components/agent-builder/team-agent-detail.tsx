@@ -46,6 +46,7 @@ import { useWorkspaceUrl } from "@/lib/use-workspace-url";
 import { AgentCapabilities } from "./agent-capabilities";
 import { AgentCode } from "./agent-code";
 import { AgentRunsDrawer } from "./agent-runs-drawer";
+import { NOT_AVAILABLE_TITLE, useAgentShell } from "./agent-shell";
 
 type AgentDetail = RouterOutputs["agents"]["byId"];
 type ReviewVersion = AgentDetail["reviewVersion"];
@@ -83,6 +84,7 @@ export function TeamAgentDetail({
 	const queryClient = useQueryClient();
 	const workspaceUrl = useWorkspaceUrl();
 	const [runsOpen, setRunsOpen] = useState(false);
+	const shell = useAgentShell();
 	const agent = useQuery({
 		...trpc.agents.byId.queryOptions({ id: agentId }),
 		initialData: initialAgent,
@@ -90,9 +92,13 @@ export function TeamAgentDetail({
 	const runs = useQuery({
 		...trpc.agents.history.queryOptions({ id: agentId, limit: 50 }),
 		initialData: initialRuns,
+		// A QUEUED run on a host with no shell never starts: do not poll for it.
 		refetchInterval: (query) =>
 			query.state.data?.some((run) =>
-				["QUEUED", "RUNNING", "WAITING_FOR_APPROVAL"].includes(run.status),
+				(shell.available
+					? ["QUEUED", "RUNNING", "WAITING_FOR_APPROVAL"]
+					: ["RUNNING", "WAITING_FOR_APPROVAL"]
+				).includes(run.status),
 			)
 				? 2500
 				: false,
@@ -249,7 +255,12 @@ export function TeamAgentDetail({
 							) : canRunManually ? (
 								<Button
 									variant="outline"
-									disabled={data.status !== "LIVE" || runAction.pending}
+									disabled={
+										data.status !== "LIVE" ||
+										!shell.available ||
+										runAction.pending
+									}
+									title={shell.reason ?? undefined}
 									aria-busy={runAction.pending}
 									onClick={() => runAction.run()}
 								>
@@ -328,6 +339,9 @@ export function TeamAgentDetail({
 					})
 				}
 				open={runsOpen}
+				runsBlockedReason={
+					shell.available ? undefined : (shell.reason ?? NOT_AVAILABLE_TITLE)
+				}
 				retryingRunId={
 					retryRun.isPending ? retryRun.variables?.runId : undefined
 				}

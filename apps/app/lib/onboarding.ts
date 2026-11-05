@@ -6,6 +6,8 @@ export const ONBOARDING_PATH = "/onboarding";
 
 export const RESEARCH_PATH = "/onboarding/research";
 
+export const CHANGE_PASSWORD_PATH = "/change-password";
+
 const GATE_TIMEOUT_MS = 2_000;
 
 export type Gate = "settled" | "required" | "unknown";
@@ -22,9 +24,9 @@ const workspaceAnswer = z
 	})
 	.catch({ onboarded: null, canRename: null, slug: null });
 
-const researchKeyAnswer = z
-	.object({ configured: z.boolean().nullable().catch(null) })
-	.catch({ configured: null });
+const accountAnswer = z
+	.object({ passwordChangeRequired: z.boolean().nullable().catch(null) })
+	.catch({ passwordChangeRequired: null });
 
 async function read(request: NextRequest, procedure: string) {
 	const cookie = request.headers.get("cookie");
@@ -68,12 +70,13 @@ export async function readWorkspaceGate(
 	};
 }
 
-export async function readResearchGate(request: NextRequest): Promise<Gate> {
-	const { configured } = researchKeyAnswer.parse(
-		await read(request, "settings.researchKey"),
+/** "required" while someone else set this person's password and they have not replaced it. */
+export async function readAccountGate(request: NextRequest): Promise<Gate> {
+	const { passwordChangeRequired } = accountAnswer.parse(
+		await read(request, "account.state"),
 	);
 
-	if (configured === null) return "unknown";
+	if (passwordChangeRequired === null) return "unknown";
 
-	return configured ? "settled" : "required";
+	return passwordChangeRequired ? "required" : "settled";
 }

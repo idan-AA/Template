@@ -12,8 +12,11 @@ import type { AuthedTrpcContext } from "../trpc/context.types";
 import { AuthMiddleware } from "../trpc/middlewares/auth.middleware";
 import { restMeta } from "../trpc/openapi";
 import {
+	addMemberInput,
 	memberListInput,
 	memberListOutput,
+	resetMemberPasswordInput,
+	resetMemberPasswordOutput,
 	setMemberRoleInput,
 	updateWorkspaceInput,
 	workspaceMemberOutput,
@@ -72,5 +75,31 @@ export class WorkspaceRouter {
 		@Input() input: z.infer<typeof setMemberRoleInput>,
 	) {
 		return this.workspace.setMemberRole(ctx.user.id, input);
+	}
+
+	@Mutation({
+		input: addMemberInput,
+		output: workspaceMemberOutput,
+		meta: restMeta("POST", "/workspace/members", ["Workspace"]),
+	})
+	async addMember(
+		@Ctx() ctx: AuthedTrpcContext,
+		@Input() input: z.infer<typeof addMemberInput>,
+	) {
+		return this.workspace.addMember(ctx.user.id, input);
+	}
+
+	@Mutation({
+		input: resetMemberPasswordInput,
+		output: resetMemberPasswordOutput,
+		meta: restMeta("POST", "/workspace/members/{memberId}/password", [
+			"Workspace",
+		]),
+	})
+	async resetMemberPassword(
+		@Ctx() ctx: AuthedTrpcContext,
+		@Input() input: z.infer<typeof resetMemberPasswordInput>,
+	) {
+		return this.workspace.resetMemberPassword(ctx.user.id, input);
 	}
 }

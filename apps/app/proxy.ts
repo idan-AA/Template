@@ -3,9 +3,10 @@ import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 import { isMarketing } from "@/lib/env";
 import {
+	CHANGE_PASSWORD_PATH,
 	ONBOARDING_PATH,
 	RESEARCH_PATH,
-	readResearchGate,
+	readAccountGate,
 	readWorkspaceGate,
 } from "@/lib/onboarding";
 import { workspaceUrl } from "@/lib/workspace-url";
@@ -35,21 +36,28 @@ export async function proxy(request: NextRequest) {
 			: NextResponse.redirect(new URL(SIGN_IN_PATH, request.nextUrl));
 	}
 
-	if (isUngated(pathname)) return NextResponse.next();
-
-	// Both answers, every time, and concurrently — so the gate costs one round
-	// trip rather than two, and neither answer can be stale.
-	const [workspace, research] = await Promise.all([
-		readWorkspaceGate(request),
-		readResearchGate(request),
+	// Before anything else: a person whose password someone else chose may do
+	// one thing, choose their own. Every other page sends them there.
+	const [account, workspace] = await Promise.all([
+		readAccountGate(request),
+		isUngated(pathname) ? null : readWorkspaceGate(request),
 	]);
 
+	if (account === "required") return sendTo(CHANGE_PASSWORD_PATH, request);
+
+	if (pathname === CHANGE_PASSWORD_PATH) return NextResponse.next();
+
+	if (!workspace) return NextResponse.next();
+
 	if (workspace.gate === "required") return sendTo(ONBOARDING_PATH, request);
-	if (research === "required") return sendTo(RESEARCH_PATH, request);
 
-	const settled = workspace.gate === "settled" && research === "settled";
+	// The research key is offered after the company step, never forced: a deploy
+	// without the CRM has no use for it, and everyone can skip it.
+	if (workspace.gate !== "settled" || !workspace.slug) {
+		return NextResponse.next();
+	}
 
-	if (!settled || !workspace.slug) return NextResponse.next();
+	if (pathname === RESEARCH_PATH) return NextResponse.next();
 
 	return sendTo(appPath(pathname, workspace.slug), request);
 }
@@ -87,7 +95,7 @@ function isAnonymous(pathname: string): boolean {
 }
 
 function isSetup(pathname: string): boolean {
-	return pathname === ONBOARDING_PATH || pathname === RESEARCH_PATH;
+	return pathname === ONBOARDING_PATH;
 }
 
 function sendTo(path: string, request: NextRequest): NextResponse {

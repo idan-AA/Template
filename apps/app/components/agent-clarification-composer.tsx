@@ -26,12 +26,16 @@ export type ClarificationResponse =
 export function AgentClarificationComposer({
 	question,
 	pending,
+	blockedReason,
 	onSubmit,
 }: {
 	question: EveMessageInputRequest;
 	pending: boolean;
+	/** Set when the answer cannot be processed here: the controls lock and say why. */
+	blockedReason?: string | null;
 	onSubmit: (response: ClarificationResponse) => Promise<void>;
 }) {
+	const locked = pending || Boolean(blockedReason);
 	const options = question.options ?? [];
 	const [transportError, setTransportError] = useState<string | null>(null);
 	const showFreeform =
@@ -43,7 +47,7 @@ export function AgentClarificationComposer({
 			name: "response",
 			required: true,
 			choices: options.map((option) => ({
-				disabled: pending,
+				disabled: locked,
 				value: `${OPTION_VALUE_PREFIX}${option.id}`,
 			})),
 		},
@@ -51,7 +55,7 @@ export function AgentClarificationComposer({
 
 	const submit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		if (pending) return;
+		if (locked) return;
 		const value = String(
 			new FormData(event.currentTarget).get("response") ?? "",
 		).trim();
@@ -97,7 +101,7 @@ export function AgentClarificationComposer({
 						<QuestionnaireChoice
 							key={option.id}
 							value={`${OPTION_VALUE_PREFIX}${option.id}`}
-							disabled={pending}
+							disabled={locked}
 						>
 							<span className="font-medium">{option.label}</span>
 							{option.description ? (
@@ -111,19 +115,24 @@ export function AgentClarificationComposer({
 						<QuestionnaireInput
 							aria-label={options.length > 0 ? "Another answer" : "Your answer"}
 							placeholder="Add the detail the agent needs"
-							disabled={pending}
+							disabled={locked}
 						/>
 					) : null}
 				</QuestionnaireChoices>
 				<QuestionnaireError />
 			</QuestionnaireItem>
+			{blockedReason ? (
+				<p role="note" className="text-muted-foreground text-xs leading-5">
+					{blockedReason}
+				</p>
+			) : null}
 			{transportError ? (
 				<p role="alert" className="text-destructive text-xs">
 					{transportError}
 				</p>
 			) : null}
 			<QuestionnaireActions>
-				<QuestionnaireSubmit disabled={pending} aria-busy={pending} size="sm">
+				<QuestionnaireSubmit disabled={locked} aria-busy={pending} size="sm">
 					<AsyncButtonContent
 						status={pending ? "pending" : "idle"}
 						pendingLabel="Submitting"

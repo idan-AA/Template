@@ -1,6 +1,6 @@
-import { DEFAULT_WORKSPACE_NAME } from "@app/auth/organization";
 import type { Metadata } from "next";
 import { AuthHeading, AuthShell } from "@/components/auth-shell";
+import { isCrmEnabled } from "@/lib/modules";
 import { requireMailboxAccess } from "@/lib/session";
 import { OnboardingForm } from "./onboarding-form";
 
@@ -17,10 +17,10 @@ export default async function OnboardingPage() {
 		<AuthShell>
 			<AuthHeading
 				title="Tell us about your company"
-				description="Two things, once. The name is what the CRM calls you; the website is how the agent learns what you sell."
+				description="Two things, once. The name is what your workspace is called; the website is optional."
 			/>
 
-			<OnboardingForm placeholder={DEFAULT_WORKSPACE_NAME} />
+			<OnboardingForm placeholder="Acme Studio" researchStep={isCrmEnabled()} />
 		</AuthShell>
 	);
 }

@@ -14,4 +14,5 @@ RUN bunx turbo run build --filter=agent...
 ENV DATABASE_URL=""
 ENV NODE_ENV=production
 EXPOSE 10000
-CMD ["bun", "apps/agent/scripts/start.ts"]
+# The package script puts apps/agent/node_modules/.bin on PATH, where the eve binary is.
+CMD ["bun", "run", "--cwd", "apps/agent", "start"]

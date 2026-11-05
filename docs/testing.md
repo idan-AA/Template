@@ -29,6 +29,8 @@ bunx turbo run test --concurrency=1 --continue
 `--continue` matters: without it turbo stops at the first failing package and hides the rest.
 The values are the ones `.github/workflows/ci.yml` uses.
 
+The ledger specs in `packages/modules/test/bookkeeping/ledger-*.spec.ts` need Postgres too: with `TEST_DATABASE_URL` unset, or naming a database that does not end in `_test`, they fail with the repo's own message (never skip). They clone a migrated template database per spec file and drop every clone, the template and the replay database when the run ends (`bunfig.toml` preloads `test/bookkeeping/teardown.ts`), so a run leaves no `bk_*_test` databases behind. `FUZZ_SEEDS=200` runs the full ledger fuzz (default 20, about 80 seconds for 200).
+
 ## Baseline on 2026-11-04 (Windows, before any feature work)
 
 About 1,390 tests, 4 failures, all present before our changes:

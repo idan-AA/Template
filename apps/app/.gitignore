@@ -13,8 +13,9 @@
 # testing
 /coverage
 
-# next.js
+# next.js (and any extra build dir like .next-<name>, so Tailwind never scans build output)
 /.next/
+/.next-*/
 /out/
 
 # production

@@ -1,4 +1,5 @@
 import type { Db } from "@app/db";
+import { isModuleEnabled } from "@app/modules";
 import { Injectable } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 
@@ -22,6 +23,9 @@ export class SearchService {
 	async quick(q: string): Promise<{ hits: SearchHit[] }> {
 		const term = q.trim();
 		if (term.length < 2) return { hits: [] };
+
+		// Every hit today is a CRM record, so a deploy without the CRM has nothing to find.
+		if (!isModuleEnabled("crm")) return { hits: [] };
 
 		const [companies, contacts, deals] = await Promise.all([
 			this.db.company.findMany({

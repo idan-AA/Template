@@ -19,7 +19,7 @@ const drift = await execute([
 	"diff",
 	"--from-config-datasource",
 	"--to-schema",
-	"prisma/schema.prisma",
+	"prisma/schema",
 	"--exit-code",
 ]);
 

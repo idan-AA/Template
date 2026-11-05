@@ -12,6 +12,7 @@ import {
 import { InjectDatabase } from "../database/database.constants";
 import { AgentAccessService } from "./agent-access.service";
 import { AGENT_DISPATCH } from "./agent-dispatch.config";
+import { assertAgentShell } from "./agent-shell";
 import { AgentTriggerService } from "./agent-trigger.service";
 import type {
 	AgentCancelRunInput,
@@ -147,6 +148,7 @@ export class AgentRunsService {
 
 	async runNow(input: AgentRunNowInput, userId: string) {
 		await this.access.assertMember(userId);
+		assertAgentShell();
 		const existing = await this.db.agentRun.findUnique({
 			where: { idempotencyKey: input.clientRequestId },
 			select: { id: true, agentId: true },
@@ -240,6 +242,7 @@ export class AgentRunsService {
 
 	async retryRun(input: AgentRetryRunInput, userId: string) {
 		await this.access.assertMember(userId);
+		assertAgentShell();
 
 		const run = await this.db.$transaction(async (tx) => {
 			await lockIdempotencyKey(tx, input.clientRequestId);

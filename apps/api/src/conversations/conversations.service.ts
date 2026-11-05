@@ -23,6 +23,7 @@ import {
 	NotFoundException,
 	Optional,
 } from "@nestjs/common";
+import { assertAgentShell } from "../agent/agent-shell";
 import { AgentTriggerService } from "../agent/agent-trigger.service";
 import { InjectDatabase } from "../database/database.constants";
 import {
@@ -444,6 +445,7 @@ export class ConversationsService {
 		userId: string,
 	): Promise<{ id: string }> {
 		await this.assertWorkspaceMember(userId);
+		assertAgentShell();
 		const existing = await this.requestByClientId(input.clientRequestId);
 
 		if (existing) {
@@ -489,6 +491,7 @@ export class ConversationsService {
 		userId: string,
 	): Promise<{ id: string }> {
 		await this.assertWorkspaceMember(userId);
+		assertAgentShell();
 		const existing = await this.requestByClientId(input.clientRequestId);
 
 		if (existing) {
@@ -549,6 +552,7 @@ export class ConversationsService {
 		userId: string,
 	): Promise<{ id: string }> {
 		await this.assertWorkspaceMember(userId);
+		assertAgentShell();
 		const existing = await this.requestByClientId(input.clientRequestId);
 
 		if (existing) {
@@ -675,6 +679,7 @@ export class ConversationsService {
 		userId: string,
 	): Promise<{ id: string }> {
 		await this.assertWorkspaceMember(userId);
+		assertAgentShell();
 		const existing = await this.requestByClientId(input.clientRequestId);
 
 		if (existing) {

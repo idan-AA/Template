@@ -3,7 +3,7 @@ import { existsSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import pg from "pg";
 
-const SCHEMA = join(dirname(import.meta.dirname), "prisma", "schema.prisma");
+const SCHEMA = join(dirname(import.meta.dirname), "prisma", "schema");
 const MIGRATIONS = join(dirname(import.meta.dirname), "prisma", "migrations");
 
 const url = resolve();
@@ -117,7 +117,9 @@ async function stale(target: string, database: string): Promise<string | null> {
 		return `${database} holds ${foreign.length} migration(s) this branch does not have, starting with ${foreign[0]}`;
 	}
 
-	return drifted(target) ? `${database} no longer matches schema.prisma` : null;
+	return drifted(target)
+		? `${database} no longer matches the Prisma schema`
+		: null;
 }
 
 async function appliedMigrations(target: string): Promise<string[] | null> {

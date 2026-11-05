@@ -37,7 +37,11 @@ export function ResearchForm() {
 			onSubmit={(event) => {
 				event.preventDefault();
 				const form = new FormData(event.currentTarget);
-				save.mutate({ apiKey: String(form.get("apiKey") ?? "").trim() });
+				const apiKey = String(form.get("apiKey") ?? "").trim();
+
+				if (!apiKey) return router.replace("/");
+
+				save.mutate({ apiKey });
 			}}
 			className="flex flex-col gap-6"
 		>
@@ -54,10 +58,9 @@ export function ResearchForm() {
 						autoCorrect="off"
 						spellCheck={false}
 						autoFocus
-						required
 					/>
 					<FieldDescription>
-						Don't have a Context API key?{" "}
+						Optional. You can add it later in Settings. Don't have a key?{" "}
 						<a
 							href={CONTEXT_DEV_SIGNUP_URL}
 							target="_blank"
@@ -72,7 +75,16 @@ export function ResearchForm() {
 
 			<Button type="submit" disabled={save.isPending}>
 				{save.isPending ? <Spinner data-icon="inline-start" /> : null}
-				Continue
+				Save key and continue
+			</Button>
+
+			<Button
+				type="button"
+				variant="ghost"
+				disabled={save.isPending}
+				onClick={() => router.replace("/")}
+			>
+				Skip for now
 			</Button>
 		</form>
 	);

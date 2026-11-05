@@ -31,6 +31,7 @@ import { useSlackChannels } from "@/components/slack/use-slack-channels";
 import { handoffBrief, handoffResources } from "@/lib/agent-handoff";
 import { useTRPC } from "@/lib/trpc/client";
 import { useWorkspaceUrl } from "@/lib/use-workspace-url";
+import { useAgentShell } from "./agent-shell";
 
 export function NewAgentDialog({ children }: { children: React.ReactNode }) {
 	const router = useRouter();
@@ -38,6 +39,7 @@ export function NewAgentDialog({ children }: { children: React.ReactNode }) {
 	const queryClient = useQueryClient();
 	const workspaceUrl = useWorkspaceUrl();
 
+	const shell = useAgentShell();
 	const [open, setOpen] = useState(false);
 	const [name, setName] = useState("");
 	const [job, setJob] = useState("");
@@ -102,7 +104,13 @@ export function NewAgentDialog({ children }: { children: React.ReactNode }) {
 
 	return (
 		<Dialog onOpenChange={setOpen} open={open}>
-			<DialogTrigger asChild>{children}</DialogTrigger>
+			<DialogTrigger
+				asChild
+				disabled={!shell.available}
+				title={shell.reason ?? undefined}
+			>
+				{children}
+			</DialogTrigger>
 
 			<DialogContent className="sm:max-w-(--container-sheet)">
 				<DialogHeader>

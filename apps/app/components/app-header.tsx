@@ -24,19 +24,31 @@ import { useTheme } from "next-themes";
 import { toast } from "sonner";
 import { EnrichmentQueue } from "@/components/enrichment-queue";
 import { useMobileNav } from "@/components/mobile-nav";
+import { headerLabel } from "@/lib/brand-core";
 import { signOutAndRedirect } from "@/lib/sign-out";
 import { useTRPC } from "@/lib/trpc/client";
 import { useWorkspaceUrl } from "@/lib/use-workspace-url";
-import { workspaceLabel } from "@/lib/workspace-label";
 
 type User = { name: string; email: string; image: string | null };
 
-export function AppHeader({ user }: { user: User }) {
+export function AppHeader({
+	user,
+	brandName,
+	workspaceName,
+	showEnrichment,
+}: {
+	user: User;
+	brandName: string;
+	/** The name the server already loaded: the first paint must match on server and client. */
+	workspaceName?: string;
+	/** The enrichment queue belongs to the CRM module: off with it. */
+	showEnrichment: boolean;
+}) {
 	const { setOpen: setMobileNavOpen } = useMobileNav();
 	const trpc = useTRPC();
 	const workspaceUrl = useWorkspaceUrl();
 	const workspace = useQuery(trpc.workspace.get.queryOptions());
-	const label = workspaceLabel(workspace.data?.name);
+	const label = headerLabel(workspace.data?.name ?? workspaceName, brandName);
 
 	return (
 		<header className="flex h-12 shrink-0 items-center gap-2 border-b px-3 [view-transition-name:app-header]">
@@ -62,7 +74,7 @@ export function AppHeader({ user }: { user: User }) {
 			</div>
 
 			<div className="ml-auto flex shrink-0 items-center gap-1.5">
-				<EnrichmentQueue />
+				{showEnrichment && <EnrichmentQueue />}
 				<UserMenu
 					user={user}
 					onSignOut={() => {

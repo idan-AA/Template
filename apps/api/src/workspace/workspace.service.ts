@@ -1,16 +1,25 @@
 import {
+	createPasswordUser,
+	EmailTakenError,
+	setPassword,
+} from "@app/auth/credentials";
+import {
 	canChangeRole,
 	canRenameWorkspace,
+	enrolInWorkspace,
 	ensureWorkspaceMembership,
 	isWorkspaceRole,
 	WORKSPACE_ID,
-	type WorkspaceRole,
 	workspaceRoleOf,
 } from "@app/auth/organization";
+import { passwordProblem } from "@app/auth/password-policy";
 import type { Db, Prisma } from "@app/db";
+import { writeAudit } from "@app/db/audit";
 import { isOnboarded, markOnboarded, workspaceSlug } from "@app/db/workspace";
+import { roleOptions } from "@app/modules";
 import {
 	BadRequestException,
+	ConflictException,
 	ForbiddenException,
 	Injectable,
 	Logger,
@@ -20,6 +29,7 @@ import {
 import { AgentTriggerService } from "../agent/agent-trigger.service";
 import { normalizeDomain } from "../companies/domain";
 import { InjectDatabase } from "../database/database.constants";
+import { getRequestContext } from "../logging/request-context";
 import {
 	countsByKey,
 	type ListResult,
@@ -28,7 +38,9 @@ import {
 	resolveOrderBy,
 } from "../trpc/list-input";
 import type {
+	AddMemberInput,
 	MemberListInput,
+	ResetMemberPasswordInput,
 	SetMemberRoleInput,
 	UpdateWorkspaceInput,
 	Workspace,
@@ -51,10 +63,6 @@ const SORTABLE: OrderByColumns<Prisma.MemberOrderByWithRelationInput> = {
 	role: (dir) => ({ role: dir }),
 	joinedAt: (dir) => ({ createdAt: dir }),
 };
-
-function toRole(value: string): WorkspaceRole {
-	return isWorkspaceRole(value) ? value : "member";
-}
 
 @Injectable()
 export class WorkspaceService {
@@ -90,6 +98,7 @@ export class WorkspaceService {
 			viewerRole: role,
 			canRename: canRenameWorkspace(role),
 			canChangeRoles: canChangeRole(role),
+			roles: roleOptions(),
 		};
 	}
 
@@ -110,9 +119,11 @@ export class WorkspaceService {
 			select: { website: true, metadata: true },
 		});
 
-		const website = normalizeDomain(input.website);
+		// The website is optional: a business may have none. It only feeds CRM research.
+		const wantsWebsite = input.website.trim() !== "";
+		const website = wantsWebsite ? normalizeDomain(input.website) : null;
 
-		if (!website) {
+		if (wantsWebsite && !website) {
 			throw new BadRequestException(
 				"That is not a website. Enter the domain, like acme.com.",
 			);
@@ -130,7 +141,7 @@ export class WorkspaceService {
 
 		this.logger.log({ message: "Workspace updated", userId });
 
-		if (website !== before?.website) {
+		if (website && website !== before?.website) {
 			await this.agent.workspaceChanged(
 				website,
 				before?.website
@@ -184,6 +195,13 @@ export class WorkspaceService {
 			);
 		}
 
+		// The router checks this too; the service is the one that enforces it.
+		if (!isWorkspaceRole(input.role)) {
+			throw new BadRequestException(
+				`"${input.role}" is not a role this workspace uses.`,
+			);
+		}
+
 		const updated = await this.db.$transaction(async (tx) => {
 			const target = await tx.member.findFirst({
 				where: { id: input.memberId, organizationId: WORKSPACE_ID },
@@ -208,11 +226,32 @@ export class WorkspaceService {
 				}
 			}
 
-			return tx.member.update({
+			const changed = await tx.member.update({
 				where: { id: target.id },
 				data: { role: input.role },
 				select: MEMBER_SELECT,
 			});
+
+			const actor = await tx.user.findUnique({
+				where: { id: userId },
+				select: { name: true, email: true },
+			});
+
+			await writeAudit(tx, {
+				module: "core",
+				actorType: "USER",
+				actorId: userId,
+				actorLabel: actor ? `${actor.name} <${actor.email}>` : null,
+				action: "MEMBER_ROLE_CHANGED",
+				entityType: "member",
+				entityId: target.id,
+				summary: `${changed.user.name} changed from ${target.role} to ${input.role}`,
+				before: { role: target.role },
+				after: { role: input.role },
+				requestId: getRequestContext()?.requestId ?? null,
+			});
+
+			return changed;
 		});
 
 		this.logger.log({
@@ -225,6 +264,174 @@ export class WorkspaceService {
 		return this.toMember(updated, userId);
 	}
 
+	/**
+	 * An owner or admin adds a person with a first password they choose and pass
+	 * on. The person must replace it at their first sign-in. Nothing is emailed.
+	 */
+	async addMember(
+		userId: string,
+		input: AddMemberInput,
+	): Promise<WorkspaceMember> {
+		const actorRole = await workspaceRoleOf(userId);
+
+		if (!canChangeRole(actorRole)) {
+			throw new ForbiddenException(
+				"Only an owner or an admin can add a member.",
+			);
+		}
+
+		if (!isWorkspaceRole(input.role)) {
+			throw new BadRequestException(
+				`"${input.role}" is not a role this workspace uses.`,
+			);
+		}
+
+		if (input.role === "owner" && actorRole !== "owner") {
+			throw new ForbiddenException("Only an owner can add another owner.");
+		}
+
+		const problem = passwordProblem(input.password);
+		if (problem) throw new BadRequestException(problem);
+
+		const created = await this.db
+			.$transaction(async (tx) => {
+				const user = await createPasswordUser(tx, {
+					name: input.name,
+					email: input.email,
+					password: input.password,
+					passwordChangeRequired: true,
+				});
+
+				await enrolInWorkspace(tx, user.id, input.role);
+
+				const member = await tx.member.findUniqueOrThrow({
+					where: {
+						organizationId_userId: {
+							organizationId: WORKSPACE_ID,
+							userId: user.id,
+						},
+					},
+					select: MEMBER_SELECT,
+				});
+
+				const actor = await tx.user.findUnique({
+					where: { id: userId },
+					select: { name: true, email: true },
+				});
+
+				await writeAudit(tx, {
+					module: "core",
+					actorType: "USER",
+					actorId: userId,
+					actorLabel: actor ? `${actor.name} <${actor.email}>` : null,
+					action: "MEMBER_CREATED",
+					entityType: "member",
+					entityId: member.id,
+					summary: `${user.email} added as ${input.role}`,
+					after: { email: user.email, role: input.role },
+					requestId: getRequestContext()?.requestId ?? null,
+				});
+
+				return member;
+			})
+			.catch((error: unknown) => {
+				if (error instanceof EmailTakenError) {
+					throw new ConflictException(
+						"Someone with that email address already has an account here.",
+					);
+				}
+				throw error;
+			});
+
+		this.logger.log({
+			message: "Workspace member added",
+			userId,
+			memberId: created.id,
+			role: input.role,
+		});
+
+		return this.toMember(created, userId);
+	}
+
+	/**
+	 * Sets a temporary password for a member and signs them out everywhere. They
+	 * must choose their own at the next sign-in.
+	 */
+	async resetMemberPassword(
+		userId: string,
+		input: ResetMemberPasswordInput,
+	): Promise<{ ok: true }> {
+		const actorRole = await workspaceRoleOf(userId);
+
+		if (!canChangeRole(actorRole)) {
+			throw new ForbiddenException(
+				"Only an owner or an admin can reset a password.",
+			);
+		}
+
+		const problem = passwordProblem(input.password);
+		if (problem) throw new BadRequestException(problem);
+
+		await this.db.$transaction(async (tx) => {
+			const target = await tx.member.findFirst({
+				where: { id: input.memberId, organizationId: WORKSPACE_ID },
+				select: {
+					id: true,
+					role: true,
+					userId: true,
+					user: { select: { email: true } },
+				},
+			});
+
+			if (!target) {
+				throw new NotFoundException("That person is not in this workspace.");
+			}
+
+			if (target.userId === userId) {
+				throw new BadRequestException(
+					"Change your own password from Settings, Account.",
+				);
+			}
+
+			if (target.role === "owner" && actorRole !== "owner") {
+				throw new ForbiddenException(
+					"Only an owner can reset an owner password.",
+				);
+			}
+
+			await setPassword(tx, target.userId, input.password, {
+				passwordChangeRequired: true,
+			});
+
+			await tx.session.deleteMany({ where: { userId: target.userId } });
+
+			const actor = await tx.user.findUnique({
+				where: { id: userId },
+				select: { name: true, email: true },
+			});
+
+			await writeAudit(tx, {
+				module: "core",
+				actorType: "USER",
+				actorId: userId,
+				actorLabel: actor ? `${actor.name} <${actor.email}>` : null,
+				action: "PASSWORD_RESET_BY_ADMIN",
+				entityType: "user",
+				entityId: target.userId,
+				summary: `Password reset for ${target.user.email}`,
+				requestId: getRequestContext()?.requestId ?? null,
+			});
+		});
+
+		this.logger.log({
+			message: "Member password reset by an admin",
+			userId,
+			memberId: input.memberId,
+		});
+
+		return { ok: true };
+	}
+
 	private toMember(row: MemberRow, userId: string): WorkspaceMember {
 		return {
 			id: row.id,
@@ -232,7 +439,7 @@ export class WorkspaceService {
 			name: row.user.name,
 			email: row.user.email,
 			image: row.user.image,
-			role: toRole(row.role),
+			role: row.role,
 			joinedAt: row.createdAt.toISOString(),
 			isViewer: row.userId === userId,
 		};

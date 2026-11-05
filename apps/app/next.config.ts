@@ -1,7 +1,11 @@
 import { loadRootEnv } from "@app/env";
+import { activeClient } from "@app/modules";
 import type { NextConfig } from "next";
 
 loadRootEnv();
+
+// Fail the build or the dev server, with a message, on a bad CLIENT_ID or module list.
+activeClient();
 
 const apiUrl =
 	process.env.API_URL ??
@@ -19,13 +23,23 @@ const allowedDevOrigins = (process.env.APP_URL ?? "")
 	});
 
 const nextConfig: NextConfig = {
+	// A second build (a check beside a running dev server) must not share `.next`.
+	distDir: process.env.NEXT_DIST_DIR || ".next",
+
 	allowedDevOrigins,
 
 	env: {
 		NEXT_PUBLIC_API_URL: apiUrl,
 	},
 
-	transpilePackages: ["@app/auth", "@app/db", "@app/telemetry", "@app/ui"],
+	transpilePackages: [
+		"@app/auth",
+		"@app/clients",
+		"@app/db",
+		"@app/modules",
+		"@app/telemetry",
+		"@app/ui",
+	],
 
 	serverExternalPackages: ["@prisma/client", "@prisma/adapter-pg", "pg"],
 

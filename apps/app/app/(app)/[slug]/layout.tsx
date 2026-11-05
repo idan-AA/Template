@@ -6,6 +6,8 @@ import { AppIconRail, AppIconRailFallback } from "@/components/app-icon-rail";
 import { QuickSwitcher } from "@/components/crm/quick-switcher";
 import { RecordSheetHost } from "@/components/crm/record-sheet/record-sheet-host";
 import { MobileNavProvider } from "@/components/mobile-nav";
+import { getBrand } from "@/lib/brand";
+import { enabledNav, isCrmEnabled } from "@/lib/modules";
 import { requireMailboxAccess } from "@/lib/session";
 import { HydrateClient } from "@/lib/trpc/hydrate";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
@@ -22,21 +24,44 @@ export default function AppLayout({
 				</Suspense>
 
 				<div className="flex min-h-0 flex-1">
-					<Suspense fallback={<AppIconRailFallback />}>
-						<AppIconRail />
+					<Suspense
+						fallback={<AppIconRailFallback moduleItems={enabledNav()} />}
+					>
+						<ModuleRail />
 					</Suspense>
 					{children}
 				</div>
 
 				<Suspense fallback={null}>
-					<RecordSheetHost />
-				</Suspense>
-
-				<Suspense fallback={null}>
-					<QuickSwitcher />
+					<CrmOverlays />
 				</Suspense>
 			</div>
 		</MobileNavProvider>
+	);
+}
+
+async function ModuleRail() {
+	await connection();
+
+	return <AppIconRail moduleItems={enabledNav()} />;
+}
+
+/** The record sheet and the quick switcher only know about CRM records. */
+async function CrmOverlays() {
+	await connection();
+
+	if (!isCrmEnabled()) return null;
+
+	return (
+		<>
+			<Suspense fallback={null}>
+				<RecordSheetHost />
+			</Suspense>
+
+			<Suspense fallback={null}>
+				<QuickSwitcher />
+			</Suspense>
+		</>
 	);
 }
 
@@ -66,6 +91,9 @@ async function WorkspaceHeader({
 	return (
 		<HydrateClient>
 			<AppHeader
+				brandName={getBrand().name}
+				workspaceName={workspace?.name}
+				showEnrichment={isCrmEnabled()}
 				user={{
 					name: user.name,
 					email: user.email,

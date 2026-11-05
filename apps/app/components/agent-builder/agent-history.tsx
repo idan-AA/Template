@@ -16,6 +16,7 @@ import { cn } from "@app/ui/lib/utils";
 import ChevronDown from "@carbon/icons-react/es/ChevronDown";
 import ChevronUp from "@carbon/icons-react/es/ChevronUp";
 import Download from "@carbon/icons-react/es/Download";
+import Information from "@carbon/icons-react/es/Information";
 import Renew from "@carbon/icons-react/es/Renew";
 import WarningAlt from "@carbon/icons-react/es/WarningAlt";
 import { useState } from "react";
@@ -70,12 +71,15 @@ export function AgentRuns({
 	cancelling,
 	onRetry,
 	retryingRunId,
+	blockedReason,
 }: {
 	runs: Runs;
 	onCancel: (runId: string) => void;
 	cancelling: boolean;
 	onRetry: (runId: string) => void;
 	retryingRunId?: string;
+	/** Why runs cannot start on this deployment; shown on queued runs, retry is off. */
+	blockedReason?: string;
 }) {
 	const [outcome, setOutcome] = useState("ALL");
 	const [expanded, setExpanded] = useState<string | null>(null);
@@ -137,6 +141,17 @@ export function AgentRuns({
 									{humanStatus(run.triggerType)} · {formatDate(run.createdAt)} ·
 									Version {run.version.number}
 								</span>
+								{run.status === "QUEUED" && blockedReason ? (
+									<span className="mt-1.5 flex min-w-0 items-start gap-2 rounded-md bg-muted px-2.5 py-1.5">
+										<Icon
+											icon={Information}
+											className="mt-px size-3.5 shrink-0 text-muted-foreground"
+										/>
+										<span className="min-w-0 wrap-break-word text-muted-foreground text-xs leading-5">
+											Waiting, and it will not start. {blockedReason}
+										</span>
+									</span>
+								) : null}
 								{run.status === "FAILED" || run.status === "CANCELLED" ? (
 									<span className="mt-1.5 flex min-w-0 items-start gap-2 rounded-md bg-destructive/10 px-2.5 py-1.5">
 										<Icon
@@ -167,7 +182,8 @@ export function AgentRuns({
 								<Button
 									variant="outline"
 									size="sm"
-									disabled={retryingRunId === run.id}
+									disabled={retryingRunId === run.id || Boolean(blockedReason)}
+									title={blockedReason}
 									onClick={() => onRetry(run.id)}
 								>
 									<Icon icon={Renew} data-icon="inline-start" />

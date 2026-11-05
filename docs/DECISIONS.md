@@ -2,7 +2,46 @@
 
 Newest first. Owner's words where possible.
 
+## 2026-11-05
+
+- **A developer account sits above the owner, inside every client deploy.**
+  Owner: "there should be an owner account, but there should be a developer
+  account that actually has the ability to choose what the person gets access
+  to... For now, for testing, I should be able to see everything." He chose the
+  in-app version: the developer account (named by an environment variable, so a
+  client cannot delete or demote it) always sees everything and has a Features
+  page to switch modules on or off for that client without a code edit or a
+  redeploy. `clients/<id>/client.config.ts` stays the starting set. This changes
+  D1/D3 in `docs/plan/template-modules.md` (modules decided only in code, a
+  disabled module not mounted): module switches become runtime state.
+- **Local testing shows every module.** Dev servers run with
+  `ENABLED_MODULES=crm,bookkeeping` until the developer account lands.
+- **Rebrand pass is the next phase** for a free session (chosen over bookkeeping
+  screens and moving CRM behind its switch).
+
+- **The agent sandbox ("shell") is ON for Render deploys.** Asked what the Chat
+  tab should do on Render (it is built on the shell, which was off for safety),
+  the owner chose "Turn the sandbox on" over making a plain chat work without it
+  or hiding Chat. So `render.yaml.template` sets `AGENT_SHELL=1` and Chat, the
+  agent builder and team agents work on every client deploy. Accepted trade-off,
+  stated to the owner when he chose: the agent can run code on the server and the
+  sandbox has no network isolation. The "not available on this deployment" gating
+  stays for any host where the shell is off.
+
 ## 2026-11-04
+
+- **Sign-in must never depend on a Google (or Microsoft) OAuth client.** Owner:
+  "I don't actually like that I need a Google OAuth. I should be able to create a
+  login and not be locked out." So: email and password sign-in is always on; the
+  first person on an empty database creates the owner account from the sign-in
+  page; admins add members and reset passwords from Settings > Members (no email
+  needed); Google, Microsoft and SSO stay as optional extras. `ALLOWED_SIGN_IN`
+  only gates people who arrive by themselves through Google, Microsoft or SSO; a
+  member an admin created is allowed by that act. Email-based password reset
+  arrives with the email infrastructure (Later).
+- **Deploying is the next milestone** (owner: "How about I deploy it?"), in this
+  order: password sign-in lands, manager reviews it with the modules work, owner
+  gives the word to commit and push, practice deploy on the owner's Render account.
 
 - **Owner confirmed one repo** after weighing repo-per-client: "have one repo so
   features can continue to be updated and grow." Every client is a separate

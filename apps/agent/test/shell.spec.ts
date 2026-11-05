@@ -1,5 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
-import { shellFeaturesEnabled } from "../agent/lib/shell";
+import {
+	resetShellOffNotice,
+	SHELL_OFF_REASON,
+	shellFeaturesEnabled,
+	shellOffNoticeOnce,
+} from "../agent/lib/shell";
 
 const KEYS = ["AGENT_SHELL", "RENDER"] as const;
 
@@ -38,5 +43,25 @@ describe("shellFeaturesEnabled", () => {
 	it("lets AGENT_SHELL=0 turn it off anywhere", () => {
 		process.env.AGENT_SHELL = "0";
 		expect(shellFeaturesEnabled()).toBe(false);
+	});
+});
+
+describe("shellOffNoticeOnce", () => {
+	beforeEach(() => resetShellOffNotice());
+
+	it("says nothing and reports off=false when the shell is available", () => {
+		const warned: string[] = [];
+		expect(shellOffNoticeOnce((m) => warned.push(m))).toBe(false);
+		expect(warned).toEqual([]);
+	});
+
+	it("on Render it reports off=true and logs the reason exactly once", () => {
+		process.env.RENDER = "true";
+		const warned: string[] = [];
+		expect(shellOffNoticeOnce((m) => warned.push(m))).toBe(true);
+		expect(shellOffNoticeOnce((m) => warned.push(m))).toBe(true);
+		expect(shellOffNoticeOnce((m) => warned.push(m))).toBe(true);
+		expect(warned).toHaveLength(1);
+		expect(warned[0]).toContain(SHELL_OFF_REASON);
 	});
 });

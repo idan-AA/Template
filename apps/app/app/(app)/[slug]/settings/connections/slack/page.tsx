@@ -19,6 +19,7 @@ import Close from "@carbon/icons-react/es/Close";
 import Warning from "@carbon/icons-react/es/Warning";
 import Link from "next/link";
 import { Suspense } from "react";
+import { AgentShellHint } from "@/components/agent-builder/agent-shell";
 import { NewAgentDialog } from "@/components/agent-builder/new-agent-dialog";
 import { requireSession } from "@/lib/session";
 import { getServerQueryClient, getServerTrpc } from "@/lib/trpc/server";
@@ -220,6 +221,7 @@ function ConnectedSlack({
 						<Button size="sm">New agent</Button>
 					</NewAgentDialog>
 				</div>
+				<AgentShellHint />
 				<div className="flex flex-col divide-y rounded-lg border">
 					{agents.length === 0 ? (
 						<p className="px-(--spacing-block-inline) py-4 text-muted-foreground text-sm">

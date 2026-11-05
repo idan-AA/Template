@@ -13,7 +13,10 @@
 		"./mcp-crypto": "./src/mcp-crypto.ts",
 		"./mcp-config": "./src/mcp-config.ts",
 		"./mcp-oauth": "./src/mcp-oauth.ts",
+		"./credentials": "./src/credentials.ts",
 		"./organization": "./src/organization.ts",
+		"./password": "./src/password.ts",
+		"./password-policy": "./src/password-policy.ts",
 		"./scopes": "./src/scopes.ts",
 		"./secret-box": "./src/secret-box.ts",
 		"./signed-in": "./src/signed-in.ts",
@@ -22,7 +25,7 @@
 		"./workspace": "./src/workspace.ts"
 	},
 	"scripts": {
-		"auth:generate": "better-auth generate --config src/auth.ts --output ../db/prisma/schema.prisma --y",
+		"auth:generate": "better-auth generate --config src/auth.ts --output ../db/prisma/schema/base.prisma --y",
 		"check-types": "tsc --noEmit",
 		"lint": "biome check .",
 		"test": "bun test",
@@ -34,6 +37,7 @@
 		"@app/db": "workspace:*",
 		"@app/env": "workspace:*",
 		"@app/mcp-integrations": "workspace:*",
+		"@app/modules": "workspace:*",
 		"@app/validation": "workspace:*",
 		"better-auth": "1.6.33",
 		"zod": "^4.4.3"

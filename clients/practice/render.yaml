@@ -1,0 +1,135 @@
+# Render Blueprint template. Do not deploy this file.
+# `bun run new-client <id>` writes clients/<id>/render.yaml from it, with every
+# practice replaced by the client id. In Render: New > Blueprint > this repository >
+# Blueprint Path = clients/<id>/render.yaml. See docs/setup.md "Deploy a new client".
+#
+# One client = one database, an API, a web app and a private agent. Nothing else:
+# the scheduled jobs run inside the API process (apps/api/src/scheduler).
+#
+# Values typed at the prompts (sync: false): API_URL, APP_URL, ALLOWED_SIGN_IN,
+# AUTH_COOKIE_DOMAIN, the sign-in client pair and AI_GATEWAY_API_KEY. API_URL and
+# APP_URL must be right before the first build: the web app bakes API_URL into the
+# browser bundle.
+
+# region must be the same on the database and every service (private URLs only work
+# inside one region) and cannot be changed after creation.
+databases:
+  - name: practice-db
+    region: oregon
+    plan: 0.1c-256mb
+    postgresMajorVersion: "17"
+    ipAllowList: []
+
+envVarGroups:
+  - name: practice-shared
+    envVars:
+      - key: CLIENT_ID
+        value: practice
+      - key: BETTER_AUTH_SECRET
+        generateValue: true
+      - key: AGENT_BRIDGE_SECRET
+        generateValue: true
+      - key: CRON_SECRET
+        generateValue: true
+      - key: MCP_ENCRYPTION_KEY
+        generateValue: true
+      - key: CHAT_EVENT_ENCRYPTION_KEY
+        generateValue: true
+      - key: AGENT_URL
+        value: http://practice-agent:10000
+      # The agent builder, Chat and deployed team agents run code in a sandbox shell
+      # inside the agent service. ON by default for client deploys (owner decision
+      # 2026-11-05, docs/DECISIONS.md). Read by the api AND the agent, so it lives in
+      # this shared group. Set it to "0" to switch those features off everywhere.
+      - key: AGENT_SHELL
+        value: "1"
+
+services:
+  - type: web
+    name: practice-api
+    runtime: docker
+    region: oregon
+    plan: 0.5c-512mb
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeployTrigger: "off"
+    preDeployCommand: bun run db:deploy && bun apps/api/scripts/check-schema-drift.mjs
+    envVars:
+      - fromGroup: practice-shared
+      - key: DATABASE_URL
+        fromDatabase:
+          name: practice-db
+          property: connectionString
+      - key: API_URL
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: AUTH_COOKIE_DOMAIN
+        sync: false
+      - key: ALLOWED_SIGN_IN
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: AI_GATEWAY_API_KEY
+        sync: false
+
+  - type: web
+    name: practice-app
+    runtime: docker
+    region: oregon
+    plan: 0.5c-512mb
+    dockerfilePath: ./apps/app/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeployTrigger: "off"
+    envVars:
+      - fromGroup: practice-shared
+      - key: DATABASE_URL
+        fromDatabase:
+          name: practice-db
+          property: connectionString
+      # CLIENT_ID is also set on the service itself, not only in the shared group.
+      # Render documents that service-level variables become Docker build arguments
+      # (https://render.com/docs/docker, "Environment variable translation"); it says
+      # nothing about group variables. The web app bakes CLIENT_ID at `next build`, so
+      # do not rely on the group alone. Service-level wins over the group (same value).
+      - key: CLIENT_ID
+        value: practice
+      - key: IS_MARKETING
+        value: "false"
+      - key: API_URL
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: ALLOWED_SIGN_IN
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+
+  - type: pserv
+    name: practice-agent
+    runtime: docker
+    region: oregon
+    plan: 0.5c-512mb
+    dockerfilePath: ./apps/agent/Dockerfile
+    dockerContext: .
+    autoDeployTrigger: "off"
+    disk:
+      name: eve-workflow
+      mountPath: /app/apps/agent/.eve/.workflow-data
+      sizeGB: 1
+    envVars:
+      - fromGroup: practice-shared
+      - key: DATABASE_URL
+        fromDatabase:
+          name: practice-db
+          property: connectionString
+      - key: PORT
+        value: "10000"
+      - key: AI_GATEWAY_API_KEY
+        sync: false

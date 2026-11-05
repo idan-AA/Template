@@ -1,10 +1,18 @@
 import { spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const apiDir = dirname(dirname(fileURLToPath(import.meta.url)));
 const dbDir = join(dirname(dirname(apiDir)), "packages/db");
 const bun = process.env.BUN_BIN || "bun";
+
+// The schema is one file today. If it is split into prisma/schema/*.prisma, Prisma
+// takes the folder for --to-schema, so follow whichever layout exists.
+const schemaFolder = join("prisma", "schema");
+const schemaPath = existsSync(join(dbDir, schemaFolder))
+	? schemaFolder
+	: join("prisma", "schema.prisma");
 
 if (!process.env.DATABASE_URL) {
 	console.log("• no DATABASE_URL, skipping the schema drift check");
@@ -21,7 +29,7 @@ const drift = spawnSync(
 		"diff",
 		"--from-config-datasource",
 		"--to-schema",
-		join("prisma", "schema.prisma"),
+		schemaPath,
 		"--exit-code",
 	],
 	{ cwd: dbDir, encoding: "utf8", env: process.env },
