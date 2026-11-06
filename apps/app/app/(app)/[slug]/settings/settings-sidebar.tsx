@@ -4,7 +4,7 @@ import { Button } from "@app/ui/components/button";
 import { cn } from "@app/ui/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useWorkspaceUrl } from "@/lib/use-workspace-url";
 import { ROOT, type SettingsNavItem } from "./settings-items";
 
@@ -90,6 +90,42 @@ export function SettingsSidebarFallback({
 	);
 }
 
+/**
+ * The settings tabs on a narrow screen scroll sideways. A fade on the edge that
+ * still has tabs beyond it says so, and the current tab is scrolled into view so
+ * the person never opens a page whose tab is out of sight.
+ */
+function useScrollHints() {
+	const ref = useRef<HTMLElement>(null);
+	const [more, setMore] = useState({ before: false, after: false });
+
+	const measure = useCallback(() => {
+		const el = ref.current;
+		if (!el) return;
+
+		setMore({
+			before: el.scrollLeft > 4,
+			after: el.scrollLeft + el.clientWidth < el.scrollWidth - 4,
+		});
+	}, []);
+
+	useEffect(() => {
+		const el = ref.current;
+		if (!el) return;
+
+		el.querySelector("[aria-current=page]")?.scrollIntoView({
+			block: "nearest",
+			inline: "center",
+		});
+		measure();
+
+		window.addEventListener("resize", measure);
+		return () => window.removeEventListener("resize", measure);
+	}, [measure]);
+
+	return { ref, more, onScroll: measure };
+}
+
 export function SettingsSidebar({
 	items: source,
 }: {
@@ -103,6 +139,7 @@ export function SettingsSidebar({
 		() => source.map((item) => ({ ...item, href: workspaceUrl(item.href) })),
 		[workspaceUrl, source],
 	);
+	const { ref, more, onScroll } = useScrollHints();
 
 	return (
 		<>
@@ -122,19 +159,36 @@ export function SettingsSidebar({
 				</nav>
 			</aside>
 
-			<nav
-				aria-label="Workspace settings"
-				className="flex gap-1 overflow-x-auto border-b p-2 md:hidden [view-transition-name:settings-sidebar]"
-			>
-				{items.map((item) => (
-					<NavLink
-						key={item.href}
-						item={item}
-						active={isActive(item.href, root, pathname)}
-						className="shrink-0 px-3"
+			<div className="relative border-b md:hidden [view-transition-name:settings-sidebar]">
+				<nav
+					ref={ref}
+					aria-label="Workspace settings"
+					onScroll={onScroll}
+					className="flex gap-1 overflow-x-auto p-2"
+				>
+					{items.map((item) => (
+						<NavLink
+							key={item.href}
+							item={item}
+							active={isActive(item.href, root, pathname)}
+							className="shrink-0 px-3"
+						/>
+					))}
+				</nav>
+
+				{more.before ? (
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-linear-to-r from-background to-transparent"
 					/>
-				))}
-			</nav>
+				) : null}
+				{more.after ? (
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-linear-to-l from-background to-transparent"
+					/>
+				) : null}
+			</div>
 		</>
 	);
 }

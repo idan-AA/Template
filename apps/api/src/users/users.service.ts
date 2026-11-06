@@ -14,7 +14,9 @@ export class UsersService {
 	constructor(@InjectDatabase() private readonly db: Db) {}
 
 	async list(): Promise<UserOption[]> {
+		// Someone who was removed from the workspace is not offered as an owner or assignee.
 		return this.db.user.findMany({
+			where: { removedAt: null },
 			select: { id: true, name: true, email: true, image: true },
 			orderBy: [{ name: "asc" }, { email: "asc" }],
 		});

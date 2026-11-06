@@ -10,6 +10,7 @@ import {
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
@@ -28,6 +29,7 @@ import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { membersSearchParams } from "./members-search-params";
+import { RemoveMemberDialog, type RemoveTarget } from "./remove-member-dialog";
 import { ResetPasswordDialog, type ResetTarget } from "./reset-password-dialog";
 
 type RoleOption = { id: string; label: string };
@@ -54,6 +56,7 @@ function columns(
 	roles: RoleOption[],
 	onChangeRole: (member: MemberRow, role: string) => void,
 	onResetPassword: (member: MemberRow) => void,
+	onRemove: (member: MemberRow) => void,
 	pending: boolean,
 ): DataTableColumn<MemberRow>[] {
 	return [
@@ -133,25 +136,33 @@ function columns(
 						</DropdownMenuTrigger>
 
 						<DropdownMenuContent align="end">
-							<DropdownMenuLabel>Role</DropdownMenuLabel>
-							{roles.map((role) => (
-								<DropdownMenuItem
-									key={role.id}
-									data-checked={row.role === role.id}
-									onSelect={() => {
-										if (row.role === role.id) return;
-										onChangeRole(row, role.id);
-									}}
-								>
-									{role.label}
-								</DropdownMenuItem>
-							))}
+							<DropdownMenuGroup>
+								<DropdownMenuLabel>Role</DropdownMenuLabel>
+								{roles.map((role) => (
+									<DropdownMenuItem
+										key={role.id}
+										data-checked={row.role === role.id}
+										onSelect={() => {
+											if (row.role === role.id) return;
+											onChangeRole(row, role.id);
+										}}
+									>
+										{role.label}
+									</DropdownMenuItem>
+								))}
+							</DropdownMenuGroup>
 
 							{row.isViewer ? null : (
 								<>
 									<DropdownMenuSeparator />
 									<DropdownMenuItem onSelect={() => onResetPassword(row)}>
 										Reset password
+									</DropdownMenuItem>
+									<DropdownMenuItem
+										variant="destructive"
+										onSelect={() => onRemove(row)}
+									>
+										Remove member
 									</DropdownMenuItem>
 								</>
 							)}
@@ -167,6 +178,7 @@ export function MembersTable() {
 	const cache = useCrmCache();
 	const { query, input } = useTableQuery(membersSearchParams);
 	const [resetting, setResetting] = useState<ResetTarget | null>(null);
+	const [removing, setRemoving] = useState<RemoveTarget | null>(null);
 
 	const workspace = useQuery(trpc.workspace.get.queryOptions());
 	const members = useQuery({
@@ -217,6 +229,7 @@ export function MembersTable() {
 					roles,
 					(member, role) => setRole.mutate({ memberId: member.id, role }),
 					(member) => setResetting({ id: member.id, name: member.name }),
+					(member) => setRemoving({ id: member.id, name: member.name }),
 					setRole.isPending,
 				)}
 				rows={members.data?.rows ?? []}
@@ -231,6 +244,11 @@ export function MembersTable() {
 			<ResetPasswordDialog
 				member={resetting}
 				onClose={() => setResetting(null)}
+			/>
+
+			<RemoveMemberDialog
+				member={removing}
+				onClose={() => setRemoving(null)}
 			/>
 		</>
 	);

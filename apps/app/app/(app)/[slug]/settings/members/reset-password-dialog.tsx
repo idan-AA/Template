@@ -77,8 +77,7 @@ function ResetForm({
 				<DialogHeader>
 					<DialogTitle>New password for {member.name}</DialogTitle>
 					<DialogDescription>
-						They are signed out everywhere and must choose their own password
-						when they sign in. {NO_EMAIL_NOTE}
+						They are signed out everywhere. {NO_EMAIL_NOTE}
 					</DialogDescription>
 				</DialogHeader>
 

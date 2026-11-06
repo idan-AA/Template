@@ -27,6 +27,11 @@ model User {
   // True after an admin sets or resets this person's password: they must choose
   // their own before anything else (see apps/api/src/account).
   passwordChangeRequired Boolean   @default(false)
+  // Set when an owner or admin removes this person from the workspace. Their
+  // sessions and API keys are gone and they cannot sign in again, but the user
+  // row stays, so everything they ever did keeps its author. Cleared if they are
+  // added back.
+  removedAt              DateTime?
   sessions               Session[]
   accounts               Account[]
 

@@ -1,13 +1,14 @@
-import { enabledModules } from "@app/modules";
 import type { ModuleId } from "@app/modules/registry";
 import type { Type } from "@nestjs/common";
 import { BookkeepingModule } from "../bookkeeping/bookkeeping.module";
 
 /**
  * The Nest modules each product module mounts, by module id. `AppModule` imports
- * the entries of the modules that are switched on, so a disabled module's
- * routers and controllers are never registered: its procedures do not exist, and
- * its routes answer 404.
+ * EVERY entry, whatever is switched on. Nest cannot mount a module while the
+ * server runs, and the developer account switches modules at runtime, so a
+ * module switched on after boot must already have its procedures. What keeps a
+ * switched-off module out of reach is `AuthMiddleware`: a procedure whose module
+ * is off answers NOT_FOUND (see `module-gate.ts` and the module `routers` lists).
  *
  * `crm` is empty on purpose. The CRM's Nest modules are still imported directly
  * by core ones (ArchiveModule, SettingsModule and the scheduler reach into
@@ -28,7 +29,7 @@ export function apiModulesFor(
 	return ids.flatMap((id) => registry[id]);
 }
 
-/** What `AppModule` adds on top of the core modules for this deploy. */
-export function enabledApiModules(): Type[] {
-	return apiModulesFor(enabledModules().map((module) => module.id as ModuleId));
+/** What `AppModule` adds on top of the core modules: every product module's Nest modules. */
+export function allApiModules(): Type[] {
+	return apiModulesFor(Object.keys(MODULE_API) as ModuleId[]);
 }

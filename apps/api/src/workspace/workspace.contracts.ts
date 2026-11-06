@@ -54,6 +54,12 @@ export const resetMemberPasswordInput = z.object({
 
 export const resetMemberPasswordOutput = z.object({ ok: z.literal(true) });
 
+export const removeMemberInput = z.object({ memberId: z.string().min(1) });
+
+export const removeMemberOutput = z.object({ ok: z.literal(true) });
+
+export type RemoveMemberInput = z.infer<typeof removeMemberInput>;
+
 export type AddMemberInput = z.infer<typeof addMemberInput>;
 export type ResetMemberPasswordInput = z.infer<typeof resetMemberPasswordInput>;
 export type UpdateWorkspaceInput = z.infer<typeof updateWorkspaceInput>;

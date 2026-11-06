@@ -389,6 +389,21 @@ export const auth = betterAuth({
 		session: {
 			create: {
 				before: async (session) => {
+					// Someone an owner or admin removed does not get a session, by any
+					// route (password, Google, Microsoft, SSO), and must not be
+					// quietly enrolled again below.
+					const person = await db.user.findUnique({
+						where: { id: session.userId },
+						select: { removedAt: true },
+					});
+
+					if (person?.removedAt) {
+						throw new APIError("FORBIDDEN", {
+							message:
+								"Your access to this workspace was removed. Ask an owner or admin to add you back.",
+						});
+					}
+
 					const workspaceId = await ensureWorkspaceMembership(session.userId);
 
 					return {

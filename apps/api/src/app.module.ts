@@ -29,7 +29,7 @@ import { MailboxModule } from "./mailbox/mailbox.module";
 import { McpModule } from "./mcp/mcp.module";
 import { MicrosoftModule } from "./microsoft/microsoft.module";
 import { ModulesModule } from "./modules/modules.module";
-import { enabledApiModules } from "./modules/registry";
+import { allApiModules } from "./modules/registry";
 import { SavedViewsModule } from "./saved-views/saved-views.module";
 import { SchedulerModule } from "./scheduler/scheduler.module";
 import { SearchModule } from "./search/search.module";
@@ -94,6 +94,6 @@ export const ALWAYS_MOUNTED: NonNullable<ModuleMetadata["imports"]> = [
 ];
 
 @Module({
-	imports: [...ALWAYS_MOUNTED, ...enabledApiModules()],
+	imports: [...ALWAYS_MOUNTED, ...allApiModules()],
 })
 export class AppModule {}

@@ -9,11 +9,6 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from "@app/ui/components/sheet";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipTrigger,
-} from "@app/ui/components/tooltip";
 import { cn } from "@app/ui/lib/utils";
 import Close from "@carbon/icons-react/es/Close";
 import Link from "next/link";
@@ -33,6 +28,12 @@ function isActive(item: RailItem, pathname: string): boolean {
 	);
 }
 
+/** The desktop rail: an icon with its name under it. */
+const RAIL_WIDTH = "w-[4.75rem]";
+const RAIL_BUTTON =
+	"h-auto w-full flex-col gap-1 px-1 py-2 font-normal text-muted-foreground";
+const RAIL_LABEL = "max-w-full truncate text-[11px] leading-none";
+
 function RailLink({
 	item,
 	active,
@@ -42,34 +43,30 @@ function RailLink({
 	active: boolean;
 	onPrefetch: () => void;
 }) {
+	// The name is always visible under the icon: nobody should have to hover to
+	// learn what an icon is.
 	return (
-		<Tooltip>
-			<TooltipTrigger asChild>
-				<Button
-					asChild
-					variant="ghost"
-					size="icon"
-					className={cn(
-						"text-muted-foreground",
-						active &&
-							"bg-muted text-foreground hover:bg-muted hover:text-foreground",
-					)}
-				>
-					<Link
-						href={item.href}
-						prefetch
-						onMouseEnter={onPrefetch}
-						onFocus={onPrefetch}
-						aria-current={active ? "page" : undefined}
-						transitionTypes={["nav-lateral"]}
-					>
-						<Icon icon={item.icon} className={item.iconClassName} />
-						<span className="sr-only">{item.title}</span>
-					</Link>
-				</Button>
-			</TooltipTrigger>
-			<TooltipContent side="right">{item.title}</TooltipContent>
-		</Tooltip>
+		<Button
+			asChild
+			variant="ghost"
+			className={cn(
+				RAIL_BUTTON,
+				active &&
+					"bg-muted text-foreground hover:bg-muted hover:text-foreground",
+			)}
+		>
+			<Link
+				href={item.href}
+				prefetch
+				onMouseEnter={onPrefetch}
+				onFocus={onPrefetch}
+				aria-current={active ? "page" : undefined}
+				transitionTypes={["nav-lateral"]}
+			>
+				<Icon icon={item.icon} className={item.iconClassName} />
+				<span className={RAIL_LABEL}>{item.title}</span>
+			</Link>
+		</Button>
 	);
 }
 
@@ -158,18 +155,20 @@ export function AppIconRailFallback({
 		<nav
 			aria-label="Primary"
 			aria-busy="true"
-			className="hidden w-14 shrink-0 flex-col items-center gap-1 border-r py-3 md:flex [view-transition-name:app-rail]"
+			className={cn(
+				"hidden shrink-0 flex-col items-center gap-1 border-r px-1 py-3 md:flex [view-transition-name:app-rail]",
+				RAIL_WIDTH,
+			)}
 		>
 			{railItems(moduleItems).map((item) => (
 				<Button
 					key={item.href}
 					variant="ghost"
-					size="icon"
 					disabled
-					className="text-muted-foreground"
+					className={RAIL_BUTTON}
 				>
 					<Icon icon={item.icon} className={item.iconClassName} />
-					<span className="sr-only">{item.title}</span>
+					<span className={RAIL_LABEL}>{item.title}</span>
 				</Button>
 			))}
 		</nav>
@@ -204,7 +203,10 @@ export function AppIconRail({
 		<>
 			<nav
 				aria-label="Primary"
-				className="hidden w-14 shrink-0 flex-col items-center gap-1 border-r py-3 md:flex [view-transition-name:app-rail]"
+				className={cn(
+					"hidden shrink-0 flex-col items-center gap-1 border-r px-1 py-3 md:flex [view-transition-name:app-rail]",
+					RAIL_WIDTH,
+				)}
 			>
 				{items.map((item) => (
 					<RailLink

@@ -25,7 +25,7 @@ const BOOT_TIMEOUT_MS = 60_000;
 
 const { TrpcModule } = await import("../src/trpc/trpc.module");
 const { ALWAYS_MOUNTED } = await import("../src/app.module");
-const { apiModulesFor, enabledApiModules, MODULE_API } = await import(
+const { allApiModules, apiModulesFor, MODULE_API } = await import(
 	"../src/modules/registry"
 );
 
@@ -128,13 +128,14 @@ describe("the real registry", () => {
 		expect(Object.keys(MODULE_API).sort()).toEqual(["bookkeeping", "crm"]);
 	});
 
-	it("follows the active client's modules", () => {
-		useModules(["crm", "bookkeeping"]);
-		const withAll = enabledApiModules();
-
+	it("mounts every module whatever is switched on, so a runtime switch-on already has its procedures", () => {
 		useModules([]);
+		const withNone = allApiModules();
 
-		expect(enabledApiModules()).toEqual([]);
-		expect(withAll).toEqual([...MODULE_API.crm, ...MODULE_API.bookkeeping]);
+		useModules(["crm", "bookkeeping"]);
+		const withAll = allApiModules();
+
+		expect(withNone).toEqual([...MODULE_API.crm, ...MODULE_API.bookkeeping]);
+		expect(withAll).toEqual(withNone);
 	});
 });

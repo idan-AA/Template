@@ -42,6 +42,7 @@ import {
 import type {
 	AddMemberInput,
 	MemberListInput,
+	RemoveMemberInput,
 	ResetMemberPasswordInput,
 	SetMemberRoleInput,
 	UpdateWorkspaceInput,
@@ -321,12 +322,35 @@ export class WorkspaceService {
 
 		const created = await this.db
 			.$transaction(async (tx) => {
-				const user = await createPasswordUser(tx, {
-					name: input.name,
-					email: input.email,
-					password: input.password,
-					passwordChangeRequired: true,
+				// Someone an owner or admin removed earlier keeps their account (and so
+				// their history). Adding them back restores it with a new temporary
+				// password instead of failing with "already has an account".
+				const removed = await tx.user.findFirst({
+					where: {
+						email: { equals: input.email.trim(), mode: "insensitive" },
+						removedAt: { not: null },
+					},
+					select: { id: true, email: true },
 				});
+
+				if (removed) {
+					await setPassword(tx, removed.id, input.password, {
+						passwordChangeRequired: true,
+					});
+					await tx.user.update({
+						where: { id: removed.id },
+						data: { removedAt: null, name: input.name.trim() },
+					});
+				}
+
+				const user =
+					removed ??
+					(await createPasswordUser(tx, {
+						name: input.name,
+						email: input.email,
+						password: input.password,
+						passwordChangeRequired: true,
+					}));
 
 				await enrolInWorkspace(tx, user.id, input.role);
 
@@ -350,10 +374,12 @@ export class WorkspaceService {
 					actorType: "USER",
 					actorId: userId,
 					actorLabel: actor ? `${actor.name} <${actor.email}>` : null,
-					action: "MEMBER_CREATED",
+					action: removed ? "MEMBER_RESTORED" : "MEMBER_CREATED",
 					entityType: "member",
 					entityId: member.id,
-					summary: `${user.email} added as ${input.role}`,
+					summary: removed
+						? `${user.email} added back as ${input.role}`
+						: `${user.email} added as ${input.role}`,
 					after: { email: user.email, role: input.role },
 					requestId: getRequestContext()?.requestId ?? null,
 				});
@@ -377,6 +403,108 @@ export class WorkspaceService {
 		});
 
 		return this.toMember(created, userId, await this.developerPin());
+	}
+
+	/**
+	 * Takes a person out of the workspace: no member row, no sessions, no API
+	 * keys, and no way to sign in again until someone adds them back. Their
+	 * account stays, so everything they ever did keeps its author.
+	 */
+	async removeMember(
+		userId: string,
+		input: RemoveMemberInput,
+	): Promise<{ ok: true }> {
+		const actorRole = await workspaceRoleOf(userId);
+
+		if (!canChangeRole(actorRole)) {
+			throw new ForbiddenException(
+				"Only an owner or an admin can remove a member.",
+			);
+		}
+
+		await this.db.$transaction(async (tx) => {
+			const target = await tx.member.findFirst({
+				where: { id: input.memberId, organizationId: WORKSPACE_ID },
+				select: {
+					id: true,
+					role: true,
+					userId: true,
+					user: { select: { name: true, email: true } },
+				},
+			});
+
+			if (!target) {
+				throw new NotFoundException("That person is not in this workspace.");
+			}
+
+			if (target.userId === userId) {
+				throw new BadRequestException("You cannot remove yourself.");
+			}
+
+			// The developer account is never removed from here, whoever asks.
+			if (
+				await this.isDeveloperUser({
+					id: target.userId,
+					email: target.user.email,
+				})
+			) {
+				throw new ForbiddenException(
+					"The developer account cannot be changed from here.",
+				);
+			}
+
+			if (target.role === "owner") {
+				if (actorRole !== "owner") {
+					throw new ForbiddenException("Only an owner can remove an owner.");
+				}
+
+				const owners = await tx.$queryRaw<{ id: string }[]>`
+					SELECT id FROM "member"
+					WHERE "organizationId" = ${WORKSPACE_ID} AND role = 'owner'
+					FOR UPDATE
+				`;
+
+				if (owners.length <= 1) {
+					throw new ForbiddenException(
+						"The workspace needs an owner. Make someone else an owner first.",
+					);
+				}
+			}
+
+			await tx.member.delete({ where: { id: target.id } });
+			await tx.user.update({
+				where: { id: target.userId },
+				data: { removedAt: new Date() },
+			});
+			await tx.session.deleteMany({ where: { userId: target.userId } });
+			await tx.apikey.deleteMany({ where: { referenceId: target.userId } });
+
+			const actor = await tx.user.findUnique({
+				where: { id: userId },
+				select: { name: true, email: true },
+			});
+
+			await writeAudit(tx, {
+				module: "core",
+				actorType: "USER",
+				actorId: userId,
+				actorLabel: actor ? `${actor.name} <${actor.email}>` : null,
+				action: "MEMBER_REMOVED",
+				entityType: "member",
+				entityId: target.id,
+				summary: `${target.user.email} removed from the workspace`,
+				before: { email: target.user.email, role: target.role },
+				requestId: getRequestContext()?.requestId ?? null,
+			});
+		});
+
+		this.logger.log({
+			message: "Workspace member removed",
+			userId,
+			memberId: input.memberId,
+		});
+
+		return { ok: true };
 	}
 
 	/**

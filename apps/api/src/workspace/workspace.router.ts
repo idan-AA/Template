@@ -15,6 +15,8 @@ import {
 	addMemberInput,
 	memberListInput,
 	memberListOutput,
+	removeMemberInput,
+	removeMemberOutput,
 	resetMemberPasswordInput,
 	resetMemberPasswordOutput,
 	setMemberRoleInput,
@@ -87,6 +89,18 @@ export class WorkspaceRouter {
 		@Input() input: z.infer<typeof addMemberInput>,
 	) {
 		return this.workspace.addMember(ctx.user.id, input);
+	}
+
+	@Mutation({
+		input: removeMemberInput,
+		output: removeMemberOutput,
+		meta: restMeta("DELETE", "/workspace/members/{memberId}", ["Workspace"]),
+	})
+	async removeMember(
+		@Ctx() ctx: AuthedTrpcContext,
+		@Input() input: z.infer<typeof removeMemberInput>,
+	) {
+		return this.workspace.removeMember(ctx.user.id, input);
 	}
 
 	@Mutation({

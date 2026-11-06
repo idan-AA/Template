@@ -40,20 +40,30 @@ export class AuthMiddleware implements TRPCMiddleware {
 
 		await this.refuseSwitchedOffModule(opts.path, user);
 
-		if (!OPEN_UNTIL_PASSWORD_CHANGED.has(opts.path)) {
-			// Read fresh: the session cookie is cached for minutes, and this flag
-			// must stop working the moment the password is changed.
-			const row = await this.db.user.findUnique({
-				where: { id: user.id },
-				select: { passwordChangeRequired: true },
-			});
+		// Read fresh: the session cookie is cached for minutes, and both flags here
+		// must take effect the moment they change (a removed person, a password
+		// that must be replaced).
+		const row = await this.db.user.findUnique({
+			where: { id: user.id },
+			select: { passwordChangeRequired: true, removedAt: true },
+		});
 
-			if (row?.passwordChangeRequired) {
-				throw new TRPCError({
-					code: "FORBIDDEN",
-					message: "Choose a new password before you do anything else.",
-				});
-			}
+		if (row?.removedAt) {
+			throw new TRPCError({
+				code: "FORBIDDEN",
+				message:
+					"Your access to this workspace was removed. Ask an owner or admin to add you back.",
+			});
+		}
+
+		if (
+			row?.passwordChangeRequired &&
+			!OPEN_UNTIL_PASSWORD_CHANGED.has(opts.path)
+		) {
+			throw new TRPCError({
+				code: "FORBIDDEN",
+				message: "Choose a new password before you do anything else.",
+			});
 		}
 
 		const nextCtx: AuthedTrpcContext = { ...ctx, user };
