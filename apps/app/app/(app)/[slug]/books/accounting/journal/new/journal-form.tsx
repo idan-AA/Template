@@ -119,8 +119,8 @@ export function JournalForm() {
 			current.map((line) => (line.key === key ? { ...line, ...patch } : line)),
 		);
 
-	let debitTotal = 0n;
-	let creditTotal = 0n;
+	let debitTotal = BigInt(0);
+	let creditTotal = BigInt(0);
 	let problem: string | null = null;
 	const payload: Array<{
 		accountId: string;
@@ -145,7 +145,7 @@ export function JournalForm() {
 
 		const text = debit || credit;
 		const minor = parseAmount(text, currency);
-		if (minor === null || minor <= 0n) {
+		if (minor === null || minor <= BigInt(0)) {
 			problem = `"${text}" is not an amount ${currency} can hold. Use digits and at most the currency's decimals.`;
 			continue;
 		}
@@ -161,7 +161,7 @@ export function JournalForm() {
 		});
 	}
 
-	const balanced = debitTotal === creditTotal && debitTotal > 0n;
+	const balanced = debitTotal === creditTotal && debitTotal > BigInt(0);
 	const difference = debitTotal - creditTotal;
 	const needsMemo = kind === "ADJUSTMENT" && memo.trim() === "";
 	const needsReason = insideLock && canOverride && override.trim() === "";
@@ -375,7 +375,7 @@ export function JournalForm() {
 					>
 						{balanced
 							? "Balanced"
-							: `Out by ${formatMoney((difference < 0n ? -difference : difference).toString(), currency)}`}
+							: `Out by ${formatMoney((difference < BigInt(0) ? -difference : difference).toString(), currency)}`}
 					</span>
 				</div>
 				<div className="flex flex-wrap items-center gap-3">

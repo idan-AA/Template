@@ -23,6 +23,17 @@
         ]
       },
       {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/push-review.mjs\"",
+            "timeout": 1800,
+            "statusMessage": "Opus is reviewing and testing every commit before push..."
+          }
+        ]
+      },
+      {
         "matcher": "Bash",
         "hooks": [
           {

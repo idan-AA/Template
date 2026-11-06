@@ -68,7 +68,7 @@ export function AccountLedger({
 	const data = ledger.data;
 	const currency = data.baseCurrency;
 	// Balances arrive as net debit minus credit. A credit account reads positive on its credit side.
-	const sign = data.normalSide === "DEBIT" ? 1n : -1n;
+	const sign = data.normalSide === "DEBIT" ? BigInt(1) : -BigInt(1);
 	const natural = (minor: string) => (BigInt(minor) * sign).toString();
 	const path = workspaceUrl(`/books/accounting/accounts/${id}`);
 

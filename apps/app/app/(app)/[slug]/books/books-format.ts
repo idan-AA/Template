@@ -9,7 +9,7 @@ import { minorUnitsOf } from "@app/db/currency";
 function split(minor: string, currency: string) {
 	const places = minorUnitsOf(currency);
 	const value = BigInt(minor);
-	const negative = value < 0n;
+	const negative = value < BigInt(0);
 	const digits = (negative ? -value : value)
 		.toString()
 		.padStart(places + 1, "0");
