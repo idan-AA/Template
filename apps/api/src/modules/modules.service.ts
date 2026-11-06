@@ -2,7 +2,7 @@ import type { Db } from "@app/db";
 import { writeAudit } from "@app/db/audit";
 import { readModuleSwitches } from "@app/db/module-switches";
 import { enabledModules } from "@app/modules";
-import { isDeveloper } from "@app/modules/developer";
+import { developerEmail, isDeveloper } from "@app/modules/developer";
 import {
 	ALL_MODULES,
 	isModuleId,
@@ -47,6 +47,8 @@ export class ModulesService implements OnModuleInit {
 	/** The API reads switches from its own database; every guard then reads the cached answer. */
 	async onModuleInit(): Promise<void> {
 		registerModuleSwitchLoader(() => readModuleSwitches(this.db));
+		// Visible in the host's logs, so a missing DEVELOPER_EMAIL needs no probing.
+		this.logger.log(`Developer account: ${developerEmail() ?? "none configured"}`);
 		await this.setUpEnabledModules();
 	}
 
