@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.1](https://github.com/idan-AA/Template/compare/v1.16.0...v1.16.1) (2026-11-06)
+
+
+### Documentation
+
+* toolkit CLAUDE.md with project facts, decision log, Render and bookkeeping plans ([8e67244](https://github.com/idan-AA/Template/commit/8e672447431f1a47311b6e45cb44a2f7979140ff))
+
 ## [1.16.0](https://github.com/trycompai/crm/compare/v1.15.3...v1.16.0) (2026-10-22)
 
 
