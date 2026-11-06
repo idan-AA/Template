@@ -13,6 +13,10 @@ Newest first. Owner's words where possible.
   main). GitHub CI (type check, lint, tests on a real database) runs on every push to main and
   is the check; a push to main does not deploy the practice site (auto-deploy is off), the owner
   clicks Deploy in Render.
+- **No GitHub Actions.** Owner: "there should not be github actions." The workflows in
+  `.github/workflows` (inherited from crm) never run on this repo. The only build check is
+  Render's build (the web build type-checks; lint and tests do not run anywhere). Verify on the
+  live practice deploy.
 
 - **Order of work confirmed.** First the manager checks the live practice deploy as a
   user would, and anything broken goes to the first builder. Then two builders in parallel:
