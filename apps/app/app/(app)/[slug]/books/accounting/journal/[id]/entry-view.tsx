@@ -9,7 +9,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@app/ui/components/card";
-import { CardTableEmpty } from "@app/ui/components/card-table";
 import {
 	SimpleTable,
 	type SimpleTableColumn,
@@ -148,22 +147,59 @@ export function EntryView({ id }: { id: string }) {
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="px-0">
-					{data.history.length === 0 ? (
-						<CardTableEmpty>No history recorded.</CardTableEmpty>
-					) : (
-						<ul className="flex flex-col divide-y text-sm">
-							{data.history.map((event) => (
+					<ul className="flex flex-col divide-y text-sm">
+						<li className="flex flex-col gap-0.5 px-6 py-3">
+							<span>
+								{data.reverses
+									? `Posted as the reversal of ${data.reverses.number}`
+									: "Posted"}
+								{data.postedBy ? ` by ${data.postedBy}` : ""}.
+							</span>
+							{data.postedAt ? (
+								<span className="text-muted-foreground text-xs">
+									<LocalRelativeTime date={data.postedAt} />
+								</span>
+							) : null}
+						</li>
+						{data.history
+							.filter((event) => event.action === "LOCK_OVERRIDE")
+							.map((event) => (
 								<li key={event.id} className="flex flex-col gap-0.5 px-6 py-3">
-									<span>{event.summary}</span>
+									<span>
+										Posted inside a locked period
+										{event.actorLabel ? ` by ${event.actorLabel}` : ""}.
+									</span>
 									<span className="text-muted-foreground text-xs">
-										{event.actorLabel ?? "System"} ·{" "}
 										<LocalRelativeTime date={event.at} />
-										{event.reason ? ` · ${event.reason}` : ""}
+										{event.reason ? `, reason: ${event.reason}` : ""}
 									</span>
 								</li>
 							))}
-						</ul>
-					)}
+						{data.reversedBy ? (
+							<li className="flex flex-col gap-0.5 px-6 py-3">
+								<span>
+									Reversed by{" "}
+									<Link
+										className="underline-offset-4 hover:underline"
+										href={workspaceUrl(
+											`/books/accounting/journal/${data.reversedBy.id}`,
+										)}
+									>
+										{data.reversedBy.number}
+									</Link>
+									{data.reversedBy.postedBy
+										? ` (${data.reversedBy.postedBy})`
+										: ""}
+									{data.reversedBy.reason ? `: ${data.reversedBy.reason}` : "."}
+								</span>
+								{data.reversedBy.postedAt ? (
+									<span className="text-muted-foreground text-xs">
+										<LocalRelativeTime date={data.reversedBy.postedAt} />
+									</span>
+								) : null}
+							</li>
+						) : null}
+					</ul>
 				</CardContent>
 			</Card>
 		</div>

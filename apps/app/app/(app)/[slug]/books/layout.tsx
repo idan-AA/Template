@@ -1,4 +1,5 @@
 import { ModuleGate } from "@/components/module-gate";
+import { BooksBoundary } from "./_components/books-boundary";
 import { BooksNav } from "./_components/books-nav";
 
 /** Part of the bookkeeping module: a deploy or person without it gets the 404 page here. */
@@ -9,7 +10,7 @@ export default function BooksLayout({
 		<ModuleGate id="bookkeeping">
 			<div className="flex min-h-0 min-w-0 flex-1 flex-col">
 				<BooksNav />
-				{children}
+				<BooksBoundary>{children}</BooksBoundary>
 			</div>
 		</ModuleGate>
 	);

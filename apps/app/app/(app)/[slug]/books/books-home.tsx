@@ -29,7 +29,8 @@ function Figure({
 	return (
 		<Card>
 			<CardHeader>
-				<CardDescription>{title}</CardDescription>
+				{/* Not CardDescription: that one is hidden below the sm breakpoint, and a phone needs the label. */}
+				<div className="text-muted-foreground text-xs/relaxed">{title}</div>
 				<CardTitle
 					className={`text-2xl tabular-nums ${tone === "warning" ? "text-warning" : ""}`}
 				>

@@ -32,6 +32,16 @@ import { rethrowLedgerError } from "./bookkeeping-errors";
 
 type EntrySource = z.infer<typeof entrySource>;
 
+/** A reversal's memo reads "Reversal of JE-000001: <reason>"; this returns the reason part. */
+function reversalReason(memo: string | null): string | null {
+	if (!memo) return null;
+
+	const at = memo.indexOf(": ");
+	const reason = at === -1 ? memo : memo.slice(at + 2);
+
+	return reason.trim() === "" ? null : reason.trim();
+}
+
 type LockCheck = {
 	lockDate: string | null;
 	hardLockDate: string | null;
@@ -133,7 +143,15 @@ export class JournalService {
 					include: { account: { select: { code: true, name: true } } },
 				},
 				reverses: { select: { id: true, number: true } },
-				reversedBy: { select: { id: true, number: true } },
+				reversedBy: {
+					select: {
+						id: true,
+						number: true,
+						memo: true,
+						postedAt: true,
+						postedById: true,
+					},
+				},
 			},
 		});
 		if (!entry || entry.status !== "POSTED") {
@@ -153,7 +171,7 @@ export class JournalService {
 					reason: true,
 				},
 			}),
-			this.peopleByIds([entry.postedById]),
+			this.peopleByIds([entry.postedById, entry.reversedBy?.postedById ?? null]),
 		]);
 
 		let totalDebit = 0n;
@@ -179,7 +197,16 @@ export class JournalService {
 				? { id: entry.reverses.id, number: entry.reverses.number ?? "" }
 				: null,
 			reversedBy: entry.reversedBy
-				? { id: entry.reversedBy.id, number: entry.reversedBy.number ?? "" }
+				? {
+						id: entry.reversedBy.id,
+						number: entry.reversedBy.number ?? "",
+						postedAt: entry.reversedBy.postedAt?.toISOString() ?? null,
+						postedBy: entry.reversedBy.postedById
+							? (people.get(entry.reversedBy.postedById) ?? null)
+							: null,
+						// The reversal's memo is "Reversal of JE-n: <reason>"; the reason is what follows.
+						reason: reversalReason(entry.reversedBy.memo),
+					}
 				: null,
 			lines: entry.lines.map((line) => ({
 				lineNo: line.lineNo,

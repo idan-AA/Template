@@ -136,10 +136,12 @@ export function TrialBalanceReport({ asOf }: { asOf: string | null }) {
 							</Link>
 						</TableCell>
 						<TableCell className={`${CELL} text-right tabular-nums`}>
-							{row.debitBase === "0" ? "" : formatMoney(row.debitBase, currency)}
+							{row.debitBase === "0" && row.creditBase !== "0"
+								? ""
+								: formatMoney(row.debitBase, currency)}
 						</TableCell>
 						<TableCell className={`${CELL} text-right tabular-nums`}>
-							{row.creditBase === "0"
+							{row.creditBase === "0" && row.debitBase !== "0"
 								? ""
 								: formatMoney(row.creditBase, currency)}
 						</TableCell>

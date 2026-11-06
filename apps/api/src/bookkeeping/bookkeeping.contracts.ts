@@ -218,7 +218,15 @@ export const journalEntryOutput = z.object({
 	postedBy: z.string().nullable(),
 	canReverse: z.boolean(),
 	reverses: z.object({ id: z.string(), number: z.string() }).nullable(),
-	reversedBy: z.object({ id: z.string(), number: z.string() }).nullable(),
+	reversedBy: z
+		.object({
+			id: z.string(),
+			number: z.string(),
+			postedAt: z.string().nullable(),
+			postedBy: z.string().nullable(),
+			reason: z.string().nullable(),
+		})
+		.nullable(),
 	lines: z.array(
 		z.object({
 			lineNo: z.number(),

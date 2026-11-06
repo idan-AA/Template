@@ -36,7 +36,12 @@ const ALL = "ALL";
 const PAGE_SIZE = 25;
 
 const COLUMNS: SimpleTableColumn[] = [
-	{ id: "date", header: "Date", width: "w-28" },
+	{
+		id: "date",
+		header: "Date",
+		width: "w-28",
+		className: "hidden md:table-cell",
+	},
 	{ id: "entry", header: "Entry" },
 	{
 		id: "type",
@@ -44,7 +49,7 @@ const COLUMNS: SimpleTableColumn[] = [
 		width: "w-36",
 		className: "hidden md:table-cell",
 	},
-	{ id: "amount", header: "Amount", width: "w-36", align: "right" },
+	{ id: "amount", header: "Amount", width: "w-28 md:w-36", align: "right" },
 	{
 		id: "by",
 		header: "Posted by",
@@ -150,8 +155,13 @@ export function JournalTable({
 				<SimpleTable columns={COLUMNS}>
 					{rows.map((row) => (
 						<SimpleTableRow key={row.id}>
-							<TableCell className={CELL}>{formatDate(row.date)}</TableCell>
-							<TableCell className={CELL}>
+							<TableCell className={`${CELL} hidden md:table-cell`}>
+								{formatDate(row.date)}
+							</TableCell>
+							<TableCell className={`${CELL} whitespace-normal`}>
+								<div className="text-muted-foreground text-xs md:hidden">
+									{formatDate(row.date)}
+								</div>
 								<Link
 									className="font-medium underline-offset-4 hover:underline"
 									href={workspaceUrl(`/books/accounting/journal/${row.id}`)}

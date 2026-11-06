@@ -25,6 +25,33 @@ import { useTRPC } from "@/lib/trpc/client";
 import { formatDate } from "../../books/books-format";
 import { QueryError } from "../../books/_components/query-error";
 
+/** Plain names for the number runs, in the order a person meets them. Unknown keys sort last. */
+const SEQUENCE_LABEL: Record<string, string> = {
+	ENTRY: "Journal entry",
+	INVOICE: "Invoice",
+	CREDIT_NOTE: "Credit note",
+	BILL: "Bill",
+	VENDOR_CREDIT: "Vendor credit",
+	PAYMENT: "Payment",
+};
+const SEQUENCE_ORDER = Object.keys(SEQUENCE_LABEL);
+
+/** Only journal entries are numbered by a screen that exists today; the rest wait for later releases. */
+const IN_USE = new Set(["ENTRY"]);
+
+function sequenceLabel(key: string): string {
+	return (
+		SEQUENCE_LABEL[key] ??
+		`${key.charAt(0)}${key.slice(1).toLowerCase().replaceAll("_", " ")}`
+	);
+}
+
+function sequenceRank(key: string): number {
+	const at = SEQUENCE_ORDER.indexOf(key);
+
+	return at === -1 ? SEQUENCE_ORDER.length : at;
+}
+
 const MONTHS = [
 	"January",
 	"February",
@@ -246,10 +273,13 @@ function Loaded({
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="flex flex-col gap-4">
-					{data.sequences.map((row) => (
+					{[...data.sequences]
+						.sort((a, b) => sequenceRank(a.key) - sequenceRank(b.key))
+						.map((row) => (
 						<SequenceRow
 							key={row.key}
 							row={row}
+							inUse={IN_USE.has(row.key)}
 							canEdit={data.can.settings}
 							busy={busy}
 							onSave={(patch) => sequence.mutate({ key: row.key, ...patch })}
@@ -263,10 +293,12 @@ function Loaded({
 
 function SequenceRow({
 	row,
+	inUse,
 	canEdit,
 	busy,
 	onSave,
 }: {
+	inUse: boolean;
 	row: {
 		key: string;
 		prefix: string;
@@ -311,9 +343,9 @@ function SequenceRow({
 			}}
 		>
 			<div className="w-32 text-sm">
-				<div className="font-medium">{row.key.replaceAll("_", " ")}</div>
+				<div className="font-medium">{sequenceLabel(row.key)}</div>
 				<div className="text-muted-foreground text-xs">
-					Next: {row.example}
+					{inUse ? `Next: ${row.example}` : "Not used yet"}
 				</div>
 			</div>
 			<Field className="w-28">
@@ -328,6 +360,9 @@ function SequenceRow({
 			</Field>
 			<Field className="w-24">
 				<FieldLabel htmlFor={paddingId}>Digits</FieldLabel>
+					<FieldDescription>
+						How many digits the number has, padded with zeros. 6 gives 000001.
+					</FieldDescription>
 				<Input
 					id={paddingId}
 					inputMode="numeric"

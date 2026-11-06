@@ -4,6 +4,7 @@ import { Button } from "@app/ui/components/button";
 import {
 	Field,
 	FieldDescription,
+	FieldError,
 	FieldGroup,
 	FieldLabel,
 } from "@app/ui/components/field";
@@ -42,6 +43,11 @@ import {
 	TYPE_ORDER,
 } from "../../books-format";
 
+/** The API's sentence for a taken code: "Account code 1000 is already used. Pick another code." */
+function isCodeError(message: string): boolean {
+	return /account code/i.test(message);
+}
+
 /** Adds an account to the chart. Only people with bookkeeping.settings see the button (the API checks again). */
 export function CreateAccountSheet() {
 	const trpc = useTRPC();
@@ -73,9 +79,16 @@ export function CreateAccountSheet() {
 				setName("");
 				setDescription("");
 			},
-			onError: (error) => toast.error(error.message),
+			// A clash on the code shows next to the Code field (a toast vanishes); anything else is a toast.
+			onError: (error) => {
+				if (!isCodeError(error.message)) toast.error(error.message);
+			},
 		}),
 	);
+	const codeError =
+		create.error && isCodeError(create.error.message)
+			? create.error.message
+			: null;
 
 	if (!can("bookkeeping.settings")) return null;
 
@@ -113,10 +126,18 @@ export function CreateAccountSheet() {
 					<FieldGroup>
 						<Field>
 							<FieldLabel htmlFor={codeId}>Code</FieldLabel>
+							{codeError ? (
+								<FieldError id={`${codeId}-error`}>{codeError}</FieldError>
+							) : null}
 							<Input
 								id={codeId}
 								value={code}
-								onChange={(event) => setCode(event.target.value)}
+								onChange={(event) => {
+										setCode(event.target.value);
+										if (create.error) create.reset();
+									}}
+									aria-invalid={codeError ? true : undefined}
+									aria-describedby={codeError ? `${codeId}-error` : undefined}
 								placeholder="6460"
 								autoComplete="off"
 								required

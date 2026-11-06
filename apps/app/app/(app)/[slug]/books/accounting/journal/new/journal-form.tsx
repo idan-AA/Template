@@ -143,6 +143,10 @@ export function JournalForm() {
 			continue;
 		}
 
+		// An account picked but no amount typed yet is unfinished, not wrong: say nothing until the
+		// person types something (the line is left out, and Post stays off until two lines count).
+		if (!debit && !credit) continue;
+
 		const text = debit || credit;
 		const minor = parseAmount(text, currency);
 		if (minor === null || minor <= BigInt(0)) {
