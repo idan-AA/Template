@@ -73,6 +73,15 @@ services:
       # Leave blank for a deploy with no developer account. Only the api reads it.
       - key: DEVELOPER_EMAIL
         sync: false
+      # QuickBooks Online (the quickbooks module). Leave the id and secret blank for a
+      # client that does not use it. Redirect URI to register at Intuit:
+      # <app url>/api/quickbooks/callback (the app host; it proxies /api/* to the api). Only the api reads these.
+      - key: QUICKBOOKS_CLIENT_ID
+        sync: false
+      - key: QUICKBOOKS_CLIENT_SECRET
+        sync: false
+      - key: QUICKBOOKS_ENVIRONMENT
+        value: sandbox
       - key: GOOGLE_CLIENT_ID
         sync: false
       - key: GOOGLE_CLIENT_SECRET

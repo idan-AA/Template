@@ -5,6 +5,7 @@ import { enabledModules } from "@app/modules";
 import { developerEmail, isDeveloper } from "@app/modules/developer";
 import {
 	ALL_MODULES,
+	conflictsOf,
 	isModuleId,
 	MODULE_IDS,
 	type ModuleId,
@@ -130,7 +131,7 @@ export class ModulesService implements OnModuleInit {
 					after = resolveModuleIds(startingModuleIds(), next);
 				} catch (error) {
 					throw new ConflictException(
-						this.explain(moduleId, input.enabled, error),
+						this.explain(moduleId, input.enabled, error, before),
 					);
 				}
 
@@ -193,9 +194,27 @@ export class ModulesService implements OnModuleInit {
 	}
 
 	/** A plain sentence for a switch that would leave a module without what it needs. */
-	private explain(moduleId: ModuleId, enabled: boolean, error: unknown): string {
+	private explain(
+		moduleId: ModuleId,
+		enabled: boolean,
+		error: unknown,
+		before: readonly ModuleId[],
+	): string {
 		const label = ALL_MODULES[moduleId].label;
 		const detail = error instanceof Error ? ` ${error.message}` : "";
+
+		const clashing = conflictsOf(moduleId).filter((id) => before.includes(id));
+
+		if (enabled && clashing.length > 0) {
+			const names = clashing.map((id) => ALL_MODULES[id].label).join(", ");
+			const note =
+				ALL_MODULES[moduleId].conflictNote ??
+				clashing
+					.map((id) => ALL_MODULES[id].conflictNote)
+					.find((text) => text !== undefined);
+
+			return `${label} cannot be switched on while ${names} is on. Switch ${names} off first.${note ? ` ${note}` : ""}`;
+		}
 
 		return enabled
 			? `${label} cannot be switched on yet: something it needs is off.${detail}`
@@ -228,6 +247,13 @@ export class ModulesService implements OnModuleInit {
 					label: definition.label,
 					description: definition.description ?? null,
 					requires: [...definition.requires],
+					conflicts: conflictsOf(id),
+					conflictNote:
+						definition.conflictNote ??
+						conflictsOf(id)
+							.map((other) => ALL_MODULES[other].conflictNote)
+							.find((note) => note !== undefined) ??
+						null,
 					enabled: on.has(id),
 					startingEnabled: starting.has(id),
 					source: row ? ("switch" as const) : ("config" as const),
@@ -264,6 +290,17 @@ export class ModulesService implements OnModuleInit {
 			if (id === "bookkeeping") {
 				const entries = await this.db.journalEntry.count();
 				return entries === 0 ? null : `${entries} journal entries`;
+			}
+
+			if (id === "quickbooks") {
+				const connection = await this.db.quickbooksConnection.findUnique({
+					where: { id: "quickbooks" },
+					select: { status: true, companyName: true },
+				});
+
+				return connection && connection.status !== "DISCONNECTED"
+					? `your connection to ${connection.companyName ?? "QuickBooks"}`
+					: null;
 			}
 		} catch (error) {
 			// A hint is a nicety; never fail the page for it.

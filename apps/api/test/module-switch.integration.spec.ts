@@ -7,6 +7,7 @@ import { isDeveloper, resetDeveloperCache } from "@app/modules/developer";
 import { resetModules, useModules } from "@app/modules/testing";
 import {
 	BadRequestException,
+	ConflictException,
 	ForbiddenException,
 	NotFoundException,
 } from "@nestjs/common";
@@ -327,5 +328,61 @@ describe("a member that is not there", () => {
 		await expect(
 			workspace.setMemberRole(ADMIN.id, { memberId: "nope", role: "member" }),
 		).rejects.toBeInstanceOf(NotFoundException);
+	});
+});
+
+describe("modules that cannot be on together (Books and QuickBooks)", () => {
+	function withBooksOn(): void {
+		process.env.DEVELOPER_EMAIL = DEV.email;
+		useModules(["crm", "bookkeeping"]);
+		modules.onModuleInit();
+	}
+
+	it("refuses QuickBooks while Books is on, and says what to do", async () => {
+		withBooksOn();
+
+		const attempt = modules.set(DEV, { moduleId: "quickbooks", enabled: true });
+
+		await expect(attempt).rejects.toBeInstanceOf(ConflictException);
+		await expect(attempt).rejects.toThrow("Switch Books off first");
+		expect(await db.moduleSwitch.count()).toBe(0);
+		expect(isModuleEnabled("quickbooks")).toBe(false);
+	});
+
+	it("refuses Books while QuickBooks is on", async () => {
+		process.env.DEVELOPER_EMAIL = DEV.email;
+		useModules(["crm", "quickbooks"]);
+		modules.onModuleInit();
+
+		await expect(
+			modules.set(DEV, { moduleId: "bookkeeping", enabled: true }),
+		).rejects.toThrow("Switch QuickBooks off first");
+	});
+
+	it("lets Books go off, then QuickBooks on, and Books back later once QuickBooks is off", async () => {
+		withBooksOn();
+
+		await modules.set(DEV, { moduleId: "bookkeeping", enabled: false });
+		const on = await modules.set(DEV, { moduleId: "quickbooks", enabled: true });
+		expect(on.modules.find((row) => row.id === "quickbooks")?.enabled).toBe(true);
+		expect(isModuleEnabled("bookkeeping")).toBe(false);
+
+		await modules.set(DEV, { moduleId: "quickbooks", enabled: false });
+		await modules.set(DEV, { moduleId: "bookkeeping", enabled: true });
+		expect(isModuleEnabled("bookkeeping")).toBe(true);
+	});
+
+	it("tells the Features page which modules conflict", async () => {
+		withBooksOn();
+
+		const list = await modules.list(DEV);
+
+		expect(list.modules.find((row) => row.id === "quickbooks")).toMatchObject({
+			conflicts: ["bookkeeping"],
+			requires: ["crm"],
+		});
+		expect(list.modules.find((row) => row.id === "bookkeeping")?.conflicts).toEqual([
+			"quickbooks",
+		]);
 	});
 });

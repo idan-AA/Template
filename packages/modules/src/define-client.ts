@@ -106,7 +106,10 @@ export type ClientConfig = {
 };
 
 type Catalog = Readonly<
-	Record<string, { readonly requires: readonly string[] }>
+	Record<
+		string,
+		{ readonly requires: readonly string[]; readonly conflicts?: readonly string[] }
+	>
 >;
 
 /**
@@ -138,6 +141,22 @@ export function assertModuleSet(
 			if (!on.has(required)) {
 				throw new ClientConfigError(
 					`${where} turns on "${id}", which needs "${required}". Add "${required}" to the list.`,
+				);
+			}
+		}
+	}
+
+	// A conflict declared on either side counts for both.
+	for (const a of enabled) {
+		for (const b of enabled) {
+			if (a >= b) continue;
+
+			if (
+				catalog[a]?.conflicts?.includes(b) ||
+				catalog[b]?.conflicts?.includes(a)
+			) {
+				throw new ClientConfigError(
+					`${where} turns on "${a}" and "${b}", which cannot be on together. Keep only one of them.`,
 				);
 			}
 		}

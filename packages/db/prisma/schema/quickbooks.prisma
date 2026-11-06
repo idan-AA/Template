@@ -1,0 +1,59 @@
+// The QuickBooks module (packages/modules/quickbooks). One QuickBooks Online company
+// per deploy, so the connection is a single row. Later rounds add the customer and
+// invoice link tables in their own migrations. See docs/plan/quickbooks-connector.md.
+//
+// `status` and `environment` are plain text kept in range by CHECK constraints in
+// the migration, so adding a value later is a one line change, not an enum rewrite.
+// Tokens are stored encrypted (AES-256-GCM, see packages/auth/src/secret-box.ts).
+
+model QuickbooksConnection {
+  /// Always "quickbooks": the primary key is what keeps this to one row.
+  id String @id @default("quickbooks")
+
+  /// Intuit's id for the connected company (called realmId in Intuit's API).
+  realmId     String
+  /// "sandbox" or "production". Tokens from one never work on the other.
+  environment String
+  companyName String?
+  /// The company's own currency (ISO code), read at connect time.
+  homeCurrency String?
+  country      String?
+
+  /// CONNECTED, NEEDS_RECONNECT or DISCONNECTED.
+  status String
+
+  encryptedAccessToken  String?
+  encryptedRefreshToken String?
+  accessTokenExpiresAt  DateTime?
+  /// When the stored refresh token was issued. Intuit rotates it, so this moves.
+  refreshTokenIssuedAt  DateTime?
+
+  connectedById String?
+  connectedAt   DateTime?
+  lastCheckedAt DateTime?
+  lastSyncedAt  DateTime?
+  /// Where the next change sync starts from. Unused until the sync round.
+  cdcWatermark  DateTime?
+  /// A short, plain sentence for the settings page. Never contains a token.
+  lastError     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("quickbooksConnection")
+}
+
+/// One row per connect attempt in flight. The state value is single use, bound to
+/// the person who started it, and expires, so a callback cannot be replayed or
+/// forged. Only the hash of the state is stored.
+model QuickbooksOauthState {
+  stateHash   String   @id
+  userId      String
+  environment String
+  expiresAt   DateTime
+  usedAt      DateTime?
+  createdAt   DateTime @default(now())
+
+  @@index([expiresAt])
+  @@map("quickbooksOauthState")
+}

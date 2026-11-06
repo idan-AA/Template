@@ -2,6 +2,7 @@ import { plainToInstance, Type } from "class-transformer";
 import {
 	IsEmail,
 	IsEnum,
+	IsIn,
 	IsInt,
 	IsOptional,
 	IsString,
@@ -173,6 +174,27 @@ export class EnvironmentVariables {
 		},
 	)
 	DEVELOPER_EMAIL?: string;
+
+	// QuickBooks Online (the quickbooks module). All optional: with no client id the
+	// module's Connect button says QuickBooks is not set up yet. The secret is only
+	// ever needed together with the id.
+	@IsOptional()
+	@IsString()
+	QUICKBOOKS_CLIENT_ID?: string;
+
+	@ValidateIf((env: EnvironmentVariables) => Boolean(env.QUICKBOOKS_CLIENT_ID))
+	@IsString()
+	@MinLength(1, {
+		message:
+			"QUICKBOOKS_CLIENT_SECRET is required when QUICKBOOKS_CLIENT_ID is set.",
+	})
+	QUICKBOOKS_CLIENT_SECRET?: string;
+
+	@IsOptional()
+	@IsIn(["sandbox", "production"], {
+		message: 'QUICKBOOKS_ENVIRONMENT must be "sandbox" or "production".',
+	})
+	QUICKBOOKS_ENVIRONMENT?: string;
 }
 
 export type RawEnvironment = Record<string, string | undefined>;

@@ -80,6 +80,14 @@ const moduleSchema = z
 		 */
 		routers: z.array(z.string().regex(ROUTER_ALIAS)).default([]),
 		requires: z.array(z.string().regex(MODULE_ID)).default([]),
+		/**
+		 * Modules that cannot be on at the same time as this one (two sets of
+		 * books, say). The relation is symmetric: declaring it on one side is
+		 * enough, and the other module is refused too. See `conflictsOf`.
+		 */
+		conflicts: z.array(z.string().regex(MODULE_ID)).default([]),
+		/** One plain sentence the Features page adds when a switch is blocked by a conflict, e.g. "A business keeps one set of books." */
+		conflictNote: z.string().min(1).optional(),
 		nav: z.array(navItemSchema).default([]),
 		settings: z.array(settingsItemSchema).default([]),
 		widgets: z.array(widgetSchema).default([]),
@@ -97,6 +105,16 @@ const moduleSchema = z
 
 		if (module.requires.includes(module.id)) {
 			issue(`module "${module.id}" cannot require itself`);
+		}
+
+		if (module.conflicts.includes(module.id)) {
+			issue(`module "${module.id}" cannot conflict with itself`);
+		}
+
+		const overlap = module.conflicts.filter((id) => module.requires.includes(id));
+
+		if (overlap.length > 0) {
+			issue(`module "${module.id}" both requires and conflicts with "${overlap[0]}"`);
 		}
 
 		const ownRoles = new Set(module.roles.map((role) => role.id));
@@ -154,6 +172,7 @@ const moduleSchema = z
 		unique("fieldEntities", module.fieldEntities);
 		unique("routers", module.routers);
 		unique("requires", module.requires);
+		unique("conflicts", module.conflicts);
 	});
 
 export type NavItem = z.output<typeof navItemSchema>;

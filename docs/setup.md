@@ -204,7 +204,17 @@ first deploys go in the owner's own Render account. Work from the repository roo
    sign-in completes with an empty session: use them for smoke tests only.
 7. **OAuth redirect.** In Google Cloud (or Entra) add `API_URL/api/auth/callback/google`
    (or `/microsoft`) as an authorised redirect URI.
-8. **Verify** with the checklist below.
+8. **QuickBooks (only for a client that uses QuickBooks Online).** One Intuit app serves
+   every client. In the Intuit developer dashboard (developer.intuit.com, our app, Keys
+   and credentials) add `APP_URL/api/quickbooks/callback` (the app host, not the api host: the web app proxies `/api/*` to the api and forwards the session cookie) to the redirect URIs, in the
+   Development list for a sandbox test and in the Production list once Intuit has
+   approved the app. In the client's `<id>-api` Environment tab set
+   `QUICKBOOKS_CLIENT_ID`, `QUICKBOOKS_CLIENT_SECRET` and `QUICKBOOKS_ENVIRONMENT`
+   (`sandbox` until the production keys exist, then `production` with the production
+   keys), and redeploy the api. Put `quickbooks` (not `bookkeeping`) in the client's
+   `modules` in `client.config.ts`: the two cannot be on together. A client's owner or
+   admin then clicks **Connect to QuickBooks** in Settings, QuickBooks.
+9. **Verify** with the checklist below.
 
 ## Verify a new client deploy
 
@@ -236,6 +246,9 @@ Tick every line; any miss means the deploy is not done.
       database, `select job, "lastSuccessAt", "lastError" from "SchedulerRun"`).
 - [ ] The client's `CLIENT_ID` shown in the `<id>-shared` group matches the folder
       under `clients/`.
+- [ ] Only for a QuickBooks client: Settings, QuickBooks shows **Connect to QuickBooks**
+      (not "not set up yet"), and the redirect URI shown there for an owner is the one
+      registered in the Intuit app.
 
 ## Secrets hygiene
 

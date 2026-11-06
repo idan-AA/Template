@@ -19,7 +19,9 @@
 		"./bookkeeping/server": "./bookkeeping/server.ts",
 		"./bookkeeping/engine": "./bookkeeping/engine/index.ts",
 		"./bookkeeping/ledger/posting": "./bookkeeping/ledger/posting.ts",
-		"./bookkeeping/ledger/queries": "./bookkeeping/ledger/queries.ts"
+		"./bookkeeping/ledger/queries": "./bookkeeping/ledger/queries.ts",
+		"./quickbooks/meta": "./quickbooks/meta.ts",
+		"./quickbooks/server": "./quickbooks/server.ts"
 	},
 	"scripts": {
 		"check-types": "tsc --noEmit",

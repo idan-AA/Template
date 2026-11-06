@@ -113,6 +113,15 @@
 											"@app/modules/bookkeeping/**"
 										],
 										"message": "Modules do not import each other. If crm needs bookkeeping, list it in crm's `requires` and ask the manager; do not reach into it."
+									},
+									{
+										"group": [
+											"**/quickbooks",
+											"**/quickbooks/**",
+											"@app/modules/quickbooks",
+											"@app/modules/quickbooks/**"
+										],
+										"message": "Modules do not import each other. If crm needs quickbooks, list it in crm's `requires` and ask the manager; do not reach into it."
 									}
 								]
 							}
@@ -138,6 +147,40 @@
 											"@app/modules/crm/**"
 										],
 										"message": "Modules do not import each other. If bookkeeping needs crm, list it in bookkeeping's `requires` and ask the manager; do not reach into it."
+									},
+									{
+										"group": [
+											"**/quickbooks",
+											"**/quickbooks/**",
+											"@app/modules/quickbooks",
+											"@app/modules/quickbooks/**"
+										],
+										"message": "Modules do not import each other. If bookkeeping needs quickbooks, list it in bookkeeping's `requires` and ask the manager; do not reach into it."
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"includes": ["packages/modules/quickbooks/**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"patterns": [
+									{
+										"group": [
+											"**/bookkeeping",
+											"**/bookkeeping/**",
+											"@app/modules/bookkeeping",
+											"@app/modules/bookkeeping/**"
+										],
+										"message": "Modules do not import each other. quickbooks conflicts with bookkeeping, so it must never reach into it."
 									}
 								]
 							}

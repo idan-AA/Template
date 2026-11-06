@@ -14,6 +14,10 @@ export const moduleStatusOutput = z.object({
 	description: z.string().nullable(),
 	/** Ids of the modules that must be on for this one to be on. */
 	requires: z.array(z.string()),
+	/** Ids of the modules that cannot be on at the same time as this one (symmetric). */
+	conflicts: z.array(z.string()),
+	/** A plain sentence to add when the switch is blocked by a conflict, or null. */
+	conflictNote: z.string().nullable(),
 	enabled: z.boolean(),
 	/** Whether the client's starting config has it on. */
 	startingEnabled: z.boolean(),

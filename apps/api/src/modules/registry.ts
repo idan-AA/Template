@@ -1,6 +1,7 @@
 import type { ModuleId } from "@app/modules/registry";
 import type { Type } from "@nestjs/common";
 import { BookkeepingModule } from "../bookkeeping/bookkeeping.module";
+import { QuickbooksModule } from "../quickbooks/quickbooks.module";
 
 /**
  * The Nest modules each product module mounts, by module id. `AppModule` imports
@@ -19,6 +20,7 @@ import { BookkeepingModule } from "../bookkeeping/bookkeeping.module";
 export const MODULE_API = {
 	crm: [],
 	bookkeeping: [BookkeepingModule],
+	quickbooks: [QuickbooksModule],
 } satisfies Readonly<Record<ModuleId, readonly Type[]>>;
 
 /** The Nest modules for these product modules, in the order given. */

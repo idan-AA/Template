@@ -59,6 +59,7 @@ class FixtureBooksModule {}
 const FIXTURES = {
 	crm: [FixtureCrmModule],
 	bookkeeping: [FixtureBooksModule],
+	quickbooks: [],
 } satisfies Record<ModuleId, readonly Type[]>;
 
 let app: INestApplication | undefined;

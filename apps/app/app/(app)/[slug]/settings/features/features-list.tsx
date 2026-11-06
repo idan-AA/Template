@@ -40,6 +40,13 @@ function blockedReason(row: Row, rows: readonly Row[]): string | null {
 	const byId = new Map(rows.map((entry) => [entry.id, entry]));
 
 	if (!row.enabled) {
+		const clashing = row.conflicts.filter((id) => byId.get(id)?.enabled);
+
+		if (clashing.length > 0) {
+			const names = clashing.map((id) => byId.get(id)?.label ?? id).join(", ");
+			return `Not available while ${names} is on. Switch ${names} off first.${row.conflictNote ? ` ${row.conflictNote}` : ""}`;
+		}
+
 		const missing = row.requires.filter((id) => !byId.get(id)?.enabled);
 
 		if (missing.length === 0) return null;
@@ -149,10 +156,13 @@ export function FeaturesList() {
 						const blocked = blockedReason(row, modules);
 						const disabled =
 							lockedByEnvironment || set.isPending || blocked !== null;
-						const openPath =
+						// A module with no rail item (an integration) opens its settings page.
+						const definition =
 							row.enabled && row.id in ALL_MODULES
-								? ALL_MODULES[row.id as ModuleId].nav[0]?.href
+								? ALL_MODULES[row.id as ModuleId]
 								: undefined;
+						const openPath =
+							definition?.nav[0]?.href ?? definition?.settings[0]?.href;
 
 						return (
 							<li

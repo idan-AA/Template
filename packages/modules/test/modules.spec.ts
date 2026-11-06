@@ -8,7 +8,7 @@ describe("the registry", () => {
 		for (const [key, module] of Object.entries(ALL_MODULES)) {
 			expect(module.id as string).toBe(key);
 		}
-		expect(MODULE_IDS).toEqual(["crm", "bookkeeping"]);
+		expect(MODULE_IDS).toEqual(["crm", "bookkeeping", "quickbooks"]);
 	});
 });
 
