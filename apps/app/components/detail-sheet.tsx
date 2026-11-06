@@ -265,26 +265,6 @@ export function DetailSheetSection({
 	);
 }
 
-export function DetailSheetSplit({ children }: { children: ReactNode }) {
-	return (
-		<div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
-			{children}
-		</div>
-	);
-}
-
-export function DetailSheetMain({ children }: { children: ReactNode }) {
-	return <div className="flex min-w-0 flex-1 flex-col">{children}</div>;
-}
-
-export function DetailSheetRail({ children }: { children: ReactNode }) {
-	return (
-		<div className="flex w-full min-w-0 shrink-0 flex-col lg:w-80">
-			{children}
-		</div>
-	);
-}
-
 export function DetailSheetProperties({
 	children,
 	columns = 2,
@@ -295,36 +275,6 @@ export function DetailSheetProperties({
 	return (
 		<div className={cn("grid gap-x-8", columns === 2 && "sm:grid-cols-2")}>
 			{children}
-		</div>
-	);
-}
-
-export function DetailSheetPending({
-	fields,
-	running,
-}: {
-	fields: string[];
-	running: boolean;
-}) {
-	if (fields.length === 0) return null;
-
-	return (
-		<div className="flex flex-col gap-1.5 rounded-md bg-muted/40 p-3">
-			<div className="flex items-center gap-2">
-				<span
-					aria-hidden
-					className={cn(
-						"size-1.5 shrink-0 rounded-full",
-						running ? "bg-primary" : "bg-muted-foreground",
-					)}
-				/>
-				<span className="font-medium text-xs">
-					{running ? "Agent is researching" : "Not known yet"}
-				</span>
-			</div>
-			<p className="text-pretty text-muted-foreground text-xs/5">
-				{fields.join(", ")}
-			</p>
 		</div>
 	);
 }

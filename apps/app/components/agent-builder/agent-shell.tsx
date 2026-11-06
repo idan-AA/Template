@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useTRPC } from "@/lib/trpc/client";
 import {
 	AgentShellHintView,
-	AgentShellNoticeView,
 	type AgentShellState,
 	agentServiceFrom,
 	shellStateFrom,
@@ -36,10 +35,6 @@ export function useAgentService(): boolean | undefined {
 	});
 
 	return agentServiceFrom(capabilities.data);
-}
-
-export function AgentShellNotice({ className }: { className?: string }) {
-	return <AgentShellNoticeView state={useAgentShell()} className={className} />;
 }
 
 export function AgentShellHint({ className }: { className?: string }) {

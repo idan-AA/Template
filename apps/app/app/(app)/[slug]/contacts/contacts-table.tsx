@@ -40,7 +40,7 @@ const COLUMNS: DataTableColumn<ContactRow>[] = [
 		header: "Name",
 		sortable: true,
 		hideable: false,
-		width: "w-[22%]",
+		width: "w-[18%]",
 		cell: (row) => (
 			<span className="flex min-w-0 items-center gap-2">
 				<PersonAvatar
@@ -57,7 +57,7 @@ const COLUMNS: DataTableColumn<ContactRow>[] = [
 		id: "title",
 		header: "Title",
 		sortable: true,
-		width: "w-[20%]",
+		width: "w-[15%]",
 		hideBelow: "lg",
 		cell: (row) =>
 			row.title ? (
@@ -70,7 +70,7 @@ const COLUMNS: DataTableColumn<ContactRow>[] = [
 		id: "email",
 		header: "Email",
 		sortable: true,
-		width: "w-[24%]",
+		width: "w-[20%]",
 		hideBelow: "md",
 		cell: (row) =>
 			row.email ? (
@@ -83,14 +83,14 @@ const COLUMNS: DataTableColumn<ContactRow>[] = [
 		id: "company",
 		header: "Company",
 		sortable: true,
-		width: "w-[18%]",
+		width: "w-[15%]",
 		cell: (row) => <CompanyCell company={row.company} />,
 	},
 	{
 		id: "owner",
 		header: "Owner",
 		sortable: true,
-		width: "w-[16%]",
+		width: "w-[12%]",
 		hideBelow: "md",
 		cell: (row) => <OwnerCell owner={row.owner} />,
 	},
@@ -100,7 +100,7 @@ const COLUMNS: DataTableColumn<ContactRow>[] = [
 		label: "Created date",
 		sortable: true,
 		align: "right",
-		width: "w-[10%]",
+		width: "w-[9%]",
 		defaultHidden: true,
 		cell: (row) => (
 			<span className="text-muted-foreground">
@@ -113,7 +113,7 @@ const COLUMNS: DataTableColumn<ContactRow>[] = [
 		header: "Last activity",
 		sortable: true,
 		align: "right",
-		width: "w-[12%]",
+		width: "w-[11%]",
 		hideBelow: "sm",
 		cell: (row) => (
 			<span className="text-muted-foreground">

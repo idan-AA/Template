@@ -42,13 +42,8 @@ import { WebsiteActivity } from "@/components/crm/website-activity";
 import {
 	DetailSheetBody,
 	DetailSheetEmpty,
-	DetailSheetMain,
-	DetailSheetPending,
 	DetailSheetProperties,
-	DetailSheetProse,
-	DetailSheetRail,
 	DetailSheetSection,
-	DetailSheetSplit,
 	DetailSheetStat,
 	DetailSheetStats,
 	type DetailSheetTab,
@@ -76,14 +71,6 @@ type Company = RouterOutputs["companies"]["byId"];
 type CompanyDeal = Company["deals"][number];
 
 const UNASSIGNED = "unassigned";
-
-function pendingFields(company: Company): string[] {
-	const missing: string[] = [];
-	if (!company.industry) missing.push("industry");
-	if (!company.description) missing.push("description");
-	if (!hasCompanyLinks(company)) missing.push("social links");
-	return missing;
-}
 
 function companyConsequence(company: Company): string {
 	const deals = company.deals.length;
@@ -326,105 +313,102 @@ function CompanyOverview({ company }: { company: Company }) {
 
 	return (
 		<DetailSheetBody>
-			<DetailSheetSplit>
-				<DetailSheetMain>
-					{company.description ? (
-						<DetailSheetSection title="About">
-							<DetailSheetProse>{company.description}</DetailSheetProse>
-						</DetailSheetSection>
-					) : null}
-
-					<WebsiteActivity companyId={company.id} />
-				</DetailSheetMain>
-
-				<DetailSheetRail>
-					<DetailSheetSection
-						title="Details"
-						action={<FieldsCog kind="company" />}
-					>
-						<DetailSheetProperties columns={1}>
-							<InlineField
-								label="Name"
-								value={company.name}
-								saving={isSaving("name")}
-								onSave={(name) => name && save({ name })}
-							/>
-							<InlineField
-								label="Domain"
-								value={company.domain}
-								type="url"
-								placeholder="Add domain"
-								saving={isSaving("domain")}
-								onSave={(domain) => save({ domain })}
-							/>
-							<InlineField
-								label="Website"
-								value={company.website}
-								type="url"
-								placeholder="Add website"
-								saving={isSaving("website")}
-								onSave={(website) => save({ website })}
-							/>
-							<InlineField
-								label="Phone"
-								value={company.phone}
-								type="tel"
-								saving={isSaving("phone")}
-								onSave={(phone) => save({ phone })}
-							/>
-							<InlineField
-								label="Email"
-								value={company.email}
-								type="email"
-								saving={isSaving("email")}
-								onSave={(email) => save({ email })}
-							/>
-							<InlineField
-								label="City"
-								value={company.city}
-								saving={isSaving("city")}
-								onSave={(city) => save({ city })}
-							/>
-							<InlineField
-								label="Country"
-								value={company.country}
-								saving={isSaving("country")}
-								onSave={(country) => save({ country })}
-							/>
-							<InlineSelectField
-								label="Owner"
-								value={company.owner?.id ?? UNASSIGNED}
-								options={[
-									{ value: UNASSIGNED, label: "Unassigned" },
-									...(users.data ?? []).map((user) => ({
-										value: user.id,
-										label: user.name,
-									})),
-								]}
-								onSave={(ownerId) =>
-									save({ ownerId: ownerId === UNASSIGNED ? null : ownerId })
-								}
-							/>
-							<RecordFields
-								fields={company.fields}
-								saving={isSavingField}
-								onSave={saveFields}
-							/>
-						</DetailSheetProperties>
-					</DetailSheetSection>
-
-					<DetailSheetPending
-						fields={pendingFields(company)}
-						running={isEnriching(company.enrichmentStatus, company.queued)}
+			<DetailSheetSection
+				title="Details"
+				action={<FieldsCog kind="company" />}
+			>
+				<DetailSheetProperties columns={2}>
+					<InlineField
+						label="Name"
+						value={company.name}
+						saving={isSaving("name")}
+						onSave={(name) => name && save({ name })}
 					/>
+					<InlineField
+						label="Domain"
+						value={company.domain}
+						type="url"
+						placeholder="Add domain"
+						saving={isSaving("domain")}
+						onSave={(domain) => save({ domain })}
+					/>
+					<InlineField
+						label="Website"
+						value={company.website}
+						type="url"
+						placeholder="Add website"
+						saving={isSaving("website")}
+						onSave={(website) => save({ website })}
+					/>
+					<InlineField
+						label="Phone"
+						value={company.phone}
+						type="tel"
+						saving={isSaving("phone")}
+						onSave={(phone) => save({ phone })}
+					/>
+					<InlineField
+						label="Email"
+						value={company.email}
+						type="email"
+						saving={isSaving("email")}
+						onSave={(email) => save({ email })}
+					/>
+					<InlineField
+						label="City"
+						value={company.city}
+						saving={isSaving("city")}
+						onSave={(city) => save({ city })}
+					/>
+					<InlineField
+						label="Country"
+						value={company.country}
+						saving={isSaving("country")}
+						onSave={(country) => save({ country })}
+					/>
+					<InlineSelectField
+						label="Owner"
+						value={company.owner?.id ?? UNASSIGNED}
+						options={[
+							{ value: UNASSIGNED, label: "Unassigned" },
+							...(users.data ?? []).map((user) => ({
+								value: user.id,
+								label: user.name,
+							})),
+						]}
+						onSave={(ownerId) =>
+							save({ ownerId: ownerId === UNASSIGNED ? null : ownerId })
+						}
+					/>
+					<InlineField
+						label="Industry"
+						value={company.industry}
+						placeholder="Add industry"
+						saving={isSaving("industry")}
+						onSave={(industry) => save({ industry })}
+					/>
+					<InlineField
+						label="Description"
+						value={company.description}
+						placeholder="Add description"
+						saving={isSaving("description")}
+						onSave={(description) => save({ description })}
+					/>
+					<RecordFields
+						fields={company.fields}
+						saving={isSavingField}
+						onSave={saveFields}
+					/>
+				</DetailSheetProperties>
+			</DetailSheetSection>
 
-					{hasCompanyLinks(company) ? (
-						<DetailSheetSection title="Links">
-							<CompanySocials company={company} />
-						</DetailSheetSection>
-					) : null}
-				</DetailSheetRail>
-			</DetailSheetSplit>
+			<WebsiteActivity companyId={company.id} />
+
+			{hasCompanyLinks(company) ? (
+				<DetailSheetSection title="Links">
+					<CompanySocials company={company} />
+				</DetailSheetSection>
+			) : null}
 		</DetailSheetBody>
 	);
 }

@@ -47,7 +47,7 @@ const COLUMNS: DataTableColumn<CompanyRow>[] = [
 		header: "Company",
 		sortable: true,
 		hideable: false,
-		width: "w-[26%]",
+		width: "w-[18%]",
 		cell: (row) => (
 			<span className="flex min-w-0 items-center gap-2.5">
 				<EntityLogo
@@ -65,7 +65,7 @@ const COLUMNS: DataTableColumn<CompanyRow>[] = [
 		id: "domain",
 		header: "Domain",
 		sortable: true,
-		width: "w-[16%]",
+		width: "w-[13%]",
 		hideBelow: "md",
 		cell: (row) =>
 			row.domain ? (
@@ -78,7 +78,7 @@ const COLUMNS: DataTableColumn<CompanyRow>[] = [
 		id: "industry",
 		header: "Industry",
 		sortable: true,
-		width: "w-[16%]",
+		width: "w-[13%]",
 		hideBelow: "lg",
 		cell: (row) =>
 			row.industry ? (
@@ -91,7 +91,7 @@ const COLUMNS: DataTableColumn<CompanyRow>[] = [
 		id: "owner",
 		header: "Owner",
 		sortable: true,
-		width: "w-[16%]",
+		width: "w-[13%]",
 		hideBelow: "md",
 		cell: (row) => <OwnerCell owner={row.owner} />,
 	},
@@ -100,7 +100,7 @@ const COLUMNS: DataTableColumn<CompanyRow>[] = [
 		header: "Contacts",
 		sortable: true,
 		align: "right",
-		width: "w-[9%]",
+		width: "w-[11%]",
 		hideBelow: "lg",
 		cell: (row) => <span className="tabular-nums">{row.contactCount}</span>,
 	},
@@ -109,7 +109,7 @@ const COLUMNS: DataTableColumn<CompanyRow>[] = [
 		header: "Open deals",
 		sortable: true,
 		align: "right",
-		width: "w-[9%]",
+		width: "w-[12%]",
 		cell: (row) => <span className="tabular-nums">{row.openDealCount}</span>,
 	},
 	{
@@ -118,7 +118,7 @@ const COLUMNS: DataTableColumn<CompanyRow>[] = [
 		label: "Created date",
 		sortable: true,
 		align: "right",
-		width: "w-[10%]",
+		width: "w-[9%]",
 		defaultHidden: true,
 		cell: (row) => (
 			<span className="text-muted-foreground">
@@ -131,7 +131,7 @@ const COLUMNS: DataTableColumn<CompanyRow>[] = [
 		header: "Last activity",
 		sortable: true,
 		align: "right",
-		width: "w-[12%]",
+		width: "w-[11%]",
 		hideBelow: "sm",
 		cell: (row) => (
 			<span className="text-muted-foreground">

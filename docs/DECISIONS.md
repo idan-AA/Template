@@ -4,6 +4,18 @@ Newest first. Owner's words where possible.
 
 ## 2026-11-06
 
+- **Connect to the books people already have; our own Books is the fallback.** Asked whether
+  bookkeeping should connect to QuickBooks instead of replacing it, the owner: "the default
+  should be what people have and if they don't there is an option." So a QuickBooks Online
+  connector becomes its own module and the default for clients on QuickBooks (QuickBooks stays
+  the official books); the built-in Books module stays for clients with no accounting software.
+  Books work beyond the current fix round (invoices, bills, bank feeds) is paused until the
+  connector plan is reviewed.
+
+- **Auto-deploy is ON for practice.** The owner turned it on: every push to main now deploys
+  practice-api and practice-app. The push review hook is therefore the last gate before the
+  live practice site; never push half-finished work to main.
+
 - **Agents share one signed-in "agent Chrome".** Asked to choose between a fresh signed-out
   browser per agent (owner signs in by hand each time) and one shared agent Chrome that signs
   itself in, the owner chose the shared one. It is a separate Chrome with its own profile

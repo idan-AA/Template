@@ -1,5 +1,4 @@
 import { Skeleton } from "@app/ui/components/skeleton";
-import { AgentShellNotice } from "./agent-shell";
 
 export function AgentBuilderShell({
 	children,
@@ -12,7 +11,6 @@ export function AgentBuilderShell({
 		<div className="flex min-h-0 min-w-0 flex-1">
 			{sidebar}
 			<div className="flex min-w-0 flex-1 flex-col">
-				<AgentShellNotice className="mx-4 mt-4" />
 				{children}
 			</div>
 		</div>

@@ -39,21 +39,21 @@ const COLUMNS: DataTableColumn<DealRow>[] = [
 		header: "Deal",
 		sortable: true,
 		hideable: false,
-		width: "w-[24%]",
+		width: "w-[18%]",
 		cell: (row) => <span className="truncate font-medium">{row.name}</span>,
 	},
 	{
 		id: "company",
 		header: "Company",
 		sortable: true,
-		width: "w-[18%]",
+		width: "w-[15%]",
 		cell: (row) => <CompanyCell company={row.company} />,
 	},
 	{
 		id: "stage",
 		header: "Stage",
 		sortable: true,
-		width: "w-[18%]",
+		width: "w-[14%]",
 		cell: (row) => <DealStageMenu dealId={row.id} stage={row.stage} />,
 	},
 	{
@@ -61,7 +61,7 @@ const COLUMNS: DataTableColumn<DealRow>[] = [
 		header: "Amount",
 		sortable: true,
 		align: "right",
-		width: "w-[12%]",
+		width: "w-[11%]",
 		hideBelow: "sm",
 		cell: (row) =>
 			row.amountCents === null ? (
@@ -76,7 +76,7 @@ const COLUMNS: DataTableColumn<DealRow>[] = [
 		id: "owner",
 		header: "Owner",
 		sortable: true,
-		width: "w-[14%]",
+		width: "w-[11%]",
 		hideBelow: "md",
 		cell: (row) => <OwnerCell owner={row.owner} />,
 	},
@@ -84,7 +84,7 @@ const COLUMNS: DataTableColumn<DealRow>[] = [
 		id: "expectedCloseDate",
 		header: "Close date",
 		sortable: true,
-		width: "w-[12%]",
+		width: "w-[11%]",
 		hideBelow: "lg",
 		cell: (row) =>
 			row.expectedCloseDate ? (
@@ -101,7 +101,7 @@ const COLUMNS: DataTableColumn<DealRow>[] = [
 		label: "Created date",
 		sortable: true,
 		align: "right",
-		width: "w-[10%]",
+		width: "w-[9%]",
 		defaultHidden: true,
 		cell: (row) => (
 			<span className="text-muted-foreground">
@@ -114,7 +114,7 @@ const COLUMNS: DataTableColumn<DealRow>[] = [
 		header: "Last activity",
 		sortable: true,
 		align: "right",
-		width: "w-[12%]",
+		width: "w-[11%]",
 		hideBelow: "lg",
 		cell: (row) => (
 			<span className="text-muted-foreground">

@@ -306,6 +306,9 @@ export function DataTable<TRow, TSub = unknown>({
 		(column) => !hidden.includes(column.id),
 	);
 	const sortableColumns = columns.filter((column) => column.sortable);
+	const shownHideableCount = hideable.filter(
+		(column) => !hidden.includes(column.id),
+	).length;
 
 	const tabCounts = tabs ? facetCounts?.[tabs.id] : undefined;
 	const activeTabOption =
@@ -542,7 +545,7 @@ export function DataTable<TRow, TSub = unknown>({
 										<Column data-icon="inline-start" />
 										Columns
 										<span className="tabular-nums opacity-60">
-											({visibleColumns.length})
+											({shownHideableCount})
 										</span>
 									</Button>
 								</DropdownMenuTrigger>

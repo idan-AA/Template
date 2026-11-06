@@ -28,6 +28,10 @@ export function TablePagination({
 	const rangeStart = total === 0 ? 0 : (page - 1) * pageSize + 1;
 	const rangeEnd = Math.min(page * pageSize, total);
 
+	// An empty list already says so in its body; a second "No results" under it
+	// only repeats (and in a first-run state contradicts) that message.
+	if (total === 0 && !loading && !meta) return null;
+
 	return (
 		<div className="flex shrink-0 flex-wrap items-center justify-between gap-3">
 			<span className="flex items-center gap-2 text-muted-foreground text-xs tabular-nums">
