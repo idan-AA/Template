@@ -4,6 +4,13 @@ Newest first. Owner's words where possible.
 
 ## 2026-11-06
 
+- **Agents share one signed-in "agent Chrome".** Asked to choose between a fresh signed-out
+  browser per agent (owner signs in by hand each time) and one shared agent Chrome that signs
+  itself in, the owner chose the shared one. It is a separate Chrome with its own profile
+  (never the owner's), DevTools on 127.0.0.1:9333; `scripts/agent-browser-login.mjs` signs it in
+  with a dedicated QA member whose login lives in `.env`, which agents never read. Agents use only
+  the tabs they open.
+
 - **Nothing runs locally.** Owner: "Don't run anything locally. We have a live version."
   No bun install, dev server or local Postgres on this machine. Verification happens on the
   live practice deploy (https://practice-app-af4x.onrender.com) after the owner approves a push

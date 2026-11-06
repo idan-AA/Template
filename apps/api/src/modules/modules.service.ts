@@ -45,8 +45,36 @@ export class ModulesService implements OnModuleInit {
 	constructor(@InjectDatabase() private readonly db: Db) {}
 
 	/** The API reads switches from its own database; every guard then reads the cached answer. */
-	onModuleInit(): void {
+	async onModuleInit(): Promise<void> {
 		registerModuleSwitchLoader(() => readModuleSwitches(this.db));
+		await this.setUpEnabledModules();
+	}
+
+	/**
+	 * A module that is on from the client config (or ENABLED_MODULES) was never
+	 * switched on, so `set` never ran its setup. Run every enabled module's setup
+	 * at boot. Setup is idempotent, so this changes nothing once it has run. A
+	 * failure is logged and does not stop the API from starting.
+	 */
+	private async setUpEnabledModules(): Promise<void> {
+		try {
+			await ensureModuleState(0);
+		} catch (error) {
+			this.logger.error(`Could not read the module switches at boot: ${String(error)}`);
+		}
+
+		for (const module of enabledModules()) {
+			const setup = MODULE_SETUP[module.id];
+			if (!setup) continue;
+			try {
+				await this.db.$transaction((tx) => setup(tx), {
+					maxWait: 10_000,
+					timeout: SWITCH_TRANSACTION_MS,
+				});
+			} catch (error) {
+				this.logger.error(`Setup for module "${module.id}" failed at boot: ${String(error)}`);
+			}
+		}
 	}
 
 	/** Which modules are on, and whether the caller is the developer. Any signed-in person. */

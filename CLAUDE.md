@@ -523,4 +523,17 @@ its reason is followed; a rule without one is skipped. When a lesson is not
 specific to this product, add it to the toolkit as a skill too, so the next
 project starts with it.
 
-None yet.
+- **Browser checks sign in with the helper, never by hand (2026-11-06).** The
+  owner had to sign in to each agent's isolated browser by hand. Now the
+  chrome-devtools MCP attaches to one shared "agent Chrome" (its own profile,
+  DevTools on 127.0.0.1:9333). Before any browser check run
+  `node scripts/agent-browser-login.mjs` (optionally with a site URL): it signs
+  that Chrome in with `PRACTICE_QA_EMAIL` / `PRACTICE_QA_PASSWORD` from `.env`
+  without printing them. Never read `.env` yourself. Other agents share that
+  Chrome: always open your own tab with `new_page` and never touch a tab you did
+  not open.
+- **The web app targets ES2017: no BigInt literals (2026-11-06).** `0n` broke a
+  Render build (TS2737). Write `BigInt(0)`.
+- **Nothing runs locally; Render's build is the only compiler (2026-11-06).**
+  Owner rule. Every push is reviewed first by the Opus push-review hook
+  (`.claude/hooks/push-review.mjs`); do not bypass it.
