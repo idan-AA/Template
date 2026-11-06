@@ -1,6 +1,7 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { contactsNeedingWork } from "../lib/crm";
+import { requireCrm } from "../lib/module-gate";
 
 export default defineTool({
 	description:
@@ -9,6 +10,7 @@ export default defineTool({
 		limit: z.number().int().min(1).max(25).default(10),
 	}),
 	async execute({ limit }) {
+		await requireCrm();
 		const contacts = await contactsNeedingWork(limit);
 		return { count: contacts.length, contacts };
 	},

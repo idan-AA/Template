@@ -78,6 +78,10 @@ services:
         sync: false
       - key: ALLOWED_SIGN_IN
         sync: false
+      # The one account that can switch features on and off (Settings, Features).
+      # Leave blank for a deploy with no developer account. Only the api reads it.
+      - key: DEVELOPER_EMAIL
+        sync: false
       - key: GOOGLE_CLIENT_ID
         sync: false
       - key: GOOGLE_CLIENT_SECRET

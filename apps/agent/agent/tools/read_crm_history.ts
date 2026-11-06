@@ -2,6 +2,7 @@ import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { readCrmHistory } from "../lib/crm";
 import { focusOn } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 
 export default defineTool({
 	description:
@@ -17,6 +18,7 @@ export default defineTool({
 			.describe("How many recent threads to read."),
 	}),
 	async execute({ contactId, threads }) {
+		await requireCrm();
 		focusOn({ contactId });
 
 		const history = await readCrmHistory(contactId, { threads });

@@ -2,6 +2,7 @@ import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { runBrand } from "../lib/brand";
 import { spend } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 import { assertResearchPurpose } from "../lib/session-purpose";
 
 export default defineTool({
@@ -17,6 +18,7 @@ export default defineTool({
 			),
 	}),
 	async execute({ companyId, fresh }, ctx) {
+		await requireCrm();
 		assertResearchPurpose(ctx);
 		const result = await runBrand({ companyId, fresh, spend });
 

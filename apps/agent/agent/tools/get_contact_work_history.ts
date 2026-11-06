@@ -8,6 +8,7 @@ import {
 } from "../lib/capabilities";
 import { contactProfileSlug } from "../lib/crm";
 import { spend } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 import { personByProfileUrl } from "../lib/people";
 
 export default defineTool({
@@ -17,6 +18,7 @@ export default defineTool({
 		contactId: z.string(),
 	}),
 	async execute({ contactId }) {
+		await requireCrm();
 		if (!(await enabled(CONTEXT_DEV_PEOPLE))) {
 			return { found: false as const, ...unavailable(CONTEXT_DEV_SOURCE) };
 		}

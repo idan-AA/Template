@@ -1,6 +1,7 @@
 import type { Db, Prisma } from "@app/db";
 import { ENRICHMENT_PAGE, pageSize } from "@app/validation/enrichment-queue";
 import { Injectable } from "@nestjs/common";
+import { agentServiceEnabled } from "../agent/agent-shell";
 import { InjectDatabase } from "../database/database.constants";
 import {
 	type EnrichmentQueueState,
@@ -74,6 +75,12 @@ export class EnrichmentService {
 	constructor(@InjectDatabase() private readonly db: Db) {}
 
 	async queue(limit: number = ENRICHMENT_PAGE): Promise<EnrichmentQueue> {
+		// No agent service: whatever sits in the table can never run, so none of it
+		// is "enriching". This also hides rows queued before the writers were gated.
+		if (!agentServiceEnabled()) {
+			return { rows: [], total: 0, scheduled: [], scheduledTotal: 0 };
+		}
+
 		const take = pageSize(limit);
 		const now = new Date();
 
@@ -99,14 +106,14 @@ export class EnrichmentService {
 				take,
 				select: TASK_SELECT,
 			}),
-			this.db.agentTask.count({ where: dueWhere }),
+			this.countRecords(dueWhere),
 			this.db.agentTask.findMany({
 				where: scheduledWhere,
 				orderBy: [{ dueAt: "asc" }],
 				take,
 				select: TASK_SELECT,
 			}),
-			this.db.agentTask.count({ where: scheduledWhere }),
+			this.countRecords(scheduledWhere),
 		]);
 
 		const everyTask: QueuedTask[] = [...tasks, ...booked];
@@ -180,10 +187,15 @@ export class EnrichmentService {
 					: undefined;
 
 		const rows: EnrichmentQueueRow[] = [];
+		const listed = new Set<string>();
 
+		// One company gets several tasks (brand, profile, field backfill). The queue
+		// lists and counts records, not tasks: a person adds one company, so one row.
 		for (const task of tasks) {
 			const subject = subjectOf(task);
 			if (!subject) continue;
+			if (listed.has(`${subject.kind}:${subject.id}`)) continue;
+			listed.add(`${subject.kind}:${subject.id}`);
 
 			const state = enrichmentQueueState(task.attempts, task.leasedUntil, now);
 
@@ -197,10 +209,13 @@ export class EnrichmentService {
 		}
 
 		const scheduled: EnrichmentScheduledRow[] = [];
+		const booking = new Set<string>();
 
 		for (const task of booked) {
 			const subject = subjectOf(task);
 			if (!subject) continue;
+			if (booking.has(`${subject.kind}:${subject.id}`)) continue;
+			booking.add(`${subject.kind}:${subject.id}`);
 
 			scheduled.push({
 				id: task.id,
@@ -210,6 +225,19 @@ export class EnrichmentService {
 		}
 
 		return { rows, total, scheduled, scheduledTotal };
+	}
+
+	/** How many different records have open work, not how many tasks. */
+	private async countRecords(
+		where: Prisma.AgentTaskWhereInput,
+	): Promise<number> {
+		const records = await this.db.agentTask.findMany({
+			where,
+			distinct: ["contactId", "companyId"],
+			select: { id: true },
+		});
+
+		return records.length;
 	}
 }
 

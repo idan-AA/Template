@@ -995,6 +995,10 @@ model AppSetting {
   trackingConfigHash       String?
   trackingPaused           Boolean @default(false)
 
+  // The user id the developer account is pinned to (set the first time the
+  // DEVELOPER_EMAIL address signs in). Plain string, no relation, like AuditEvent.
+  developerUserId String?
+
   updatedAt DateTime @updatedAt
 
   @@map("appSetting")
@@ -1174,4 +1178,17 @@ model AuditEvent {
   @@index([module, action, at])
   @@index([actorId, at])
   @@map("auditEvent")
+}
+
+// Core. One row per module the developer account has explicitly switched on or
+// off. No row means the client's starting set (clients/<id>/client.config.ts)
+// decides. Switching never deletes a module's data. Written only by the
+// developer-only modules.set procedure, in a transaction with its audit event.
+model ModuleSwitch {
+  moduleId    String   @id
+  enabled     Boolean
+  changedById String?
+  changedAt   DateTime @default(now()) @updatedAt
+
+  @@map("moduleSwitch")
 }

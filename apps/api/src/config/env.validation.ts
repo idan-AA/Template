@@ -1,5 +1,6 @@
 import { plainToInstance, Type } from "class-transformer";
 import {
+	IsEmail,
 	IsEnum,
 	IsInt,
 	IsOptional,
@@ -159,6 +160,19 @@ export class EnvironmentVariables {
 	@IsOptional()
 	@IsString()
 	CLIENT_ID?: string;
+
+	// Blank means this deploy has no developer account. A value that is not an
+	// email address is a typo that would silently leave nobody able to switch
+	// features, so it stops the boot with a message.
+	@ValidateIf((env: EnvironmentVariables) => Boolean(env.DEVELOPER_EMAIL))
+	@IsEmail(
+		{},
+		{
+			message:
+				"DEVELOPER_EMAIL must be a single email address, e.g. you@yourcompany.com, or left blank for no developer account.",
+		},
+	)
+	DEVELOPER_EMAIL?: string;
 }
 
 export type RawEnvironment = Record<string, string | undefined>;

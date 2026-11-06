@@ -8,6 +8,17 @@ import { defineModule } from "../src/define-module";
 export const crm = defineModule({
 	id: "crm",
 	label: "CRM",
+	description:
+		"Companies, contacts and deals, with the activity and research that ties them together.",
+	routers: [
+		"companies",
+		"contacts",
+		"deals",
+		"activities",
+		"enrichment",
+		"savedViews",
+		"tracking",
+	],
 	requires: [],
 	nav: [
 		{

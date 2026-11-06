@@ -29,6 +29,7 @@ import {
 import ChevronRight from "@carbon/icons-react/es/ChevronRight";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useAgentService } from "@/components/agent-builder/agent-shell";
 import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";
 import { elapsedLabel, queueFooter } from "@/lib/enrichment-queue";
 import {
@@ -58,8 +59,11 @@ export function EnrichmentQueue() {
 	const [expanded, setExpanded] = useState(false);
 	const [limit, setLimit] = useState(ENRICHMENT_PAGE);
 
+	const agent = useAgentService();
+
 	const queue = useQuery({
 		...trpc.enrichment.queue.queryOptions({ limit }),
+		enabled: agent === true,
 		placeholderData: keepPreviousData,
 		refetchInterval: (query) =>
 			(query.state.data?.total ?? 0) > 0
@@ -89,6 +93,11 @@ export function EnrichmentQueue() {
 		close();
 		openRecord({ kind: subject.kind, id: subject.id });
 	};
+
+	// No research agent on this deployment: there is nothing to watch, and a chip
+	// that says "Enrichment" would promise it. Unknown yet also renders nothing,
+	// so it never flashes in and out.
+	if (agent !== true) return null;
 
 	return (
 		<Popover

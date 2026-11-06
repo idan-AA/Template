@@ -2,6 +2,7 @@ import { PRIORITY } from "@app/db/agent-tasks";
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { changeWrite } from "../lib/approval";
+import { requireCrm } from "../lib/module-gate";
 import { assertResearchPurpose } from "../lib/session-purpose";
 import { scheduleTask } from "../lib/tasks";
 
@@ -37,6 +38,7 @@ export default defineTool({
 	}),
 	approval: changeWrite(),
 	async execute({ contactId, days, reason, budget }, ctx) {
+		await requireCrm();
 		assertResearchPurpose(ctx);
 		const dueAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
 

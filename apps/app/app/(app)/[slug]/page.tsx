@@ -10,7 +10,7 @@ import {
 	PageShellLoading,
 	PageShellTitle,
 } from "@/components/page-shell";
-import { enabledOverviewWidgets } from "@/lib/modules";
+import { enabledOverviewWidgets, getModuleView } from "@/lib/modules";
 import { OverviewEmpty } from "./overview-empty";
 import { OVERVIEW_WIDGETS, type OverviewWidget } from "./overview-widgets";
 import { BUILT_WIDGET_IDS, type BuiltWidgetId } from "./widget-ids";
@@ -44,7 +44,8 @@ async function OverviewHost({
 	searchParams,
 }: Pick<PageProps<"/[slug]">, "searchParams">) {
 	await connection();
-	const widgets = enabledOverviewWidgets().flatMap((declared) => {
+	const view = await getModuleView();
+	const widgets = enabledOverviewWidgets(view.modules).flatMap((declared) => {
 		return isBuilt(declared.id)
 			? [{ id: declared.id, widget: OVERVIEW_WIDGETS[declared.id] }]
 			: [];

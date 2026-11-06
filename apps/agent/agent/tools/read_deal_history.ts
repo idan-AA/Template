@@ -2,6 +2,7 @@ import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { readDealHistory } from "../lib/accounts";
 import { focusOn } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 
 export default defineTool({
 	description:
@@ -17,6 +18,7 @@ export default defineTool({
 			.describe("How many recent threads to read."),
 	}),
 	async execute({ dealId, threads }) {
+		await requireCrm();
 		const history = await readDealHistory(dealId, { threads });
 		if (!history) return { found: false as const, reason: "No such deal." };
 

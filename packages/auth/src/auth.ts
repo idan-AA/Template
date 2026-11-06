@@ -108,6 +108,41 @@ const passwordEndpointGuard = {
 	},
 } satisfies BetterAuthPlugin;
 
+/**
+ * Better-auth's own organization endpoints that remove a member, change a role
+ * or let someone leave. The app never calls them: roles are changed through
+ * `workspace.setMemberRole`, which protects the last owner and the developer
+ * account. Left open, an admin could remove or demote the developer straight
+ * through them, so they are closed for everyone. Paths are the ones in the
+ * better-auth organization docs (POST /organization/remove-member,
+ * /update-member-role, /leave).
+ */
+const BLOCKED_MEMBER_PATHS = [
+	"/organization/remove-member",
+	"/organization/update-member-role",
+	"/organization/leave",
+] as const;
+
+const memberEndpointGuard = {
+	id: "member-endpoint-guard",
+	hooks: {
+		before: [
+			{
+				matcher: (ctx: { path?: string }) =>
+					BLOCKED_MEMBER_PATHS.some(
+						(path) => ctx.path === path || ctx.path?.startsWith(`${path}/`),
+					),
+				handler: createAuthMiddleware(async () => {
+					throw new APIError("FORBIDDEN", {
+						message:
+							"People are managed from Settings, Members, where roles and the developer account are protected.",
+					});
+				}),
+			},
+		],
+	},
+} satisfies BetterAuthPlugin;
+
 export const auth = betterAuth({
 	appName: "CRM",
 	baseURL: env.apiUrl,
@@ -185,6 +220,7 @@ export const auth = betterAuth({
 
 	plugins: [
 		passwordEndpointGuard,
+		memberEndpointGuard,
 		...(slackOAuth
 			? [
 					genericOAuth({

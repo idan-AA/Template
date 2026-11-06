@@ -5,6 +5,7 @@ import type { Evidence, EvidenceKind } from "../lib/evidence";
 import { WEIGHTS } from "../lib/evidence";
 import { FACT_FIELDS, type FactField, recordFact } from "../lib/facts";
 import { focusOn } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 import { assertResearchPurpose } from "../lib/session-purpose";
 
 export default defineTool({
@@ -48,6 +49,7 @@ export default defineTool({
 	}),
 	approval: changeWrite(),
 	async execute(input, ctx) {
+		await requireCrm();
 		assertResearchPurpose(ctx);
 		focusOn({ contactId: input.contactId });
 

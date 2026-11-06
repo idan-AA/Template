@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AuthHeading, AuthShell } from "@/components/auth-shell";
-import { requireModule } from "@/lib/modules";
+import { requireModuleOn } from "@/lib/modules";
 import { requireMailboxAccess } from "@/lib/session";
 import { ResearchForm } from "./research-form";
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export const instant = false;
 
 export default async function ResearchKeyPage() {
-	requireModule("crm");
+	await requireModuleOn("crm");
 	await requireMailboxAccess();
 
 	return (

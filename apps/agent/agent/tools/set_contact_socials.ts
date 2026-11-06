@@ -5,6 +5,7 @@ import { personForVerification } from "../lib/crm";
 import type { Evidence } from "../lib/evidence";
 import { recordFact } from "../lib/facts";
 import { focusOn } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 import { assertResearchPurpose } from "../lib/session-purpose";
 import { parseSocialUrl, verifyGithub, verifyX } from "../lib/socials";
 
@@ -26,6 +27,7 @@ export default defineTool({
 	}),
 	approval: changeWrite(),
 	async execute({ contactId, twitterUrl, githubUrl }, ctx) {
+		await requireCrm();
 		assertResearchPurpose(ctx);
 		focusOn({ contactId });
 

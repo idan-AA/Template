@@ -3,6 +3,7 @@ import { z } from "zod";
 import { changeWrite } from "../lib/approval";
 import { writeField } from "../lib/fields";
 import { focusOn } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 
 export default defineTool({
 	description:
@@ -21,6 +22,7 @@ export default defineTool({
 	}),
 	approval: changeWrite(),
 	async execute({ entity, recordId, key, value }) {
+		await requireCrm();
 		if (entity === "COMPANY") focusOn({ companyId: recordId });
 		if (entity === "CONTACT") focusOn({ contactId: recordId });
 

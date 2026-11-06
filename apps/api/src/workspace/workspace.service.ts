@@ -16,7 +16,9 @@ import { passwordProblem } from "@app/auth/password-policy";
 import type { Db, Prisma } from "@app/db";
 import { writeAudit } from "@app/db/audit";
 import { isOnboarded, markOnboarded, workspaceSlug } from "@app/db/workspace";
+import { readDeveloperPin } from "@app/db/module-switches";
 import { roleOptions } from "@app/modules";
+import { isDeveloper, isDeveloperEmail } from "@app/modules/developer";
 import {
 	BadRequestException,
 	ConflictException,
@@ -176,8 +178,10 @@ export class WorkspaceService {
 			}),
 		]);
 
+		const pin = await this.developerPin();
+
 		return {
-			rows: rows.map((row) => this.toMember(row, userId)),
+			rows: rows.map((row) => this.toMember(row, userId, pin)),
 			total,
 			facetCounts: { role: countsByKey(roles, "role") },
 		};
@@ -205,11 +209,27 @@ export class WorkspaceService {
 		const updated = await this.db.$transaction(async (tx) => {
 			const target = await tx.member.findFirst({
 				where: { id: input.memberId, organizationId: WORKSPACE_ID },
-				select: { id: true, role: true },
+				select: {
+					id: true,
+					role: true,
+					userId: true,
+					user: { select: { email: true } },
+				},
 			});
 
 			if (!target) {
 				throw new NotFoundException("That person is not in this workspace.");
+			}
+
+			if (
+				await this.isDeveloperUser({
+					id: target.userId,
+					email: target.user.email,
+				})
+			) {
+				throw new ForbiddenException(
+					"The developer account cannot be changed from here.",
+				);
 			}
 
 			if (target.role === "owner" && input.role !== "owner") {
@@ -261,7 +281,7 @@ export class WorkspaceService {
 			role: input.role,
 		});
 
-		return this.toMember(updated, userId);
+		return this.toMember(updated, userId, await this.developerPin());
 	}
 
 	/**
@@ -288,6 +308,12 @@ export class WorkspaceService {
 
 		if (input.role === "owner" && actorRole !== "owner") {
 			throw new ForbiddenException("Only an owner can add another owner.");
+		}
+
+		// The developer address belongs to the developer account alone. Letting an
+		// admin create it first would hand them that account.
+		if (isDeveloperEmail(input.email)) {
+			throw new BadRequestException("That address is reserved.");
 		}
 
 		const problem = passwordProblem(input.password);
@@ -350,7 +376,7 @@ export class WorkspaceService {
 			role: input.role,
 		});
 
-		return this.toMember(created, userId);
+		return this.toMember(created, userId, await this.developerPin());
 	}
 
 	/**
@@ -393,6 +419,21 @@ export class WorkspaceService {
 				);
 			}
 
+			// Resetting a password is signing in as that person. Nobody but the
+			// developer may do that to the developer account (the developer cannot
+			// reach this branch for themselves: the check above sends them to
+			// Settings, Account).
+			if (
+				await this.isDeveloperUser({
+					id: target.userId,
+					email: target.user.email,
+				})
+			) {
+				throw new ForbiddenException(
+					"The developer account cannot be changed from here.",
+				);
+			}
+
 			if (target.role === "owner" && actorRole !== "owner") {
 				throw new ForbiddenException(
 					"Only an owner can reset an owner password.",
@@ -432,7 +473,11 @@ export class WorkspaceService {
 		return { ok: true };
 	}
 
-	private toMember(row: MemberRow, userId: string): WorkspaceMember {
+	private toMember(
+		row: MemberRow,
+		userId: string,
+		developerPin: string | null,
+	): WorkspaceMember {
 		return {
 			id: row.id,
 			userId: row.userId,
@@ -442,7 +487,27 @@ export class WorkspaceService {
 			role: row.role,
 			joinedAt: row.createdAt.toISOString(),
 			isViewer: row.userId === userId,
+			isDeveloper:
+				isDeveloperEmail(row.user.email) &&
+				(developerPin === null || developerPin === row.userId),
 		};
+	}
+
+	/** The user the developer account is pinned to, or null before its first sign-in. */
+	private developerPin(): Promise<string | null> {
+		return readDeveloperPin(this.db);
+	}
+
+	/**
+	 * Whether this person is the developer account. The developer cannot be
+	 * demoted, have a password reset by anyone else, or be removed, whatever
+	 * role the person asking holds.
+	 */
+	private async isDeveloperUser(target: {
+		id: string;
+		email: string;
+	}): Promise<boolean> {
+		return isDeveloper(this.db, target);
 	}
 
 	private searchWhere(q: string): Prisma.MemberWhereInput {

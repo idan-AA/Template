@@ -1,10 +1,8 @@
-import { requireModule } from "@/lib/modules";
+import { ModuleGate } from "@/components/module-gate";
 
-/** Part of the CRM module: a deploy without it answers 404 here. */
+/** Part of the CRM module: a workspace without it answers 404 here. */
 export default function CrmLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
-	requireModule("crm");
-
-	return children;
+	return <ModuleGate id="crm">{children}</ModuleGate>;
 }

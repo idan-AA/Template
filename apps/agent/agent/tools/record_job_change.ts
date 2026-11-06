@@ -5,6 +5,7 @@ import { sensitiveWrite } from "../lib/approval";
 import { writeTimelineNote } from "../lib/crm";
 import { lastEmployerChange } from "../lib/facts";
 import { focusOn } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 import { assertResearchPurpose } from "../lib/session-purpose";
 
 export default defineTool({
@@ -23,6 +24,7 @@ export default defineTool({
 		"Raise the change without `moveToCompanyId` — the alert lands on the timeline and their owner decides whether to move them.",
 	),
 	async execute({ contactId, moveToCompanyId }, ctx) {
+		await requireCrm();
 		assertResearchPurpose(ctx);
 		focusOn({ contactId });
 

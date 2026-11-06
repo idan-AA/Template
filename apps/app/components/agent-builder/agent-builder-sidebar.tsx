@@ -16,6 +16,7 @@ import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { useHydrated } from "@/lib/use-hydrated";
 import { useWorkspaceUrl } from "@/lib/use-workspace-url";
+import { useAgentShell } from "./agent-shell";
 import { DeleteChatAction } from "./delete-chat-action";
 
 type Conversation = RouterOutputs["conversations"]["builderList"][number];
@@ -40,6 +41,8 @@ export function AgentBuilderSidebar({
 	const trpc = useTRPC();
 	const queryClient = useQueryClient();
 	const hydrated = useHydrated();
+	// With no agent shell, a new chat or team agent can only be refused: hide them.
+	const shell = useAgentShell();
 	const conversations = useQuery({
 		...trpc.conversations.builderList.queryOptions(),
 		initialData: initialData?.conversations,
@@ -79,15 +82,17 @@ export function AgentBuilderSidebar({
 		<aside className={cn("min-h-0 min-w-0 flex-col p-4 font-sans", className)}>
 			<div className="flex h-7 shrink-0 items-center justify-between pl-2">
 				<span className="font-medium text-xs">Chats</span>
-				<Button asChild variant="ghost" size="icon-xs">
-					<Link
-						href={workspaceUrl("/chat")}
-						aria-label="New agent chat"
-						onClick={onNavigate}
-					>
-						<Icon icon={Add} />
-					</Link>
-				</Button>
+				{shell.available ? (
+					<Button asChild variant="ghost" size="icon-xs">
+						<Link
+							href={workspaceUrl("/chat")}
+							aria-label="New agent chat"
+							onClick={onNavigate}
+						>
+							<Icon icon={Add} />
+						</Link>
+					</Button>
+				) : null}
 			</div>
 
 			<nav aria-label="Agent chats" className="min-h-0 flex-1 overflow-y-auto">
@@ -145,11 +150,13 @@ export function AgentBuilderSidebar({
 					</p>
 				) : null}
 
-				<TeamAgents
-					agents={teamAgents}
-					pathname={pathname}
-					onNavigate={onNavigate}
-				/>
+				{shell.available ? (
+					<TeamAgents
+						agents={teamAgents}
+						pathname={pathname}
+						onNavigate={onNavigate}
+					/>
+				) : null}
 			</nav>
 		</aside>
 	);

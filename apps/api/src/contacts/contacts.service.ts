@@ -15,6 +15,7 @@ import {
 	NotFoundException,
 } from "@nestjs/common";
 import { AgentQueueService } from "../agent/agent-queue.service";
+import { assertAgentService } from "../agent/agent-shell";
 import { AgentTriggerService } from "../agent/agent-trigger.service";
 import { ARCHIVE } from "../archive/archive-config";
 import { CompanyDirectoryService } from "../companies/company-directory.service";
@@ -672,6 +673,8 @@ export class ContactsService {
 	}
 
 	async enrich(id: string): Promise<{ id: string; queued: boolean }> {
+		assertAgentService();
+
 		const contact = await this.db.contact.findUnique({
 			where: { id },
 			select: { id: true, imageUrl: true, linkedinUrl: true, updatedAt: true },

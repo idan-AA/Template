@@ -1,6 +1,7 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { searchCrm } from "../lib/lookup";
+import { requireCrm } from "../lib/module-gate";
 
 export default defineTool({
 	description:
@@ -19,6 +20,7 @@ export default defineTool({
 		limit: z.number().int().min(1).max(25).default(10),
 	}),
 	async execute({ query, kinds, limit }) {
+		await requireCrm();
 		const result = await searchCrm(query, { kinds, limit });
 
 		return {

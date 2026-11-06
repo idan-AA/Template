@@ -15,6 +15,7 @@ import {
 	NotFoundException,
 } from "@nestjs/common";
 import { AgentQueueService } from "../agent/agent-queue.service";
+import { agentServiceEnabled, assertAgentService } from "../agent/agent-shell";
 import { AgentTriggerService } from "../agent/agent-trigger.service";
 import { ARCHIVE } from "../archive/archive-config";
 import {
@@ -321,6 +322,7 @@ export class CompaniesService {
 
 	async update(id: string, input: CompanyUpdateInput) {
 		const data: Prisma.CompanyUpdateInput = {};
+		let domainChanged = false;
 
 		if (input.name !== undefined) data.name = input.name.trim();
 		if (input.website !== undefined) data.website = blankToNull(input.website);
@@ -358,7 +360,10 @@ export class CompaniesService {
 				select: { domain: true },
 			});
 			if (current && current.domain !== domain) {
-				data.enrichmentStatus = "PENDING";
+				domainChanged = true;
+				// Only mark it for the agent when there is one; with none, "PENDING"
+				// would read as work in progress that never happens.
+				if (agentServiceEnabled()) data.enrichmentStatus = "PENDING";
 				data.enrichmentError = null;
 				data.iconUrl = null;
 				data.iconDarkUrl = null;
@@ -379,11 +384,13 @@ export class CompaniesService {
 				});
 			});
 
-			if (data.enrichmentStatus === "PENDING") {
-				await this.agent.companyCreated(
-					id,
-					"Domain changed — anything we knew was about a different company",
-				);
+			if (domainChanged) {
+				if (data.enrichmentStatus === "PENDING") {
+					await this.agent.companyCreated(
+						id,
+						"Domain changed: anything we knew was about a different company",
+					);
+				}
 				void this.favicon.backfill(id, updated.domain);
 			}
 
@@ -552,6 +559,8 @@ export class CompaniesService {
 	}
 
 	async enrich(id: string): Promise<{ id: string; queued: boolean }> {
+		assertAgentService();
+
 		const company = await this.db.company.findUnique({
 			where: { id },
 			select: { id: true, updatedAt: true },
@@ -577,6 +586,8 @@ export class CompaniesService {
 	}
 
 	async research(id: string, actingUserId: string) {
+		assertAgentService();
+
 		const company = await this.db.company.findUnique({
 			where: { id },
 			select: { id: true, domain: true },

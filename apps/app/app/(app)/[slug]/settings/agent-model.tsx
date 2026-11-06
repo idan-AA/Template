@@ -26,6 +26,7 @@ import ChevronDown from "@carbon/icons-react/es/ChevronDown";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useAgentService } from "@/components/agent-builder/agent-shell";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
 
@@ -74,6 +75,7 @@ export function AgentModel() {
 
 	const settings = useQuery(trpc.settings.agentModel.queryOptions());
 	const catalog = useQuery(trpc.settings.modelCatalog.queryOptions());
+	const agent = useAgentService();
 
 	const save = useMutation(
 		trpc.settings.setAgentModel.mutationOptions({
@@ -85,7 +87,9 @@ export function AgentModel() {
 		}),
 	);
 
-	if (!settings.data) return null;
+	// No research agent on this deployment: no model to pick, and the card names
+	// vendors and token prices a business owner has no use for.
+	if (agent === false || !settings.data) return null;
 
 	const { selectedId, effectiveId, defaultId, effective } = settings.data;
 	const models = catalog.data?.models ?? [];

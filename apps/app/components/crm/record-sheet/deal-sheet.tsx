@@ -23,6 +23,7 @@ import Close from "@carbon/icons-react/es/Close";
 import UserMultiple from "@carbon/icons-react/es/UserMultiple";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useAgentService } from "@/components/agent-builder/agent-shell";
 import { AgentPanel } from "@/components/crm/agent-panel";
 import { InlineCompanyField } from "@/components/crm/company-picker";
 import { contactName } from "@/components/crm/contact-name";
@@ -133,6 +134,9 @@ export function DealSheet({ dealId }: { dealId: string }) {
 	const query = useQuery(trpc.deals.byId.queryOptions({ id: dealId }));
 	const deal = query.data;
 
+	// No research agent on this deployment: no Agent tab.
+	const hasAgent = useAgentService() !== false;
+
 	const tabs: DetailSheetTab[] = deal
 		? [
 				{
@@ -239,7 +243,7 @@ export function DealSheet({ dealId }: { dealId: string }) {
 					</DetailSheetStats>
 				) : null
 			}
-			tabs={tabs}
+			tabs={hasAgent ? tabs : tabs.filter((entry) => entry.value !== "agent")}
 			tab={tab}
 			onTabChange={setTab}
 		/>

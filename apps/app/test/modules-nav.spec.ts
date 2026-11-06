@@ -4,7 +4,10 @@ import { join } from "node:path";
 import { moduleNav, moduleWidgets, settingsNav } from "@app/modules";
 import { ALL_MODULES } from "@app/modules/registry";
 import { resetModules, useModules } from "@app/modules/testing";
-import { CORE_SETTINGS_ITEMS } from "../app/(app)/[slug]/settings/settings-items";
+import {
+	CORE_SETTINGS_ITEMS,
+	FEATURES_HREF,
+} from "../app/(app)/[slug]/settings/settings-items";
 import {
 	BUILT_WIDGET_IDS,
 	WIDGETS_NOT_BUILT_YET,
@@ -15,6 +18,11 @@ afterEach(resetModules);
 
 const titles = (items: Array<{ title: string }>) =>
 	items.map((item) => item.title);
+
+/** What everyone but the developer account sees: the sidebar layout drops Features for them. */
+const CLIENT_SETTINGS_ITEMS = CORE_SETTINGS_ITEMS.filter(
+	(item) => item.href !== FEATURES_HREF,
+);
 
 describe("the rail", () => {
 	it("is Overview, Chat and Settings with no modules, and nothing dead", () => {
@@ -55,7 +63,7 @@ describe("the settings sidebar", () => {
 	it("is the core pages only with no modules", () => {
 		useModules([]);
 
-		expect(titles(settingsNav(CORE_SETTINGS_ITEMS))).toEqual([
+		expect(titles(settingsNav(CLIENT_SETTINGS_ITEMS))).toEqual([
 			"General",
 			"Account",
 			"Connections",
@@ -69,7 +77,7 @@ describe("the settings sidebar", () => {
 	it("is the core list with crm's tracking page after General, in order", () => {
 		useModules(["crm"]);
 
-		expect(settingsNav(CORE_SETTINGS_ITEMS).map((item) => item.href)).toEqual([
+		expect(settingsNav(CLIENT_SETTINGS_ITEMS).map((item) => item.href)).toEqual([
 			"/settings",
 			"/settings/tracking",
 			"/settings/account",
@@ -79,6 +87,42 @@ describe("the settings sidebar", () => {
 			"/settings/api-keys",
 			"/settings/sso",
 		]);
+	});
+});
+
+describe("the Features page", () => {
+	it("is a core settings item that only the developer account is shown", () => {
+		expect(CORE_SETTINGS_ITEMS.map((item) => item.href)).toContain(
+			FEATURES_HREF,
+		);
+		expect(FEATURES_HREF).toBe("/settings/features");
+
+		const layout = readFileSync(
+			join(import.meta.dir, "..", "app", "(app)", "[slug]", "settings", "layout.tsx"),
+			"utf8",
+		);
+
+		expect(layout).toContain("view.isDeveloper");
+		expect(layout).toContain("FEATURES_HREF");
+	});
+
+	it("has a page that refuses anyone but the developer", () => {
+		const page = readFileSync(
+			join(
+				import.meta.dir,
+				"..",
+				"app",
+				"(app)",
+				"[slug]",
+				"settings",
+				"features",
+				"page.tsx",
+			),
+			"utf8",
+		);
+
+		expect(page).toContain("isDeveloper");
+		expect(page).toContain("notFound()");
 	});
 });
 
@@ -135,9 +179,15 @@ describe("module routes answer 404 when their module is off", () => {
 				);
 
 				expect(existsSync(layout), `${layout} is missing`).toBe(true);
-				expect(readFileSync(layout, "utf8")).toContain(
-					`requireModule("${module.id}")`,
-				);
+				const source = readFileSync(layout, "utf8");
+
+				// Either the gate component (asks the API which modules are on right
+				// now) or the older direct check.
+				expect(
+					source.includes(`<ModuleGate id="${module.id}">`) ||
+						source.includes(`requireModule("${module.id}")`),
+					`${layout} does not gate on "${module.id}"`,
+				).toBe(true);
 			});
 		}
 	}

@@ -2,6 +2,7 @@ import { blobEnabled } from "@app/db/blob";
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { spend } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 import { runPortrait } from "../lib/portrait";
 import { assertResearchPurpose } from "../lib/session-purpose";
 
@@ -16,6 +17,7 @@ export default defineTool({
 			.describe("Replace an existing photo. Only when a rep asked."),
 	}),
 	async execute({ contactId, force }, ctx) {
+		await requireCrm();
 		assertResearchPurpose(ctx);
 		if (!blobEnabled()) {
 			return {

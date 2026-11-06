@@ -26,6 +26,17 @@ export function shellStateFrom(
 }
 
 /**
+ * Whether the deployment has a research agent at all (enrichment, research, the
+ * Enrichment chip). `undefined` while the answer is loading; callers choose what
+ * "not yet known" means for them. The API refuses the work either way.
+ */
+export function agentServiceFrom(
+	capabilities: { agent?: boolean } | undefined,
+): boolean | undefined {
+	return capabilities?.agent;
+}
+
+/**
  * One visible line beside a disabled control. A `title` never shows on a
  * disabled button (the shared Button sets pointer-events-none) or on touch, so the
  * reason has to be text on the page.

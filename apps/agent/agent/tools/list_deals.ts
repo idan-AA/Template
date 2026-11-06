@@ -1,6 +1,7 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { listDeals } from "../lib/lookup";
+import { requireCrm } from "../lib/module-gate";
 
 export default defineTool({
 	description:
@@ -22,6 +23,7 @@ export default defineTool({
 		cursor: z.string().optional(),
 	}),
 	async execute(input) {
+		await requireCrm();
 		return listDeals(input);
 	},
 	toModelOutput(output) {

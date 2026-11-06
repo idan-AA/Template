@@ -1,7 +1,10 @@
 import { afterEach, describe, expect, it } from "bun:test";
 import { PreconditionFailedException } from "@nestjs/common";
 import {
+	agentCapabilities,
+	agentServiceEnabled,
 	agentShellCapability,
+	assertAgentService,
 	assertAgentShell,
 	SHELL_UNAVAILABLE_REASON,
 	shellFeaturesEnabled,
@@ -11,6 +14,7 @@ import { AgentsRouter } from "../src/agent/agents.router";
 const saved = {
 	RENDER: process.env.RENDER,
 	AGENT_SHELL: process.env.AGENT_SHELL,
+	AGENT_URL: process.env.AGENT_URL,
 };
 
 afterEach(() => {
@@ -34,6 +38,48 @@ describe("shellFeaturesEnabled", () => {
 			true,
 		);
 		expect(shellFeaturesEnabled({ AGENT_SHELL: "0" })).toBe(false);
+	});
+});
+
+describe("agentServiceEnabled", () => {
+	it("is on locally, where the agent answers on its default port", () => {
+		expect(agentServiceEnabled({})).toBe(true);
+	});
+
+	it("is off on Render until AGENT_URL points at a service", () => {
+		expect(agentServiceEnabled({ RENDER: "true" })).toBe(false);
+		expect(agentServiceEnabled({ RENDER: "true", AGENT_URL: "  " })).toBe(false);
+		expect(
+			agentServiceEnabled({
+				RENDER: "true",
+				AGENT_URL: "http://practice-agent:10000",
+			}),
+		).toBe(true);
+	});
+
+	it("travels with the shell answer in the one capabilities query", () => {
+		expect(agentCapabilities({ RENDER: "true", AGENT_SHELL: "0" })).toEqual({
+			shell: false,
+			reason: SHELL_UNAVAILABLE_REASON,
+			agent: false,
+		});
+		expect(agentCapabilities({})).toEqual({
+			shell: true,
+			reason: null,
+			agent: true,
+		});
+	});
+
+	it("assertAgentService refuses with the plain message when there is no agent", () => {
+		process.env.RENDER = "true";
+		delete process.env.AGENT_URL;
+		expect(() => assertAgentService()).toThrow(PreconditionFailedException);
+		expect(() => assertAgentService()).toThrow(
+			"Not available on this deployment",
+		);
+
+		process.env.AGENT_URL = "http://practice-agent:10000";
+		expect(() => assertAgentService()).not.toThrow();
 	});
 });
 

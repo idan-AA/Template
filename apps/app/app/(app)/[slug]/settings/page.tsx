@@ -28,7 +28,7 @@ export default function GeneralSettingsPage() {
 				<PageShellHeading>
 					<PageShellTitle>General</PageShellTitle>
 					<PageShellDescription>
-						Who you are, and the model the research agent thinks with.
+						Your workspace, and how long archived records are kept.
 					</PageShellDescription>
 				</PageShellHeading>
 			</PageShellHeader>
@@ -50,6 +50,7 @@ async function Settings() {
 
 	await Promise.all([
 		queryClient.prefetchQuery(trpc.workspace.get.queryOptions()),
+			queryClient.prefetchQuery(trpc.agents.capabilities.queryOptions()),
 		queryClient.prefetchQuery(trpc.settings.agentModel.queryOptions()),
 		queryClient.prefetchQuery(trpc.settings.modelCatalog.queryOptions()),
 		queryClient.prefetchQuery(trpc.settings.researchKey.queryOptions()),

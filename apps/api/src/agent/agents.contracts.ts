@@ -386,4 +386,6 @@ export const agentCapabilitiesOutput = z.object({
 	shell: z.boolean(),
 	/** One plain sentence for the user when `shell` is false. */
 	reason: z.string().nullable(),
+	/** False when the deployment has no agent service: no enrichment, research or agent screens. */
+	agent: z.boolean(),
 });

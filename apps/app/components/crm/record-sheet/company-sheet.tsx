@@ -24,6 +24,7 @@ import StarFilled from "@carbon/icons-react/es/StarFilled";
 import UserMultiple from "@carbon/icons-react/es/UserMultiple";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useAgentService } from "@/components/agent-builder/agent-shell";
 import { AgentPanel } from "@/components/crm/agent-panel";
 import { EnrichmentActions } from "@/components/crm/enrichment-actions";
 import { EnrichmentIndicator } from "@/components/crm/enrichment-status";
@@ -151,6 +152,10 @@ export function CompanySheet({ companyId }: { companyId: string }) {
 
 	const company = query.data;
 
+	// No research agent on this deployment: no Agent tab, no Research or Re-enrich,
+	// no "Queued" note. Only an explicit `false` hides them, so nothing flashes.
+	const hasAgent = useAgentService() !== false;
+
 	const location = company
 		? [company.city, company.stateCode, company.country]
 				.filter(Boolean)
@@ -231,7 +236,7 @@ export function CompanySheet({ companyId }: { companyId: string }) {
 				) : undefined
 			}
 			note={
-				company && company.enrichmentStatus !== "COMPLETE" ? (
+				hasAgent && company && company.enrichmentStatus !== "COMPLETE" ? (
 					<EnrichmentIndicator
 						status={company.enrichmentStatus}
 						queued={company.queued}
@@ -290,7 +295,7 @@ export function CompanySheet({ companyId }: { companyId: string }) {
 					</DetailSheetStats>
 				) : null
 			}
-			tabs={tabs}
+			tabs={hasAgent ? tabs : tabs.filter((entry) => entry.value !== "agent")}
 			tab={tab}
 			onTabChange={setTab}
 		/>
@@ -348,7 +353,7 @@ function CompanyOverview({ company }: { company: Company }) {
 								label="Domain"
 								value={company.domain}
 								type="url"
-								placeholder="stripe.com"
+								placeholder="Add domain"
 								saving={isSaving("domain")}
 								onSave={(domain) => save({ domain })}
 							/>
@@ -356,7 +361,7 @@ function CompanyOverview({ company }: { company: Company }) {
 								label="Website"
 								value={company.website}
 								type="url"
-								placeholder="https://stripe.com"
+								placeholder="Add website"
 								saving={isSaving("website")}
 								onSave={(website) => save({ website })}
 							/>

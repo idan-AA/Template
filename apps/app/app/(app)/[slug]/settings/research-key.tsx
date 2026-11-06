@@ -22,6 +22,7 @@ import { StatusIndicator } from "@app/ui/components/status-indicator";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useId, useState } from "react";
 import { toast } from "sonner";
+import { useAgentService } from "@/components/agent-builder/agent-shell";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
 
@@ -33,6 +34,7 @@ export function ResearchKey() {
 	const [draft, setDraft] = useState("");
 
 	const key = useQuery(trpc.settings.researchKey.queryOptions());
+	const agent = useAgentService();
 
 	const save = useMutation(
 		trpc.settings.setResearchKey.mutationOptions({
@@ -45,7 +47,9 @@ export function ResearchKey() {
 		}),
 	);
 
-	if (!key.data) return null;
+	// No research agent on this deployment: a key for it would do nothing, and the
+	// card names vendors a business owner has no use for.
+	if (agent === false || !key.data) return null;
 
 	const { configured, hint } = key.data;
 

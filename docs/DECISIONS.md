@@ -2,6 +2,22 @@
 
 Newest first. Owner's words where possible.
 
+## 2026-11-06
+
+- **Nothing runs locally.** Owner: "Don't run anything locally. We have a live version."
+  No bun install, dev server or local Postgres on this machine. Verification happens on the
+  live practice deploy (https://practice-app-af4x.onrender.com) after the owner approves a push
+  and the deploy runs. Agents still read code and write code; the type check and build run in
+  Render's build.
+- **Push straight to main.** Owner: "just push to main" (asked: branch plus pull request, or
+  main). GitHub CI (type check, lint, tests on a real database) runs on every push to main and
+  is the check; a push to main does not deploy the practice site (auto-deploy is off), the owner
+  clicks Deploy in Render.
+
+- **Order of work confirmed.** First the manager checks the live practice deploy as a
+  user would, and anything broken goes to the first builder. Then two builders in parallel:
+  the developer account with its Features page, and the bookkeeping screens.
+
 ## 2026-11-05
 
 - **Security audit blocks deploys, not backups.** The first push stopped at the

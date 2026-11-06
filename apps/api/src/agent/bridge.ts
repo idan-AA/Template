@@ -1,3 +1,5 @@
+import { agentServiceEnabled } from "./agent-shell";
+
 const DEFAULT_AGENT_URL = "http://127.0.0.1:2000";
 
 export interface Bridge {
@@ -11,6 +13,8 @@ export interface Bridge {
  * has to say what it does without the agent.
  */
 export function bridge(): Bridge | null {
+	if (!agentServiceEnabled()) return null;
+
 	const secret = process.env.AGENT_BRIDGE_SECRET?.trim();
 	if (!secret) return null;
 

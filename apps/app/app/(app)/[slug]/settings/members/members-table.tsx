@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@app/ui/components/badge";
 import { Button } from "@app/ui/components/button";
 import {
 	DataTable,
@@ -74,6 +75,7 @@ function columns(
 					{row.isViewer ? (
 						<span className="text-muted-foreground text-xs">You</span>
 					) : null}
+					{row.isDeveloper ? <Badge variant="outline">Developer</Badge> : null}
 				</span>
 			),
 		},
@@ -119,8 +121,9 @@ function columns(
 			hideable: false,
 			align: "right",
 			width: "w-[6%]",
+			// The developer account is locked: its role and password are not changed from here.
 			cell: (row) =>
-				canChangeRoles ? (
+				canChangeRoles && !row.isDeveloper ? (
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" size="icon" disabled={pending}>

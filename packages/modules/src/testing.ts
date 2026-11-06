@@ -1,5 +1,6 @@
 import { type ResolvedClient, resolveClient } from "./client-config";
 import { replaceActiveClient } from "./runtime";
+import { resetModuleState } from "./state";
 
 /**
  * For tests only. Switches the process to a client with exactly these modules
@@ -16,5 +17,6 @@ export function useModules(enabled: readonly string[]): ResolvedClient {
 }
 
 export function resetModules(): void {
+	resetModuleState();
 	replaceActiveClient(null);
 }

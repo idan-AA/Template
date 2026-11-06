@@ -28,6 +28,7 @@ const PERMISSION_KEY = /^[a-z][a-z0-9-]*(\.[a-z][a-z0-9_-]*)+$/;
 const WIDGET_ID = /^[a-z][a-z0-9-]*\.[a-z][a-z0-9-]*$/;
 const PATH = /^\/[a-z0-9/_-]*$/;
 const FIELD_ENTITY = /^[A-Z][A-Z_]*$/;
+const ROUTER_ALIAS = /^[a-z][A-Za-z0-9]*$/;
 
 const path = z.string().regex(PATH, "must be a path such as /companies");
 
@@ -70,6 +71,14 @@ const moduleSchema = z
 	.object({
 		id: z.string().regex(MODULE_ID),
 		label: z.string().min(1),
+		/** One plain sentence for the Features page: what switching this on gives the client. */
+		description: z.string().min(1).optional(),
+		/**
+		 * The tRPC router aliases this module owns (`companies` for
+		 * `companies.list`). The API refuses calls to them while the module is
+		 * off. A module may have none yet.
+		 */
+		routers: z.array(z.string().regex(ROUTER_ALIAS)).default([]),
 		requires: z.array(z.string().regex(MODULE_ID)).default([]),
 		nav: z.array(navItemSchema).default([]),
 		settings: z.array(settingsItemSchema).default([]),
@@ -143,6 +152,7 @@ const moduleSchema = z
 			module.widgets.map((widget) => widget.id),
 		);
 		unique("fieldEntities", module.fieldEntities);
+		unique("routers", module.routers);
 		unique("requires", module.requires);
 	});
 

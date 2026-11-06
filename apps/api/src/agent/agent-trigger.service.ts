@@ -7,6 +7,7 @@ import { fieldBackfillPayload } from "@app/validation/field-backfill";
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
 import { AGENT_DISPATCH } from "./agent-dispatch.config";
+import { agentServiceEnabled } from "./agent-shell";
 import { bridge } from "./bridge";
 
 export type CrmEventInput = {
@@ -200,6 +201,8 @@ export class AgentTriggerService {
 		const queued: CrmEventInput[] = [];
 		const result = await this.db.$transaction((tx) =>
 			work(tx, async (input) => {
+				if (!agentServiceEnabled()) return;
+
 				await this.createEventTask(tx, input);
 				queued.push(input);
 			}),
@@ -224,7 +227,7 @@ export class AgentTriggerService {
 		ids: string[],
 		reason: string,
 	): Promise<{ queued: number; merged: number }> {
-		if (ids.length === 0 || keys.length === 0) {
+		if (ids.length === 0 || keys.length === 0 || !agentServiceEnabled()) {
 			return { queued: 0, merged: 0 };
 		}
 
@@ -388,7 +391,9 @@ export class AgentTriggerService {
 	}): Promise<{ queued: number; alreadyQueued: number }> {
 		const subject = input.contactIds ? "contactId" : "companyId";
 		const ids = [...new Set(input.contactIds ?? input.companyIds ?? [])];
-		if (ids.length === 0) return { queued: 0, alreadyQueued: 0 };
+		if (ids.length === 0 || !agentServiceEnabled()) {
+			return { queued: 0, alreadyQueued: 0 };
+		}
 
 		try {
 			const outstanding = await this.db.agentTask.findMany({
@@ -457,6 +462,8 @@ export class AgentTriggerService {
 		required = false,
 		client?: Prisma.TransactionClient,
 	): Promise<boolean> {
+		if (!agentServiceEnabled()) return false;
+
 		try {
 			const write = async (tx: Prisma.TransactionClient) => {
 				await lockIdempotencyKey(
@@ -545,7 +552,7 @@ export class AgentTriggerService {
 	}
 
 	canReachAgent(): boolean {
-		return bridge() !== null;
+		return agentServiceEnabled() && bridge() !== null;
 	}
 
 	mcpToolDiscoveryQueued(): void {

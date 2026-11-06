@@ -7,6 +7,7 @@ import MagicWand from "@carbon/icons-react/es/MagicWand";
 import Renew from "@carbon/icons-react/es/Renew";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useAgentService } from "@/components/agent-builder/agent-shell";
 import { useCrmCache } from "@/lib/trpc/cache";
 import { useTRPC } from "@/lib/trpc/client";
 
@@ -19,6 +20,7 @@ export function EnrichmentActions({
 }) {
 	const trpc = useTRPC();
 	const cache = useCrmCache();
+	const agent = useAgentService();
 
 	const enrich = useMutation(
 		trpc.companies.enrich.mutationOptions({
@@ -47,6 +49,9 @@ export function EnrichmentActions({
 			onError: (error) => toast.error(error.message),
 		}),
 	);
+
+	// No research agent here: these buttons would only ever be refused.
+	if (agent === false) return null;
 
 	return (
 		<>
@@ -83,6 +88,7 @@ export function EnrichmentActions({
 export function ContactEnrichmentAction({ contactId }: { contactId: string }) {
 	const trpc = useTRPC();
 	const cache = useCrmCache();
+	const agent = useAgentService();
 
 	const enrich = useMutation(
 		trpc.contacts.enrich.mutationOptions({
@@ -97,6 +103,8 @@ export function ContactEnrichmentAction({ contactId }: { contactId: string }) {
 			onError: (error) => toast.error(error.message),
 		}),
 	);
+
+	if (agent === false) return null;
 
 	return (
 		<Button

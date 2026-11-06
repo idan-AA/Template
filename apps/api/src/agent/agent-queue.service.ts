@@ -1,13 +1,18 @@
 import type { Db, Prisma } from "@app/db";
 import { Injectable } from "@nestjs/common";
 import { InjectDatabase } from "../database/database.constants";
+import { agentServiceEnabled } from "./agent-shell";
 
+/**
+ * With no agent service nothing is ever "queued": rows left over from before the
+ * gate existed would otherwise show "Queued" forever, with no agent to run them.
+ */
 @Injectable()
 export class AgentQueueService {
 	constructor(@InjectDatabase() private readonly db: Db) {}
 
 	async queuedCompanies(ids: readonly string[]): Promise<Set<string>> {
-		if (ids.length === 0) return new Set();
+		if (ids.length === 0 || !agentServiceEnabled()) return new Set();
 
 		const rows = await this.db.agentTask.findMany({
 			where: this.due({ companyId: { in: [...ids] } }),
@@ -19,7 +24,7 @@ export class AgentQueueService {
 	}
 
 	async queuedContacts(ids: readonly string[]): Promise<Set<string>> {
-		if (ids.length === 0) return new Set();
+		if (ids.length === 0 || !agentServiceEnabled()) return new Set();
 
 		const rows = await this.db.agentTask.findMany({
 			where: this.due({ contactId: { in: [...ids] } }),
@@ -34,6 +39,8 @@ export class AgentQueueService {
 		companyId?: string;
 		contactId?: string;
 	}): Promise<boolean> {
+		if (!agentServiceEnabled()) return false;
+
 		const row = await this.db.agentTask.findFirst({
 			where: this.due({
 				companyId: subject.companyId,

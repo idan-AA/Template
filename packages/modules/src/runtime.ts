@@ -1,5 +1,9 @@
 import type { z } from "zod";
-import { type ResolvedClient, resolveClient } from "./client-config";
+import {
+	orderModules,
+	type ResolvedClient,
+	resolveClient,
+} from "./client-config";
 import type {
 	ModuleDefinition,
 	NavItem,
@@ -7,7 +11,7 @@ import type {
 	WidgetDeclaration,
 	WidgetSlot,
 } from "./define-module";
-import type { ALL_MODULES, ModuleId } from "./registry";
+import { type ALL_MODULES, MODULE_IDS, type ModuleId } from "./registry";
 import { CORE_ROLE_LABELS, CORE_ROLES } from "./roles";
 
 /**
@@ -18,6 +22,13 @@ import { CORE_ROLE_LABELS, CORE_ROLES } from "./roles";
 
 let current: ResolvedClient | null = null;
 
+/**
+ * The modules switched on right now, when something has told this process
+ * (see `state.ts`). Null means nothing has: the client config decides, exactly
+ * as it did before module switches could change at runtime.
+ */
+let effective: readonly ModuleDefinition[] | null = null;
+
 /** The client for this process, resolved once and then kept. Throws on a bad config. */
 export function activeClient(): ResolvedClient {
 	current ??= resolveClient(process.env);
@@ -27,14 +38,30 @@ export function activeClient(): ResolvedClient {
 /** Test seam, used through `@app/modules/testing`. Pass null to forget the client. */
 export function replaceActiveClient(client: ResolvedClient | null): void {
 	current = client;
+	effective = null;
+}
+
+/** Called by `state.ts` and the web app with the modules that are on. */
+export function setEffectiveModules(ids: readonly ModuleId[]): void {
+	effective = orderModules(ids);
+}
+
+/** Back to what the client config says. */
+export function clearEffectiveModules(): void {
+	effective = null;
+}
+
+/** Every module the template knows, dependencies first. What the developer account sees. */
+export function allModules(): readonly ModuleDefinition[] {
+	return orderModules(MODULE_IDS);
 }
 
 export function enabledModules(): readonly ModuleDefinition[] {
-	return activeClient().modules;
+	return effective ?? activeClient().modules;
 }
 
 export function isModuleEnabled(id: ModuleId): boolean {
-	return activeClient().modules.some((module) => module.id === id);
+	return enabledModules().some((module) => module.id === id);
 }
 
 export class ModuleDisabledError extends Error {
@@ -56,8 +83,11 @@ export function moduleOptions<K extends ModuleId>(
 	return activeClient().config.modules.options[id];
 }
 
-export function moduleNav(): NavItem[] {
-	return enabledModules().flatMap((module) => module.nav);
+/** Pass `modules` to build the view for a set other than the enabled one (the developer sees all). */
+export function moduleNav(
+	modules: readonly ModuleDefinition[] = enabledModules(),
+): NavItem[] {
+	return modules.flatMap((module) => module.nav);
 }
 
 /**
@@ -66,10 +96,11 @@ export function moduleNav(): NavItem[] {
  */
 export function settingsNav<T extends { title: string; href: string }>(
 	core: readonly T[],
+	modules: readonly ModuleDefinition[] = enabledModules(),
 ): Array<T | SettingsItem> {
 	const items: Array<T | SettingsItem> = [...core];
 
-	for (const item of enabledModules().flatMap((module) => module.settings)) {
+	for (const item of modules.flatMap((module) => module.settings)) {
 		const at = item.after
 			? items.findIndex((existing) => existing.href === item.after)
 			: -1;
@@ -81,8 +112,11 @@ export function settingsNav<T extends { title: string; href: string }>(
 	return items;
 }
 
-export function moduleWidgets(slot: WidgetSlot): WidgetDeclaration[] {
-	return enabledModules().flatMap((module) =>
+export function moduleWidgets(
+	slot: WidgetSlot,
+	modules: readonly ModuleDefinition[] = enabledModules(),
+): WidgetDeclaration[] {
+	return modules.flatMap((module) =>
 		module.widgets.filter((widget) => widget.slot === slot),
 	);
 }

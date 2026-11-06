@@ -25,6 +25,10 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN bun install --frozen-lockfile
 RUN bun run db:generate
+# The web app's tRPC types come from apps/api/src/generated/server.ts. Regenerate it
+# from the routers so a router added without a local run still builds (owner decision
+# 2026-11-06: nothing runs locally). Fails the build if a router does not parse.
+RUN bun run --cwd apps/api trpc:generate
 RUN bunx turbo run build --filter=app...
 
 ENV DATABASE_URL=""

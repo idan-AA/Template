@@ -6,6 +6,7 @@ import {
 	AgentShellHintView,
 	AgentShellNoticeView,
 	type AgentShellState,
+	agentServiceFrom,
 	shellStateFrom,
 } from "./agent-shell-view";
 
@@ -20,6 +21,21 @@ export function useAgentShell(): AgentShellState {
 	});
 
 	return shellStateFrom(capabilities.data);
+}
+
+/**
+ * Whether this deployment has a research agent: `true`, `false`, or `undefined`
+ * while the answer loads. Hide agent UI only on an explicit `false`, so nothing
+ * flashes away on a deployment that has one.
+ */
+export function useAgentService(): boolean | undefined {
+	const trpc = useTRPC();
+	const capabilities = useQuery({
+		...trpc.agents.capabilities.queryOptions(),
+		staleTime: Number.POSITIVE_INFINITY,
+	});
+
+	return agentServiceFrom(capabilities.data);
 }
 
 export function AgentShellNotice({ className }: { className?: string }) {

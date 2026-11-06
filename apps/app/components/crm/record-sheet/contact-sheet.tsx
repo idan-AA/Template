@@ -23,6 +23,7 @@ import Partnership from "@carbon/icons-react/es/Partnership";
 import Star from "@carbon/icons-react/es/Star";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useAgentService } from "@/components/agent-builder/agent-shell";
 import { AgentPanel } from "@/components/crm/agent-panel";
 import { InlineCompanyField } from "@/components/crm/company-picker";
 import { contactName } from "@/components/crm/contact-name";
@@ -102,6 +103,9 @@ export function ContactSheet({ contactId }: { contactId: string }) {
 	});
 	const contact = query.data;
 
+	// No research agent on this deployment: no Agent tab, no "Queued" note.
+	const hasAgent = useAgentService() !== false;
+
 	const setPrimary = useMutation(
 		trpc.companies.setPrimaryContact.mutationOptions({
 			onSuccess: async () => {
@@ -158,7 +162,7 @@ export function ContactSheet({ contactId }: { contactId: string }) {
 								label={`Primary contact at ${contact.company?.name ?? "this company"}`}
 							/>
 						) : null}
-						{contact.enrichmentStatus !== "COMPLETE" ? (
+						{hasAgent && contact.enrichmentStatus !== "COMPLETE" ? (
 							<EnrichmentIndicator
 								status={contact.enrichmentStatus}
 								queued={contact.queued}
@@ -253,7 +257,7 @@ export function ContactSheet({ contactId }: { contactId: string }) {
 					</DetailSheetStats>
 				) : null
 			}
-			tabs={tabs}
+			tabs={hasAgent ? tabs : tabs.filter((entry) => entry.value !== "agent")}
 			tab={tab}
 			onTabChange={setTab}
 		/>

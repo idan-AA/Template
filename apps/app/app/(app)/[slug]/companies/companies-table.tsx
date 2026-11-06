@@ -15,9 +15,11 @@ import { useTableSelection } from "@app/ui/hooks/use-table-selection";
 import Archive from "@carbon/icons-react/es/Archive";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
+import { useAgentService } from "@/components/agent-builder/agent-shell";
 import { EnrichmentIndicator } from "@/components/crm/enrichment-status";
 import { useFieldColumns } from "@/components/crm/fields/field-columns";
 import { useFieldFacets } from "@/components/crm/fields/field-facets";
+import { FirstRunEmpty } from "@/components/crm/first-run-empty";
 import { OwnerCell } from "@/components/crm/owner-cell";
 import { usePrefetchRecord } from "@/components/crm/record-sheet/record-prefetch";
 import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";
@@ -31,6 +33,7 @@ import {
 	ENRICHMENT_POLL_MS,
 	isEnriching,
 } from "@/lib/enrichment-status";
+import { listIsNarrowed } from "@/lib/list-filters";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { CompaniesBulkActions } from "./companies-bulk-actions";
@@ -188,6 +191,8 @@ export function CompaniesTable() {
 				: false,
 	});
 	const users = useQuery(trpc.users.list.queryOptions());
+	// No research agent: no enrichment column or filter to offer.
+	const hasAgent = useAgentService() !== false;
 
 	const rows = companies.data?.rows ?? [];
 	const selection = useTableSelection(
@@ -260,11 +265,19 @@ export function CompaniesTable() {
 					</Button>
 				</>
 			}
-			columns={columns}
+			columns={
+				hasAgent
+					? columns
+					: columns.filter((column) => column.id !== "enrichment")
+			}
 			rows={rows}
 			total={companies.data?.total ?? 0}
 			facetCounts={facetCounts}
-			facets={facets}
+			facets={
+				hasAgent
+					? facets
+					: facets.filter((facet) => facet.id !== "enrichment")
+			}
 			selection={{
 				state: selection,
 				actions: (
@@ -281,9 +294,17 @@ export function CompaniesTable() {
 			onRowHover={(row) => prefetchRecord({ kind: "company", id: row.id })}
 			onRowClick={(row) => openRecord({ kind: "company", id: row.id })}
 			empty={
-				input.archived
-					? "No archived companies."
-					: "No companies match this view."
+				input.archived ? (
+					"No archived companies."
+				) : listIsNarrowed(table.currentView) ? (
+					"No companies match this view."
+				) : (
+					<FirstRunEmpty
+						title="No companies yet"
+						description="Every account you sell to lives here. Add the first one and its people, deals and notes hang off it."
+						action="Add your first company"
+					/>
+				)
 			}
 		/>
 	);

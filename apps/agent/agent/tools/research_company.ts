@@ -3,6 +3,7 @@ import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { extract, type JsonSchema } from "../lib/context-dev";
 import { spend } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 
 const RESEARCH_SCHEMA: JsonSchema = {
 	type: "object",
@@ -75,6 +76,7 @@ export default defineTool({
 		companyId: z.string(),
 	}),
 	async execute({ companyId }) {
+		await requireCrm();
 		const company = await db.company.findUnique({
 			where: { id: companyId },
 			select: {

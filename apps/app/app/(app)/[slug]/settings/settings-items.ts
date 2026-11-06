@@ -13,4 +13,8 @@ export const CORE_SETTINGS_ITEMS: SettingsNavItem[] = [
 	{ title: "Members", href: `${ROOT}/members` },
 	{ title: "API Keys", href: `${ROOT}/api-keys` },
 	{ title: "SSO", href: `${ROOT}/sso` },
+	{ title: "Features", href: `${ROOT}/features` },
 ];
+
+/** The developer account's page. Hidden from everyone else (layout and page both check). */
+export const FEATURES_HREF = `${ROOT}/features`;

@@ -17,6 +17,7 @@ import { CompanyCell } from "@/components/crm/company-cell";
 import { contactName } from "@/components/crm/contact-name";
 import { useFieldColumns } from "@/components/crm/fields/field-columns";
 import { useFieldFacets } from "@/components/crm/fields/field-facets";
+import { FirstRunEmpty } from "@/components/crm/first-run-empty";
 import { OwnerCell } from "@/components/crm/owner-cell";
 import { usePrefetchRecord } from "@/components/crm/record-sheet/record-prefetch";
 import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";
@@ -25,6 +26,7 @@ import { SavedViewsMenu } from "@/components/data-table/saved-views-menu";
 import { useTableQuery } from "@/components/data-table/use-table-query";
 import { LocalRelativeTime } from "@/components/local-date-time";
 import { ACTIVITY_FACET_OPTIONS } from "@/lib/activity-recency";
+import { listIsNarrowed } from "@/lib/list-filters";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { ContactsBulkActions } from "./contacts-bulk-actions";
@@ -302,9 +304,17 @@ export function ContactsTable() {
 			onRowHover={(row) => prefetchRecord({ kind: "contact", id: row.id })}
 			onRowClick={(row) => openRecord({ kind: "contact", id: row.id })}
 			empty={
-				input.archived
-					? "No archived contacts."
-					: "No contacts match this view."
+				input.archived ? (
+					"No archived contacts."
+				) : listIsNarrowed(table.currentView) ? (
+					"No contacts match this view."
+				) : (
+					<FirstRunEmpty
+						title="No contacts yet"
+						description="The people you talk to live here. Add the first one and their calls, emails and notes hang off them."
+						action="Add your first contact"
+					/>
+				)
 			}
 		/>
 	);

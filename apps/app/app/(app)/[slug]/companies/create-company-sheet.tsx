@@ -32,6 +32,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { parseAsBoolean, useQueryState } from "nuqs";
 import { type ComponentProps, Suspense, useId, useState } from "react";
 import { toast } from "sonner";
+import { useAgentService } from "@/components/agent-builder/agent-shell";
 import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";
 import { SEARCH_PARAM } from "@/lib/search-param-keys";
 import { useCrmCache } from "@/lib/trpc/cache";
@@ -73,6 +74,7 @@ function CreateCompanyForm() {
 	const domainId = useId();
 
 	const users = useQuery(trpc.users.list.queryOptions());
+	const hasAgent = useAgentService() !== false;
 
 	const create = useMutation(
 		trpc.companies.create.mutationOptions({
@@ -98,8 +100,9 @@ function CreateCompanyForm() {
 				<SheetHeader>
 					<SheetTitle>New company</SheetTitle>
 					<SheetDescription>
-						Give it a name and a domain. The agent fills in the logo,
-						description, industry, address and socials.
+						{hasAgent
+							? "Give it a name and a domain. The agent fills in the logo, description, industry, address and socials."
+							: "Give it a name and, if you have it, a domain. You can add the rest later."}
 					</SheetDescription>
 				</SheetHeader>
 
@@ -122,7 +125,7 @@ function CreateCompanyForm() {
 								id={nameId}
 								value={name}
 								onChange={(event) => setName(event.target.value)}
-								placeholder="Stripe"
+								placeholder="Acme Co"
 								autoComplete="off"
 								required
 							/>
@@ -134,7 +137,7 @@ function CreateCompanyForm() {
 								id={domainId}
 								value={domain}
 								onChange={(event) => setDomain(event.target.value)}
-								placeholder="stripe.com"
+								placeholder="example.com"
 								autoComplete="off"
 								inputMode="url"
 							/>

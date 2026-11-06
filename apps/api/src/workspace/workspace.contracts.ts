@@ -1,4 +1,3 @@
-import { workspaceRoles } from "@app/auth/organization";
 import { MAX_SLUG } from "@app/db/workspace";
 import { z } from "zod";
 import {
@@ -28,9 +27,12 @@ export const updateWorkspaceInput = z.object({
 });
 
 // The roles this deploy accepts when someone is ASSIGNED a role: the core roles
-// plus the enabled modules' roles. Outputs below are plain strings, because a
-// role already stored is shown as it is even if its module is off.
-const assignableRole = z.enum(workspaceRoles() as [string, ...string[]]);
+// plus the enabled modules' roles. That list changes while the server runs (the
+// developer account switches modules), so it cannot be fixed into the schema at
+// boot: the service checks it with `isWorkspaceRole` on every write. Outputs
+// below are plain strings, because a role already stored is shown as it is even
+// if its module is off.
+const assignableRole = z.string().trim().min(1).max(64);
 
 export const setMemberRoleInput = z.object({
 	memberId: z.string().min(1),
@@ -81,6 +83,8 @@ export const workspaceMemberOutput = z.object({
 	role: z.string(),
 	joinedAt: z.string(),
 	isViewer: z.boolean(),
+	/** The developer account: shown locked, and nobody here can change or remove it. */
+	isDeveloper: z.boolean(),
 });
 
 export type WorkspaceMember = z.infer<typeof workspaceMemberOutput>;

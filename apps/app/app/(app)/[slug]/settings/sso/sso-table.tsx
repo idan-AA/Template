@@ -105,7 +105,7 @@ function columns(
 								<AlertDialogTitle>Remove {row.name}?</AlertDialogTitle>
 								<AlertDialogDescription>
 									Nobody can sign in through it again. If this is the only
-									provider, the sign-in page goes back to Google.
+									provider, everyone signs in with their email and password.
 								</AlertDialogDescription>
 							</AlertDialogHeader>
 
@@ -159,7 +159,7 @@ export function SsoTable() {
 			total={providers.data?.total ?? 0}
 			getRowId={(row) => row.providerId}
 			loading={providers.isFetching}
-			empty="No identity provider yet — everyone signs in with Google."
+			empty="No identity provider yet. Everyone signs in with their email and password."
 		/>
 	);
 }

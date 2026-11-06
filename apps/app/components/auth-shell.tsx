@@ -3,9 +3,12 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { AuthShader } from "@/components/auth-shader";
 import { getBrand } from "@/lib/brand";
+import { usableSupportEmail } from "@/lib/support-email";
 
 export function AuthShell({ children }: { children: ReactNode }) {
 	const brand = getBrand();
+	// The template's placeholder address is not shown as if someone answers it.
+	const supportEmail = usableSupportEmail(brand.supportEmail);
 
 	return (
 		<main className="dark grid min-h-svh bg-background text-foreground lg:grid-cols-[minmax(0,1fr)_minmax(420px,520px)]">
@@ -29,15 +32,17 @@ export function AuthShell({ children }: { children: ReactNode }) {
 					</div>
 				</div>
 
-				<p className="relative font-mono text-xs/4 text-muted-foreground">
-					Need help?{" "}
-					<a
-						href={`mailto:${brand.supportEmail}`}
-						className="underline underline-offset-4 hover:text-foreground"
-					>
-						{brand.supportEmail}
-					</a>
-				</p>
+				{supportEmail ? (
+					<p className="relative font-mono text-xs/4 text-muted-foreground">
+						Need help?{" "}
+						<a
+							href={`mailto:${supportEmail}`}
+							className="underline underline-offset-4 hover:text-foreground"
+						>
+							{supportEmail}
+						</a>
+					</p>
+				) : null}
 			</section>
 
 			<section className="flex min-h-svh flex-col bg-background px-6 py-8 sm:px-10 lg:px-14">

@@ -13,7 +13,7 @@ import { AuthMiddleware } from "../trpc/middlewares/auth.middleware";
 import { restMeta } from "../trpc/openapi";
 import { AgentDefinitionsService } from "./agent-definitions.service";
 import { AgentRunsService } from "./agent-runs.service";
-import { agentShellCapability } from "./agent-shell";
+import { agentCapabilities } from "./agent-shell";
 import {
 	agentActivityOutput,
 	agentArchiveOutput,
@@ -67,7 +67,7 @@ export class AgentsRouter {
 		meta: restMeta("GET", "/agent-capabilities", ["Agents"]),
 	})
 	capabilities() {
-		return agentShellCapability();
+		return agentCapabilities();
 	}
 
 	@Mutation({

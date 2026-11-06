@@ -1,7 +1,7 @@
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { enabledSettingsNav } from "@/lib/modules";
-import { CORE_SETTINGS_ITEMS } from "./settings-items";
+import { enabledSettingsNav, getModuleView } from "@/lib/modules";
+import { CORE_SETTINGS_ITEMS, FEATURES_HREF } from "./settings-items";
 import { SettingsSidebar, SettingsSidebarFallback } from "./settings-sidebar";
 
 export default function SettingsLayout({
@@ -14,7 +14,9 @@ export default function SettingsLayout({
 			<Suspense
 				fallback={
 					<SettingsSidebarFallback
-						items={enabledSettingsNav(CORE_SETTINGS_ITEMS)}
+						items={enabledSettingsNav(
+							CORE_SETTINGS_ITEMS.filter((item) => item.href !== FEATURES_HREF),
+						)}
 					/>
 				}
 			>
@@ -27,6 +29,12 @@ export default function SettingsLayout({
 
 async function ModuleSettingsSidebar() {
 	await connection();
+	const view = await getModuleView();
 
-	return <SettingsSidebar items={enabledSettingsNav(CORE_SETTINGS_ITEMS)} />;
+	// Features is the developer account's page: nobody else sees it in the list.
+	const core = CORE_SETTINGS_ITEMS.filter(
+		(item) => view.isDeveloper || item.href !== FEATURES_HREF,
+	);
+
+	return <SettingsSidebar items={enabledSettingsNav(core, view.modules)} />;
 }

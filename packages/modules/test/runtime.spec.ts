@@ -78,7 +78,12 @@ describe("with crm", () => {
 	it("does not touch the other module's nav when both are on", () => {
 		useModules(["crm", "bookkeeping"]);
 
-		expect(moduleNav()).toHaveLength(3);
+		expect(moduleNav().map((item) => item.href)).toEqual([
+			"/companies",
+			"/contacts",
+			"/deals",
+			"/books",
+		]);
 		expect(moduleWidgets("overview").map((widget) => widget.id)).toEqual([
 			"crm.sales",
 			"bookkeeping.overview",

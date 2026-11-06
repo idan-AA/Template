@@ -28,6 +28,7 @@ import { logAuthRoute } from "./logging/request-logger.middleware";
 import { MailboxModule } from "./mailbox/mailbox.module";
 import { McpModule } from "./mcp/mcp.module";
 import { MicrosoftModule } from "./microsoft/microsoft.module";
+import { ModulesModule } from "./modules/modules.module";
 import { enabledApiModules } from "./modules/registry";
 import { SavedViewsModule } from "./saved-views/saved-views.module";
 import { SchedulerModule } from "./scheduler/scheduler.module";
@@ -89,6 +90,7 @@ export const ALWAYS_MOUNTED: NonNullable<ModuleMetadata["imports"]> = [
 	TrackingModule,
 	ArchiveModule,
 	SavedViewsModule,
+	ModulesModule,
 ];
 
 @Module({

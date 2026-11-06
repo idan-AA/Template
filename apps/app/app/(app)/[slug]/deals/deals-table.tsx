@@ -16,6 +16,7 @@ import { CLOSING_OPTIONS } from "@/components/crm/closing-window";
 import { CompanyCell } from "@/components/crm/company-cell";
 import { useFieldColumns } from "@/components/crm/fields/field-columns";
 import { useFieldFacets } from "@/components/crm/fields/field-facets";
+import { FirstRunEmpty } from "@/components/crm/first-run-empty";
 import { OwnerCell } from "@/components/crm/owner-cell";
 import { usePrefetchRecord } from "@/components/crm/record-sheet/record-prefetch";
 import { useOpenRecord } from "@/components/crm/record-sheet/record-stack";
@@ -24,6 +25,7 @@ import { ListSearch } from "@/components/data-table/list-search";
 import { useTableQuery } from "@/components/data-table/use-table-query";
 import { LocalDay, LocalRelativeTime } from "@/components/local-date-time";
 import { DEAL_STAGE_OPTIONS } from "@/lib/deal-stage";
+import { listIsNarrowed } from "@/lib/list-filters";
 import { useTRPC } from "@/lib/trpc/client";
 import type { RouterOutputs } from "@/lib/trpc/types";
 import { DealsBulkActions } from "./deals-bulk-actions";
@@ -148,7 +150,8 @@ export function DealsTable() {
 	const openRecord = useOpenRecord();
 	const trpc = useTRPC();
 	const prefetchRecord = usePrefetchRecord();
-	const { query, input, setArchived } = useTableQuery(dealsSearchParams);
+	const table = useTableQuery(dealsSearchParams);
+	const { query, input, setArchived } = table;
 
 	const deals = useQuery({
 		...trpc.deals.list.queryOptions(input),
@@ -271,7 +274,17 @@ export function DealsTable() {
 			onRowHover={(row) => prefetchRecord({ kind: "deal", id: row.id })}
 			onRowClick={(row) => openRecord({ kind: "deal", id: row.id })}
 			empty={
-				input.archived ? "No archived deals." : "No deals match this view."
+				input.archived ? (
+					"No archived deals."
+				) : listIsNarrowed(table.currentView) ? (
+					"No deals match this view."
+				) : (
+					<FirstRunEmpty
+						title="No deals yet"
+						description="A deal is something you are trying to sell. Add the first one and it joins the pipeline and the forecast."
+						action="Add your first deal"
+					/>
+				)
 			}
 			meta={
 				input.archived || openPipelineCents === null ? undefined : (

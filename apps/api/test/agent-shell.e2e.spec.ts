@@ -136,7 +136,8 @@ describe("with the agent shell on (a Render-shaped boot)", () => {
 			.set("Cookie", cookie);
 
 		expect(response.status).toBe(200);
-		expect(response.body.result.data).toEqual({ shell: true, reason: null });
+		expect(response.body.result.data.shell).toBe(true);
+		expect(response.body.result.data.reason).toBeNull();
 	});
 
 	it("lets deploy past the gate (it then fails on the missing agent, not 412)", async () => {

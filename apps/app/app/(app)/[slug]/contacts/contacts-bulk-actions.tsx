@@ -15,6 +15,7 @@ import Undo from "@carbon/icons-react/es/Undo";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
+import { useAgentService } from "@/components/agent-builder/agent-shell";
 import {
 	BulkActionsMenu,
 	BulkDeleteDialog,
@@ -69,6 +70,8 @@ export function ContactsBulkActions({
 		}),
 	);
 
+	// No research agent on this deployment: re-enrich would only be refused.
+	const hasAgent = useAgentService() !== false;
 	const enrich = useMutation(
 		trpc.contacts.bulkEnrich.mutationOptions({
 			onSuccess: async (result) => {
@@ -189,10 +192,12 @@ export function ContactsBulkActions({
 				</DropdownMenuSubContent>
 			</DropdownMenuSub>
 			<DropdownMenuGroup>
-				<DropdownMenuItem onSelect={() => enrich.mutate({ ids })}>
-					<Renew />
-					Re-enrich
-				</DropdownMenuItem>
+				{hasAgent ? (
+					<DropdownMenuItem onSelect={() => enrich.mutate({ ids })}>
+						<Renew />
+						Re-enrich
+					</DropdownMenuItem>
+				) : null}
 			</DropdownMenuGroup>
 			<DropdownMenuSeparator />
 			<DropdownMenuGroup>

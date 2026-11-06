@@ -240,6 +240,11 @@ The Blueprint (`clients/<id>/render.yaml`) wires these; do not type them by hand
 - **`CLIENT_ID`** names the folder under `clients/` this deploy serves. It is in the
   `<id>-shared` group and is also a Docker build argument for the web app.
 - **`AGENT_URL`** is `http://<id>-agent:10000`, scheme included, set in the shared group.
+  It is also the one switch for "is there an agent on this deploy?" (`agentServiceEnabled()` in
+  `apps/api/src/agent/agent-shell.ts`): set means yes; unset on Render means no (the free practice
+  deploy), and nothing is queued, enrichment and research are refused with a plain message, and
+  the web app hides the Enrichment chip, Agent tabs and the research settings. Unset off Render
+  (local dev) still means the agent on its default localhost port. No separate variable.
 - **`SCHEDULER_DISABLED`** stops the in-process scheduler (see Mailbox sync).
 - **`AGENT_SHELL`** forces Chat, the agent builder and the deployed team agents on (`1`)
   or off (`0`). The Blueprint sets `1` in the shared group, so client deploys have the

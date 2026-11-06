@@ -2,6 +2,7 @@ import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { personForVerification, stampSocialsChecked } from "../lib/crm";
 import { focusOn, spend } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 import { findSocialCandidates } from "../lib/socials";
 
 export default defineTool({
@@ -11,6 +12,7 @@ export default defineTool({
 		contactId: z.string(),
 	}),
 	async execute({ contactId }) {
+		await requireCrm();
 		focusOn({ contactId });
 
 		const person = await personForVerification(contactId);

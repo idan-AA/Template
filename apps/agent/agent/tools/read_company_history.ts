@@ -2,6 +2,7 @@ import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { readCompanyHistory } from "../lib/accounts";
 import { focusOn } from "../lib/focus";
+import { requireCrm } from "../lib/module-gate";
 
 export default defineTool({
 	description:
@@ -24,6 +25,7 @@ export default defineTool({
 			.describe("How many contacts to list."),
 	}),
 	async execute({ companyId, threads, people }) {
+		await requireCrm();
 		focusOn({ companyId });
 
 		const history = await readCompanyHistory(companyId, { threads, people });
